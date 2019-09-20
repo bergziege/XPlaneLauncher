@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPlaneLauncher", "XPlaneLauncher\XPlaneLauncher.csproj", "{61F647EA-E30C-4EFA-A4B3-C93AFF329382}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{654DE1AB-4DCB-494E-AB7C-FDF08764B9AE}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LUA", "LUA", "{4DAB880A-D9C4-4434-ACC5-96591070ADC4}"
+	ProjectSection(SolutionItems) = preProject
+		LUAScript\BasicInfoLogger.lua = LUAScript\BasicInfoLogger.lua
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61F647EA-E30C-4EFA-A4B3-C93AFF329382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61F647EA-E30C-4EFA-A4B3-C93AFF329382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61F647EA-E30C-4EFA-A4B3-C93AFF329382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61F647EA-E30C-4EFA-A4B3-C93AFF329382}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D3E7ECF-AB65-401B-AD1E-84A66E4AE4BF}
+	EndGlobalSection
+EndGlobal
