@@ -44,7 +44,6 @@ Have a look at App.config/XPlaneLauncher.exe.config.
 ## Development
 
 The app is currently fully functional. As my time permits (about 1h per 2 months ;-) I will slowly integrate some of the points from the "What its not doing" list.
-Also I will try to switch from "MahApps" UI Framework to "Material Design in XAML".
 
 Issues, ideas and pull requests are welcome!
 
