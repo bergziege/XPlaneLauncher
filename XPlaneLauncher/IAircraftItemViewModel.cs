@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using MapControl;
 using Prism.Commands;
@@ -29,8 +30,8 @@ namespace XPlaneLauncher
 
         DelegateCommand EndTargetSelectionModeCommand { get; }
 
-        Location TargetLocation { get; }
-        void UpdateTarget(Location targetLocation);
+        IList<Location> PlannedRoutePoints { get; }
+        void AddToPlannedRoute(Location location);
         DelegateCommand RemoveTargetCommand { get; }
         IAircraftItemViewModel Initialize(AircraftDto aircraft);
 

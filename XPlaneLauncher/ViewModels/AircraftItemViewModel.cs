@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using MapControl;
 using Prism.Commands;
@@ -16,7 +17,7 @@ namespace XPlaneLauncher.ViewModels
         private bool _isInTargetSelectionMode;
         private DelegateCommand _startTargetSelectionModeCommand;
         private DelegateCommand _endTargetSelectioNmodeCommand;
-        private Location _targetLocation;
+        private IList<Location> _plannedRoutePoints = new List<Location>();
         private DelegateCommand _removeTargetCommand;
         private double? _distanceToDestination;
 
@@ -87,22 +88,34 @@ namespace XPlaneLauncher.ViewModels
             }
         }
 
-        public Location TargetLocation
+        public IList<Location> PlannedRoutePoints
         {
-            get { return _targetLocation; }
-            private set { SetProperty(ref _targetLocation, value); }
+            get { return _plannedRoutePoints; }
+            private set { SetProperty(ref _plannedRoutePoints, value); }
         }
 
-        public void UpdateTarget(Location targetLocation)
+        public void AddToPlannedRoute(Location location)
         {
-            TargetLocation = targetLocation;
+            PlannedRoutePoints.Add(location);
+            UpdatePlannedRoutePathAndDistance();
+        }
+
+        private void UpdatePlannedRoutePathAndDistance()
+        {
             PathToTarget.Clear();
-            Location origin = new Location(AircraftDto.Lat, AircraftDto.Lon);
-            if (targetLocation != null)
+            DistanceToDestination = null;
+            Location segmentStart = new Location(AircraftDto.Lat, AircraftDto.Lon);
+            if (PlannedRoutePoints.Any())
             {
-                PathToTarget.Add(new Polyline() { Locations = origin.CalculateGreatCircleLocations(targetLocation) }); 
+                LocationCollection pathLocations = new LocationCollection();
+                foreach (Location segmentEnd in PlannedRoutePoints)
+                {
+                    DistanceToDestination += segmentStart.GreatCircleDistance(segmentEnd);
+                    pathLocations.AddRange(segmentStart.CalculateGreatCircleLocations(segmentEnd));
+                    segmentStart = segmentEnd;
+                }
+                PathToTarget.Add(new Polyline() {Locations = pathLocations});
             }
-            UpdateDistanceToTarget(origin, targetLocation);
         }
 
         public DelegateCommand RemoveTargetCommand
@@ -111,7 +124,7 @@ namespace XPlaneLauncher.ViewModels
             {
                 if (_removeTargetCommand == null)
                 {
-                    _removeTargetCommand = new DelegateCommand(RemoveTarget);
+                    _removeTargetCommand = new DelegateCommand(RemoveLastPlannedRoutePoint);
                 }
 
                 return _removeTargetCommand;
@@ -134,22 +147,10 @@ namespace XPlaneLauncher.ViewModels
             AircraftLauncherInformation aircraftLauncherInformation = _aircraftService.GetLauncherInformation(AircraftDto);
             if (aircraftLauncherInformation != null)
             {
-                TargetLocation = aircraftLauncherInformation.TargetLocation;
-                UpdateTarget(TargetLocation);
+                PlannedRoutePoints = aircraftLauncherInformation.TargetLocation;
+                UpdatePlannedRoutePathAndDistance();
             }
             return this;
-        }
-
-        private void UpdateDistanceToTarget(Location origin, Location destination)
-        {
-            if (destination != null)
-            {
-                DistanceToDestination = origin.GreatCircleDistance(destination) / 1000;
-            }
-            else
-            {
-                DistanceToDestination = null;
-            }
         }
 
         public ObservableCollection<Polyline> PathToTarget { get; } = new ObservableCollection<Polyline>();
@@ -160,11 +161,13 @@ namespace XPlaneLauncher.ViewModels
             private set => SetProperty(ref _distanceToDestination, value);
         }
 
-        private void RemoveTarget()
+        private void RemoveLastPlannedRoutePoint()
         {
-            TargetLocation = null;
+            if (PlannedRoutePoints.Any()) {
+                PlannedRoutePoints.Remove(PlannedRoutePoints.Last()); 
+            }
             SaveLauncherInfo();
-            UpdateTarget(TargetLocation);
+            UpdatePlannedRoutePathAndDistance();
         }
 
         private void EndTargetSelectionMode()
@@ -176,7 +179,7 @@ namespace XPlaneLauncher.ViewModels
         private void SaveLauncherInfo()
         {
             _aircraftService.SaveLauncherInformation(AircraftDto,
-                new AircraftLauncherInformation() {TargetLocation = TargetLocation});
+                new AircraftLauncherInformation() {TargetLocation = PlannedRoutePoints});
         }
     }
 }

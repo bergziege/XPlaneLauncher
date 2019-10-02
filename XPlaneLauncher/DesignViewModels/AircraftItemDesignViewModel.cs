@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using MapControl;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -24,8 +25,8 @@ namespace XPlaneLauncher.DesignViewModels
         public bool IsInTargetSelectionMode { get; } = true;
         public DelegateCommand StartTargetSelectionModeCommand { get; }
         public DelegateCommand EndTargetSelectionModeCommand { get; }
-        public Location TargetLocation { get; } = new Location(15,13);
-        public void UpdateTarget(Location targetLocation)
+        public IList<Location> PlannedRoutePoints { get; } = new List<Location>(){ new Location(15, 13) };
+        public void AddToPlannedRoute(Location location)
         {
             throw new System.NotImplementedException();
         }

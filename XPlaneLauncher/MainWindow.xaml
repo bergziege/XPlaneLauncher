@@ -147,7 +147,7 @@
                                                                      HorizontalAlignment="Center" Margin="6"/>
                                         </Button>
                                         <StackPanel Orientation="Horizontal" Grid.Column="2">
-                                            <TextBlock Text="{Binding Path=TargetLocation}"
+                                            <TextBlock Text="{Binding Path=PlannedRoutePoints}"
                                                        Foreground="Black" VerticalAlignment="Center" Margin="10,0,0,0">
                                             </TextBlock>
                                             <TextBlock

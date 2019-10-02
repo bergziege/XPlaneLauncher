@@ -161,7 +161,7 @@ namespace XPlaneLauncher.ViewModels
         {
             foreach (IAircraftItemViewModel aircraftItemViewModel in Aircrafts.Where(x=>x.IsInTargetSelectionMode))
             {
-                aircraftItemViewModel.UpdateTarget(target);
+                aircraftItemViewModel.AddToPlannedRoute(target);
             }
         }
 

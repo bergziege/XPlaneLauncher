@@ -51,7 +51,7 @@ namespace XPlaneLauncher.Services
         public AircraftLauncherInformation GetLauncherInformation(AircraftDto aircraft)
         {
             FileInfo aircraftFile = new FileInfo(aircraft.FileName);
-            FileInfo launcherFile = new FileInfo(aircraftFile.FullName.Replace(aircraftFile.Extension, ".launcher"));
+            FileInfo launcherFile = new FileInfo(aircraftFile.FullName.Replace(aircraftFile.Extension, ".launcherV2"));
             if (launcherFile.Exists)
             {
                 return JsonConvert.DeserializeObject<AircraftLauncherInformation>(
@@ -64,7 +64,7 @@ namespace XPlaneLauncher.Services
         public void SaveLauncherInformation(AircraftDto aircraftDto, AircraftLauncherInformation info)
         {
             FileInfo aircraftFile = new FileInfo(aircraftDto.FileName);
-            FileInfo launcherFile = new FileInfo(aircraftFile.FullName.Replace(aircraftFile.Extension, ".launcher"));
+            FileInfo launcherFile = new FileInfo(aircraftFile.FullName.Replace(aircraftFile.Extension, ".launcherV2"));
             File.WriteAllText(launcherFile.FullName, JsonConvert.SerializeObject(info));
         }
     }
