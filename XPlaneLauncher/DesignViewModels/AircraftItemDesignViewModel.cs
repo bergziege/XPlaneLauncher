@@ -25,13 +25,13 @@ namespace XPlaneLauncher.DesignViewModels
         public bool IsInTargetSelectionMode { get; } = true;
         public DelegateCommand StartTargetSelectionModeCommand { get; }
         public DelegateCommand EndTargetSelectionModeCommand { get; }
-        public IList<Location> PlannedRoutePoints { get; } = new List<Location>(){ new Location(15, 13) };
+        public ObservableCollection<Location> PlannedRoutePoints { get; } = new ObservableCollection<Location>(){ new Location(15, 13) };
         public void AddToPlannedRoute(Location location)
         {
             throw new System.NotImplementedException();
         }
 
-        public DelegateCommand RemoveTargetCommand { get; }
+        public DelegateCommand RemoveSelectedRouteLocationCommand { get; }
         public IAircraftItemViewModel Initialize(AircraftDto aircraft)
         {
             throw new System.NotImplementedException();
@@ -47,6 +47,7 @@ namespace XPlaneLauncher.DesignViewModels
         };
 
         public double? DistanceToDestination { get; } = 42000;
+        public Location SelectedPlannedRoutePoint { get; set; }
 
         public bool IsSelected { get; set; }
     }

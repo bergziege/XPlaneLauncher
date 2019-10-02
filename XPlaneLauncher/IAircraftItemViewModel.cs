@@ -30,13 +30,15 @@ namespace XPlaneLauncher
 
         DelegateCommand EndTargetSelectionModeCommand { get; }
 
-        IList<Location> PlannedRoutePoints { get; }
+        ObservableCollection<Location> PlannedRoutePoints { get; }
         void AddToPlannedRoute(Location location);
-        DelegateCommand RemoveTargetCommand { get; }
+        DelegateCommand RemoveSelectedRouteLocationCommand { get; }
         IAircraftItemViewModel Initialize(AircraftDto aircraft);
 
         ObservableCollection<Polyline> PathToTarget { get; }
 
         double? DistanceToDestination { get; }
+
+        Location SelectedPlannedRoutePoint { get; set; }
     }
 }

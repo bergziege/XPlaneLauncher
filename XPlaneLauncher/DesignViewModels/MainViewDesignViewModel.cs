@@ -9,17 +9,22 @@ namespace XPlaneLauncher.DesignViewModels
 {
     public class MainViewDesignViewModel : BindableBase, IMainViewModel
     {
-        
-        public DelegateCommand RefreshCommand { get; } = new DelegateCommand(() => { });
-        public DelegateCommand StartSimCommand { get; } = new DelegateCommand(() => { });
-
-        public ObservableCollection<IAircraftItemViewModel> Aircrafts { get; } =
-            new ObservableCollection<IAircraftItemViewModel>()
+        public MainViewDesignViewModel()
+        {
+            Aircrafts = new ObservableCollection<IAircraftItemViewModel>()
             {
                 new AircraftItemDesignViewModel(true, false),
                 new AircraftItemDesignViewModel(false, true),
                 new AircraftItemDesignViewModel(false, true)
             };
+
+            SelectedAircraft = Aircrafts[1];
+        }
+
+        public DelegateCommand RefreshCommand { get; } = new DelegateCommand(() => { });
+        public DelegateCommand StartSimCommand { get; } = new DelegateCommand(() => { });
+
+        public ObservableCollection<IAircraftItemViewModel> Aircrafts { get; }
 
         public IAircraftItemViewModel SelectedAircraft { get; set; }
 
