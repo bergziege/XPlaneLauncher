@@ -85,7 +85,7 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="565"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -134,9 +134,11 @@
                                     </Grid>
                                 </StackPanel>
                                 <Image Source="{Binding Path=ThumbnailPath}" Grid.Column="1" Width="200"
-                                       Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                       Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                                       HorizontalAlignment="Left"/>
                                 <Rectangle Grid.Column="1" Width="200" Height="100" Fill="#ABABAB"
-                                           Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}" />
+                                           Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}" 
+                                           HorizontalAlignment="Left"/>
                                 <Border
                                     Visibility="{Binding Path=IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
                                     BorderThickness="2" BorderBrush="Red" Grid.ColumnSpan="2">
