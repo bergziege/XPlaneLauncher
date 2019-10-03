@@ -79,8 +79,43 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="PathPointItemStyle" TargetType="mapControl:MapItem">
+            <Setter Property="mapControl:MapPanel.Location" Value="{Binding}" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="IsSelected" Value="{Binding Path=AircraftViewModel.IsSelected}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="mapControl:MapItem">
+                        <Canvas>
+                            <Path x:Name="selectedPath" Fill="White" Opacity="0">
+                                <Path.Data>
+                                    <EllipseGeometry RadiusX="15" RadiusY="15" />
+                                </Path.Data>
+                            </Path>
+                            <Path StrokeThickness="2" Fill="#045672">
+                                <Path.Data>
+                                    <EllipseGeometry RadiusX="4" RadiusY="4" />
+                                </Path.Data>
+                            </Path>
+                            <Grid Canvas.Left="15" Canvas.Top="-8">
+                                <Rectangle x:Name="labelBackground" Fill="White" Opacity="0" />
+                                <Label Margin="1" Content="{Binding Name}" />
+                            </Grid>
+                        </Canvas>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Panel.ZIndex" Value="1" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="SelectedPolylineItemTemplate">
+            <mapControl:MapPolyline Locations="{Binding Locations}" Stroke="Red" StrokeThickness="4"/>
+        </DataTemplate>
         <DataTemplate x:Key="PolylineItemTemplate">
-            <mapControl:MapPolyline Locations="{Binding Locations}" Stroke="Red" StrokeThickness="3"/>
+            <mapControl:MapPolyline Locations="{Binding Locations}" Stroke="#868686" StrokeThickness="2"/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -162,10 +197,13 @@
                                             ItemContainerStyle="{StaticResource PointItemStyle}"
                                             SelectionMode="Single"
                                             IsSynchronizedWithCurrentItem="True" />
+                
                 <mapControl:MapItemsControl ItemsSource="{Binding SelectedAircraft.PathToTarget}"
-                                            ItemTemplate="{StaticResource PolylineItemTemplate}"/>
+                                            ItemTemplate="{StaticResource SelectedPolylineItemTemplate}"/>
                 <mapControl:MapItemsControl ItemsSource="{Binding PathsToTarget}"
                                             ItemTemplate="{StaticResource PolylineItemTemplate}"/>
+                <mapControl:MapItemsControl ItemsSource="{Binding PathsPoints}"
+                                            ItemContainerStyle="{StaticResource PathPointItemStyle}"/>
             </mapControl:Map>
             <Border Grid.Row="0"
                     Visibility="{Binding Path=IsMapInSelectionMode, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"

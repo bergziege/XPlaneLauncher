@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media.Animation;
 using MapControl;
 using Prism.Commands;
 using Prism.Ioc;
@@ -57,11 +58,13 @@ namespace XPlaneLauncher.ViewModels
                 IAircraftItemViewModel itemViewModel = new AircraftItemViewModel(_aircraftService).Initialize(aircraftDto);
                 PropertyChangedEventManager.AddListener(itemViewModel, this, nameof(itemViewModel.IsSelected));
                 PropertyChangedEventManager.AddListener(itemViewModel, this, nameof(itemViewModel.IsInTargetSelectionMode));
+                PropertyChangedEventManager.AddListener(itemViewModel, this, nameof(itemViewModel.PlannedRoutePoints));
                 Aircrafts.Add(itemViewModel);
                 MapAircraftItems.Add(new AircraftItem(aircraftDto.LiveryName, aircraftDto.Lat, aircraftDto.Lon,
                     itemViewModel));
             }
             UpdateTargetPaths();
+            UpdatePathsPoints();
         }
 
         public DelegateCommand StartSimCommand
@@ -156,6 +159,7 @@ namespace XPlaneLauncher.ViewModels
         }
 
         public ObservableCollection<Polyline> PathsToTarget { get; } = new ObservableCollection<Polyline>();
+        public ObservableCollection<Location> PathsPoints { get; } = new ObservableCollection<Location>();
 
         private void ApplyMapCenterAsTargetOnAircraftInSelectionMode(Location target)
         {
@@ -184,10 +188,25 @@ namespace XPlaneLauncher.ViewModels
                 }else if (args.PropertyName == nameof(aircraft.PathToTarget))
                 {
                     UpdateTargetPaths();
+                }else if (args.PropertyName == nameof(aircraft.PlannedRoutePoints))
+                {
+                    UpdatePathsPoints();
                 }
             }
 
             return true;
+        }
+
+        private void UpdatePathsPoints()
+        {
+            PathsPoints.Clear();
+            foreach (IAircraftItemViewModel aircraft in Aircrafts)
+            {
+                foreach (Location aircraftPlannedRoutePoint in aircraft.PlannedRoutePoints)
+                {
+                    PathsPoints.Add(aircraftPlannedRoutePoint);
+                }
+            }
         }
 
         private void UpdateTargetPaths()

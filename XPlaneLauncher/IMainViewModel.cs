@@ -26,5 +26,7 @@ namespace XPlaneLauncher
         DelegateCommand<Location> ApplyTargetCommand { get; }
 
         ObservableCollection<Polyline> PathsToTarget { get; }
+
+        ObservableCollection<Location> PathsPoints { get; }
     }
 }
