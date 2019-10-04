@@ -83,7 +83,8 @@ namespace XPlaneLauncher.ViewModels
             {
                 if (_endTargetSelectioNmodeCommand == null)
                 {
-                    _endTargetSelectioNmodeCommand = new DelegateCommand(EndTargetSelectionMode);
+                    _endTargetSelectioNmodeCommand =
+                        new DelegateCommand(EndTargetSelectionMode);
                 }
 
                 return _endTargetSelectioNmodeCommand;
@@ -128,11 +129,16 @@ namespace XPlaneLauncher.ViewModels
             {
                 if (_removeTargetCommand == null)
                 {
-                    _removeTargetCommand = new DelegateCommand(RemoveSelectedPlannedRoutePoint);
+                    _removeTargetCommand = new DelegateCommand(RemoveSelectedPlannedRoutePoint, CanRemoveSelectedPlannedRoutePoint);
                 }
 
                 return _removeTargetCommand;
             }
+        }
+
+        private bool CanRemoveSelectedPlannedRoutePoint()
+        {
+            return SelectedPlannedRoutePoint != null;
         }
 
         public IAircraftItemViewModel Initialize(AircraftDto aircraft)
@@ -168,7 +174,11 @@ namespace XPlaneLauncher.ViewModels
         public Location SelectedPlannedRoutePoint
         {
             get { return _selectedPlannedRoutePoint; }
-            set { SetProperty(ref _selectedPlannedRoutePoint, value, nameof(SelectedPlannedRoutePoint)); }
+            set
+            {
+                SetProperty(ref _selectedPlannedRoutePoint, value, nameof(SelectedPlannedRoutePoint));
+                RemoveSelectedRouteLocationCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private void RemoveSelectedPlannedRoutePoint()

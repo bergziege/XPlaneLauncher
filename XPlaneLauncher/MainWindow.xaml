@@ -231,20 +231,19 @@
                     <Button Command="{Binding Path=SelectedAircraft.StartTargetSelectionModeCommand}"
                             Visibility="{Binding Path=SelectedAircraft.IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}"
                             Margin="3">
-                        <materialDesign:PackIcon Kind="Select" 
+                        <materialDesign:PackIcon Kind="Edit" 
                                                  VerticalAlignment="Center"
                                                  HorizontalAlignment="Center" Margin="6"/>
                     </Button>
                     <Button Command="{Binding Path=SelectedAircraft.EndTargetSelectionModeCommand}"
                             Visibility="{Binding Path=SelectedAircraft.IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
                             Margin="3">
-                        <materialDesign:PackIcon Kind="SelectOff" 
+                        <materialDesign:PackIcon Kind="EditOff" 
                                                  VerticalAlignment="Center"
                                                  HorizontalAlignment="Center" Margin="6"/>
                     </Button>
 
-                    <Button Command="{Binding Path=SelectedAircraft.RemoveSelectedRouteLocationCommand}" Grid.Column="1"
-                            Grid.Row="0"
+                    <Button Command="{Binding Path=SelectedAircraft.RemoveSelectedRouteLocationCommand}"
                             Margin="3">
                         <materialDesign:PackIcon Kind="Delete" 
                                                  VerticalAlignment="Center"
