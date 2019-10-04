@@ -27,8 +27,8 @@ Have a look at App.config/XPlaneLauncher.exe.config.
   - with thumbnail if available as *_icon11.png file within the livery folder
 - show plane positions on openstreetmap
 - planes are selectable and synced in list and map view
-- define target for each plane
-- show targets for all planes on the map
+- define routes for each plane
+- show targets/routes for all planes on the map
 - start x-plane with the selected plane on the last known position (saved .sit file from the script)
 
 ### What its NOT doing (yet)
@@ -36,7 +36,6 @@ Have a look at App.config/XPlaneLauncher.exe.config.
 - Having a configuration wizard/screen. Do this by editing the values in XPlaneLauncher.exe.config
 - showing thumbnails if not saved in livery folders
 - filter aircraft list
-- define more than one target point (route to target)
 - generate flightplan to the target (straight line as shown on the map) to be used with the x-plane gps
 - logging position over time, tracking operating hours, ...
 - running under Linux/Mac .. never ever ;-)
