@@ -17,6 +17,8 @@ namespace XPlaneLauncher
 
         string Livery { get; }
 
+        string LastPartOfLiveryPath { get; }
+
         bool HasSitFile { get; }
 
         bool HasThumbnail { get; }

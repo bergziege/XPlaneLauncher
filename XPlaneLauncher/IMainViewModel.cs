@@ -28,5 +28,7 @@ namespace XPlaneLauncher
         ObservableCollection<Polyline> PathsToTarget { get; }
 
         ObservableCollection<Location> PathsPoints { get; }
+
+        DelegateCommand UnselectAircraftCommand { get; }
     }
 }

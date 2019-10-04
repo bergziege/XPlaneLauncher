@@ -19,6 +19,7 @@ namespace XPlaneLauncher.DesignViewModels
         public string ThumbnailPath { get; } = @"C:\Users\bernd\Pictures\P1210319.jpg";
         public string Name { get; } = "testflieger mit einem doch für einen flieger relativ langen namen und da ist noch nichtmal die livery dabei";
         public string Livery { get; } = "Lufthansa";
+        public string LastPartOfLiveryPath { get; } = "the real livery without path";
         public bool HasSitFile { get; } = true;
         public bool HasThumbnail { get; } 
         public AircraftDto AircraftDto { get; }

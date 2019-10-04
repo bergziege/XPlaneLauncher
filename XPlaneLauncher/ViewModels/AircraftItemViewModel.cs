@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace XPlaneLauncher.ViewModels
         private DelegateCommand _removeTargetCommand;
         private double? _distanceToDestination;
         private Location _selectedPlannedRoutePoint;
+        private string _lastPartOfLiveryPath;
 
         public AircraftItemViewModel(AircraftService aircraftService)
         {
@@ -31,6 +33,13 @@ namespace XPlaneLauncher.ViewModels
         public string ThumbnailPath { get; private set; }
         public string Name { get; private set; }
         public string Livery { get; private set; }
+
+        public string LastPartOfLiveryPath
+        {
+            get { return _lastPartOfLiveryPath; }
+            private set { SetProperty(ref _lastPartOfLiveryPath, value, nameof(LastPartOfLiveryPath)); }
+        }
+
         public bool HasSitFile { get; private set; }
         public bool HasThumbnail { get; private set; }
 
@@ -152,6 +161,7 @@ namespace XPlaneLauncher.ViewModels
 
             Name = AircraftDto.Name;
             Livery = AircraftDto.LiveryName;
+            LastPartOfLiveryPath = GetLastParthOfLiveryPath();
             HasSitFile = AircraftDto.HasSit;
 
             AircraftLauncherInformation aircraftLauncherInformation = _aircraftService.GetLauncherInformation(AircraftDto);
@@ -161,6 +171,22 @@ namespace XPlaneLauncher.ViewModels
                 UpdatePlannedRoutePathAndDistance();
             }
             return this;
+        }
+
+        private string GetLastParthOfLiveryPath ()
+        {
+            string liveryToSplit = Livery;
+            if (liveryToSplit.EndsWith("/"))
+            {
+                liveryToSplit = liveryToSplit.Substring(0, liveryToSplit.Length - 1);
+            }
+            string[] strings = liveryToSplit.Split('/');
+            if (strings.Any())
+            { 
+                return strings.Last(); 
+            }
+
+            return string.Empty;
         }
 
         public ObservableCollection<Polyline> PathToTarget { get; } = new ObservableCollection<Polyline>();

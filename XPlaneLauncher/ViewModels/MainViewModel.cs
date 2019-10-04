@@ -29,6 +29,7 @@ namespace XPlaneLauncher.ViewModels
         private bool _changingSelectedAicraftFromList;
         private bool _isMapInSelectionMode;
         private DelegateCommand<Location> _applyTargetCommand;
+        private DelegateCommand _unselectAircraftCommand;
 
         public MainViewModel()
         {
@@ -166,6 +167,24 @@ namespace XPlaneLauncher.ViewModels
 
         public ObservableCollection<Polyline> PathsToTarget { get; } = new ObservableCollection<Polyline>();
         public ObservableCollection<Location> PathsPoints { get; } = new ObservableCollection<Location>();
+
+        public DelegateCommand UnselectAircraftCommand
+        {
+            get
+            {
+                if (_unselectAircraftCommand == null)
+                {
+                    _unselectAircraftCommand = new DelegateCommand(UnselectAircraft);
+                }
+
+                return _unselectAircraftCommand;
+            }
+        }
+
+        private void UnselectAircraft()
+        {
+            SelectedAircraft = null;
+        }
 
         private void ApplyMapCenterAsTargetOnAircraftInSelectionMode(Location target)
         {

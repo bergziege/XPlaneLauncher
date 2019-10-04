@@ -36,5 +36,6 @@ namespace XPlaneLauncher.DesignViewModels
         public DelegateCommand<Location> ApplyTargetCommand { get; } = new DelegateCommand<Location>((Location loc)=>{});
         public ObservableCollection<Polyline> PathsToTarget { get; } = new ObservableCollection<Polyline>();
         public ObservableCollection<Location> PathsPoints { get; } = new ObservableCollection<Location>();
+        public DelegateCommand UnselectAircraftCommand { get; } = new DelegateCommand(()=>{});
     }
 }
