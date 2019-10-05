@@ -33,16 +33,11 @@ Have a look at App.config/XPlaneLauncher.exe.config.
 
 ### What its NOT doing (yet)
 
-- Having a configuration wizard/screen. Do this by editing the values in XPlaneLauncher.exe.config
-- showing thumbnails if not saved in livery folders
-- filter aircraft list
-- generate flightplan to the target (straight line as shown on the map) to be used with the x-plane gps
-- logging position over time, tracking operating hours, ...
-- running under Linux/Mac .. never ever ;-)
+Take a look at https://github.com/bergziege/XPlaneLauncher/projects/1 or the issues section.
 
 ## Development
 
-The app is currently fully functional. As my time permits (about 1h per 2 months ;-) I will slowly integrate some of the points from the "What its not doing" list.
+The app is currently fully functional. As my time permits (about 1h per months ;-) I will slowly integrate some of the points from the "What its not doing" list.
 
 Issues, ideas and pull requests are welcome!
 
