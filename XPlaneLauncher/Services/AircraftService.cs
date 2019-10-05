@@ -12,9 +12,9 @@ namespace XPlaneLauncher.Services
     {
         public IList<AircraftDto> GetAircrafts()
         {
-            DirectoryInfo positionDataDir = new DirectoryInfo(Settings.Default.PositionFilesPath);
-            DirectoryInfo sitFilePath = new DirectoryInfo(Settings.Default.SituationFilesPath);
-            DirectoryInfo xplaneRootPath = new DirectoryInfo(Settings.Default.XPlaneRootPath);
+            DirectoryInfo positionDataDir = new DirectoryInfo(Properties.Settings.Default.PositionFilesPath);
+            DirectoryInfo sitFilePath = new DirectoryInfo(Properties.Settings.Default.SituationFilesPath);
+            DirectoryInfo xplaneRootPath = new DirectoryInfo(Properties.Settings.Default.XPlaneRootPath);
 
             IList<AircraftDto> aircraftDtos = new List<AircraftDto>();
             foreach (FileInfo positionFile in positionDataDir.GetFiles("*.txt"))
@@ -37,7 +37,7 @@ namespace XPlaneLauncher.Services
                     dto.SitFile = sitFile;
                 }
 
-                FileInfo thumbnail = new FileInfo($@"{xplaneRootPath.FullName}{Path.DirectorySeparatorChar}{info.Livery}{info.AircraftFile?.Replace(".acf","")}{Settings.Default.ThumbnailEnding}");
+                FileInfo thumbnail = new FileInfo($@"{xplaneRootPath.FullName}{Path.DirectorySeparatorChar}{info.Livery}{info.AircraftFile?.Replace(".acf","")}{Properties.Settings.Default.ThumbnailEnding}");
                 if (thumbnail.Exists)
                 {
                     dto.Thumbnail = thumbnail;

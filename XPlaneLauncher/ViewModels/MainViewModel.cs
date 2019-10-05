@@ -92,8 +92,8 @@ namespace XPlaneLauncher.ViewModels
         private void OnStartSimRequested()
         {
             string xplaneExecutable =
-                Path.Combine(Settings.Default.XPlaneRootPath, Settings.Default.XPlaneExecutableFile);
-            SelectedAircraft.AircraftDto.SitFile.CopyTo(Path.Combine(Settings.Default.XPlaneRootPath,
+                Path.Combine(Properties.Settings.Default.XPlaneRootPath, Properties.Settings.Default.XPlaneExecutableFile);
+            SelectedAircraft.AircraftDto.SitFile.CopyTo(Path.Combine(Properties.Settings.Default.XPlaneRootPath,
                 @"Output/Situations/default.sit"), true);
             FileInfo executable = new FileInfo(xplaneExecutable);
             if (executable.Exists)
