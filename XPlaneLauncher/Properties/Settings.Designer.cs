@@ -12,7 +12,7 @@ namespace XPlaneLauncher.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.2.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -23,30 +23,27 @@ namespace XPlaneLauncher.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Temp\\xplanelauncher")]
         public string XPlaneRootPath {
             get {
                 return ((string)(this["XPlaneRootPath"]));
             }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("X:\\Bernd\\X-Plane\\Logs")]
-        public string PositionFilesPath {
-            get {
-                return ((string)(this["PositionFilesPath"]));
+            set {
+                this["XPlaneRootPath"] = value;
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Temp\\xplanelauncher\\sitfiles")]
-        public string SituationFilesPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("X:\\Bernd\\X-Plane\\Logs")]
+        public string DataPath {
             get {
-                return ((string)(this["SituationFilesPath"]));
+                return ((string)(this["DataPath"]));
+            }
+            set {
+                this["DataPath"] = value;
             }
         }
         
@@ -65,6 +62,15 @@ namespace XPlaneLauncher.Properties {
         public string XPlaneExecutableFile {
             get {
                 return ((string)(this["XPlaneExecutableFile"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("output\\situations")]
+        public string SituationsPathRelativeToXPlaneRoot {
+            get {
+                return ((string)(this["SituationsPathRelativeToXPlaneRoot"]));
             }
         }
     }

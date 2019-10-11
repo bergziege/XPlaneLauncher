@@ -5,10 +5,8 @@ using Prism.Commands;
 using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Map;
 
-namespace XPlaneLauncher
-{
-    public interface IMainViewModel : INotifyPropertyChanged
-    {
+namespace XPlaneLauncher {
+    public interface IMainViewModel : INotifyPropertyChanged {
         DelegateCommand RefreshCommand { get; }
 
         DelegateCommand StartSimCommand { get; }
@@ -30,5 +28,7 @@ namespace XPlaneLauncher
         ObservableCollection<Location> PathsPoints { get; }
 
         DelegateCommand UnselectAircraftCommand { get; }
+
+        DelegateCommand ShowSettingsCommand { get; }
     }
 }

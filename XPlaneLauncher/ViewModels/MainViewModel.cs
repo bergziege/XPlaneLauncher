@@ -15,6 +15,7 @@ using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Map;
 using XPlaneLauncher.Properties;
 using XPlaneLauncher.Services;
+using XPlaneLauncher.Settings.ViewCommands;
 
 namespace XPlaneLauncher.ViewModels
 {
@@ -30,10 +31,19 @@ namespace XPlaneLauncher.ViewModels
         private bool _isMapInSelectionMode;
         private DelegateCommand<Location> _applyTargetCommand;
         private DelegateCommand _unselectAircraftCommand;
+        private DelegateCommand _showSettingsCommand;
 
         public MainViewModel()
         {
             _aircraftService = new AircraftService();
+            CheckSettings();
+        }
+
+        private void CheckSettings() {
+            if (!Directory.Exists(Properties.Settings.Default.XPlaneRootPath) || !Directory.Exists(Properties.Settings.Default.DataPath))
+            {
+                OnShowSetting();
+            }
         }
 
         public DelegateCommand RefreshCommand
@@ -179,6 +189,20 @@ namespace XPlaneLauncher.ViewModels
 
                 return _unselectAircraftCommand;
             }
+        }
+
+        public DelegateCommand ShowSettingsCommand {
+            get {
+                if (_showSettingsCommand == null)
+                {
+                    _showSettingsCommand = new DelegateCommand(OnShowSetting);
+                }
+                return _showSettingsCommand;
+            }
+        }
+
+        private void OnShowSetting() {
+            new SettingsViewCommand().Execute();
         }
 
         private void UnselectAircraft()

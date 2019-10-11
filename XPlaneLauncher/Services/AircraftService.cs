@@ -12,9 +12,9 @@ namespace XPlaneLauncher.Services
     {
         public IList<AircraftDto> GetAircrafts()
         {
-            DirectoryInfo positionDataDir = new DirectoryInfo(Properties.Settings.Default.PositionFilesPath);
-            DirectoryInfo sitFilePath = new DirectoryInfo(Properties.Settings.Default.SituationFilesPath);
+            DirectoryInfo positionDataDir = new DirectoryInfo(Properties.Settings.Default.DataPath);
             DirectoryInfo xplaneRootPath = new DirectoryInfo(Properties.Settings.Default.XPlaneRootPath);
+            DirectoryInfo sitFilePath = new DirectoryInfo(Path.Combine(xplaneRootPath.FullName, Properties.Settings.Default.SituationsPathRelativeToXPlaneRoot));
 
             IList<AircraftDto> aircraftDtos = new List<AircraftDto>();
             foreach (FileInfo positionFile in positionDataDir.GetFiles("*.txt"))

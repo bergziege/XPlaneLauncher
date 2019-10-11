@@ -1,11 +1,9 @@
-﻿using Prism.Commands;
+﻿using System;
+using Prism.Commands;
 
-namespace XPlaneLauncher.Settings
-{
-    public interface ISettingsViewModel
-    {
+namespace XPlaneLauncher.Settings {
+    public interface ISettingsViewModel {
         string XPlaneRootPath { get; set; }
-        string XPlaneSituationPath { get; }
 
         string DataPath { get; set; }
 
@@ -16,5 +14,9 @@ namespace XPlaneLauncher.Settings
         DelegateCommand SelectRootPathCommand { get; }
 
         DelegateCommand SelectDataPathCommand { get; }
+
+        event EventHandler RequestCloseOnCancel;
+
+        event EventHandler RequestCloseOnFinish;
     }
 }

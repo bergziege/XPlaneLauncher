@@ -9,6 +9,8 @@ namespace XPlaneLauncher.DesignViewModels
 {
     public class MainViewDesignViewModel : BindableBase, IMainViewModel
     {
+        private DelegateCommand _showSettingsCommand;
+
         public MainViewDesignViewModel()
         {
             Aircrafts = new ObservableCollection<IAircraftItemViewModel>()
@@ -37,5 +39,7 @@ namespace XPlaneLauncher.DesignViewModels
         public ObservableCollection<Polyline> PathsToTarget { get; } = new ObservableCollection<Polyline>();
         public ObservableCollection<Location> PathsPoints { get; } = new ObservableCollection<Location>();
         public DelegateCommand UnselectAircraftCommand { get; } = new DelegateCommand(()=>{});
+
+        public DelegateCommand ShowSettingsCommand => new DelegateCommand(()=>{});
     }
 }

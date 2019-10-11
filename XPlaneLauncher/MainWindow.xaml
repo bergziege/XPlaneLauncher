@@ -131,7 +131,16 @@
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Button Content="Refresh" Command="{Binding Path=RefreshCommand}" Margin="5" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Refresh" Command="{Binding Path=RefreshCommand}" Margin="5" />
+                <Button Command="{Binding Path=ShowSettingsCommand}" Margin="5" Grid.Column="1" Style="{StaticResource MaterialDesignFlatButton}">
+                    <materialDesign:PackIcon Kind="Settings"></materialDesign:PackIcon>
+                </Button>
+            </Grid>
             <ListView ItemsSource="{Binding Path=Aircrafts}" Grid.Row="1"
                       SelectedItem="{Binding Path=SelectedAircraft, UpdateSourceTrigger=PropertyChanged}"
                       HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5"
