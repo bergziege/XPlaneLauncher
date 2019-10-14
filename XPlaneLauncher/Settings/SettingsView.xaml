@@ -47,6 +47,8 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Grid.Row="1">
+            <Button Command="{Binding Path=CreateLuaScriptCommand}" Content="Install LUA Script" Style="{StaticResource MaterialDesignFlatButton}"/>
+            <Separator Visibility="Hidden" Width="5"></Separator>
             <Button Command="{Binding Path=FinishCommand}" Content="OK" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
             <Separator Visibility="Hidden" Width="5"></Separator>
             <Button Command="{Binding Path=CancelCommand}" Content="Cancel" Style="{StaticResource MaterialDesignFlatButton}"/>

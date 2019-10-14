@@ -67,10 +67,28 @@ namespace XPlaneLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("output\\situations")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Output\\situations")]
         public string SituationsPathRelativeToXPlaneRoot {
             get {
                 return ((string)(this["SituationsPathRelativeToXPlaneRoot"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BasicInfoLogger.lua")]
+        public string LuaScriptFileName {
+            get {
+                return ((string)(this["LuaScriptFileName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Output\\Plugins\\FlyWithLua\\Scripts")]
+        public string LuaPathRelativeToXPlaneRoot {
+            get {
+                return ((string)(this["LuaPathRelativeToXPlaneRoot"]));
             }
         }
     }

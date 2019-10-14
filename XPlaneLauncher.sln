@@ -10,11 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{654DE1AB-4DC
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LUA", "LUA", "{4DAB880A-D9C4-4434-ACC5-96591070ADC4}"
-	ProjectSection(SolutionItems) = preProject
-		LUAScript\BasicInfoLogger.lua = LUAScript\BasicInfoLogger.lua
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

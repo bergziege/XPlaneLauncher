@@ -18,5 +18,7 @@ namespace XPlaneLauncher.Settings {
         event EventHandler RequestCloseOnCancel;
 
         event EventHandler RequestCloseOnFinish;
+
+        DelegateCommand CreateLuaScriptCommand { get; }
     }
 }

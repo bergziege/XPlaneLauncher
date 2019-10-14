@@ -40,7 +40,8 @@ namespace XPlaneLauncher.ViewModels
         }
 
         private void CheckSettings() {
-            if (!Directory.Exists(Properties.Settings.Default.XPlaneRootPath) || !Directory.Exists(Properties.Settings.Default.DataPath))
+            if (!Directory.Exists(Properties.Settings.Default.XPlaneRootPath) || !Directory.Exists(Properties.Settings.Default.DataPath)
+                || !File.Exists(Path.Combine(Properties.Settings.Default.XPlaneRootPath,Properties.Settings.Default.LuaPathRelativeToXPlaneRoot, Properties.Settings.Default.LuaScriptFileName)))
             {
                 OnShowSetting();
             }
