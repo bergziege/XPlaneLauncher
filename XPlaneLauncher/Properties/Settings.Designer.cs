@@ -85,7 +85,7 @@ namespace XPlaneLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Output\\Plugins\\FlyWithLua\\Scripts")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Resources\\plugins\\FlyWithLua\\Scripts")]
         public string LuaPathRelativeToXPlaneRoot {
             get {
                 return ((string)(this["LuaPathRelativeToXPlaneRoot"]));

@@ -21,7 +21,7 @@
       <Value Profile="(Default)">BasicInfoLogger.lua</Value>
     </Setting>
     <Setting Name="LuaPathRelativeToXPlaneRoot" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Output\Plugins\FlyWithLua\Scripts</Value>
+      <Value Profile="(Default)">Resources\plugins\FlyWithLua\Scripts</Value>
     </Setting>
   </Settings>
 </SettingsFile>
