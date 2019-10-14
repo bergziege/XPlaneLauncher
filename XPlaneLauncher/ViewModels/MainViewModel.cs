@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 using MapControl;
@@ -32,6 +33,9 @@ namespace XPlaneLauncher.ViewModels
         private DelegateCommand<Location> _applyTargetCommand;
         private DelegateCommand _unselectAircraftCommand;
         private DelegateCommand _showSettingsCommand;
+        private DelegateCommand<MapBoundary> _mapBoundariesChangedCommand;
+        private MapBoundary _lastMapBoundary;
+        private bool _isListFilteredByMapBoundary;
 
         public MainViewModel()
         {
@@ -199,6 +203,64 @@ namespace XPlaneLauncher.ViewModels
                     _showSettingsCommand = new DelegateCommand(OnShowSetting);
                 }
                 return _showSettingsCommand;
+            }
+        }
+
+        public DelegateCommand<MapBoundary> MapBoundariesChangedCommand {
+            get {
+                if (_mapBoundariesChangedCommand == null)
+                {
+                    _mapBoundariesChangedCommand = new DelegateCommand<MapBoundary>(OnMapBoundariesChanged);
+                }
+                return _mapBoundariesChangedCommand;
+            }
+        }
+
+        public bool IsListFilteredByMapBoundary {
+            get { return _isListFilteredByMapBoundary; }
+            set {
+                SetProperty(ref _isListFilteredByMapBoundary, value, nameof(IsListFilteredByMapBoundary));
+                if (value)
+                {
+                    FilterListByLastBoundary();
+                }
+                else
+                {
+                    ShowAllAircraft();
+                }
+
+            }
+        }
+
+        private void ShowAllAircraft() {
+            foreach (IAircraftItemViewModel aircraftItemViewModel in Aircrafts)
+            {
+                aircraftItemViewModel.IsVisible = true;
+            }
+        }
+
+        private void FilterListByLastBoundary() {
+            Parallel.ForEach(Aircrafts, (IAircraftItemViewModel aircraft) =>
+            {
+                if (_lastMapBoundary != null && aircraft.AircraftDto.Lat <= _lastMapBoundary.TopLeft.Latitude && aircraft.AircraftDto.Lat >= _lastMapBoundary.BottomRight.Latitude
+                    &&
+                    aircraft.AircraftDto.Lon >= _lastMapBoundary.TopLeft.Longitude && aircraft.AircraftDto.Lon <= _lastMapBoundary.BottomRight.Longitude)
+                {
+                    aircraft.IsVisible = true;
+                }
+                else
+                {
+                    aircraft.IsVisible = false;
+                }
+            });
+
+        }
+
+        private void OnMapBoundariesChanged(MapBoundary mapBoundary) {
+            _lastMapBoundary = mapBoundary;
+            if (IsListFilteredByMapBoundary)
+            {
+                FilterListByLastBoundary();
             }
         }
 

@@ -135,9 +135,11 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Button Content="Refresh" Command="{Binding Path=RefreshCommand}" Margin="5" />
-                <Button Command="{Binding Path=ShowSettingsCommand}" Margin="5" Grid.Column="1" Style="{StaticResource MaterialDesignFlatButton}">
+                <ToggleButton Grid.Column="1" IsChecked="{Binding Path=IsListFilteredByMapBoundary}" ToolTip="Show only aircrafts visible on map"/>
+                <Button Command="{Binding Path=ShowSettingsCommand}" Margin="5" Grid.Column="2" Style="{StaticResource MaterialDesignFlatButton}">
                     <materialDesign:PackIcon Kind="Settings"></materialDesign:PackIcon>
                 </Button>
             </Grid>
@@ -147,10 +149,20 @@
                       BorderThickness="0"
                       Name="Aircrafts"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Visibility" Value="Visible"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsVisible}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="local:IAircraftItemViewModel">
                         <Border HorizontalAlignment="Stretch" Padding="0" Margin="0" BorderThickness="1"
-                                BorderBrush="Black" Background="White">
+                                BorderBrush="Black" Background="White" Visibility="{Binding Path=IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="300" />
@@ -219,7 +231,8 @@
             <mapControl:Map MapLayer="{x:Static mapControl:MapTileLayer.OpenStreetMapTileLayer}"
                             Center="{Binding Path=MapCenter}"
                             MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
-                            x:Name="Map">
+                            x:Name="Map"
+                            ViewportChanged="Map_OnViewportChanged">
                 <mapControl:MapItemsControl ItemsSource="{Binding Path=MapAircraftItems}"
                                             ItemContainerStyle="{StaticResource PointItemStyle}"
                                             SelectionMode="Single"

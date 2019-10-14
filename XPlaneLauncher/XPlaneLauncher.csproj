@@ -87,6 +87,7 @@
     <Compile Include="Domain\AircraftInformation.cs" />
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
     <Compile Include="Dtos\AircraftDto.cs" />
+    <Compile Include="Dtos\MapBoundary.cs" />
     <Compile Include="Dtos\Polyline.cs" />
     <Compile Include="Map\AircraftItem.cs" />
     <Compile Include="Services\AircraftService.cs" />

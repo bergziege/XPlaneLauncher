@@ -24,6 +24,7 @@ namespace XPlaneLauncher.ViewModels
         private double? _distanceToDestination;
         private Location _selectedPlannedRoutePoint;
         private string _lastPartOfLiveryPath;
+        private bool _isVisible = true;
 
         public AircraftItemViewModel(AircraftService aircraftService)
         {
@@ -206,6 +207,11 @@ namespace XPlaneLauncher.ViewModels
                 RemoveSelectedRouteLocationCommand.RaiseCanExecuteChanged();
             }
         }
+
+        public bool IsVisible {
+            get => _isVisible;
+            set => SetProperty(ref _isVisible, value, nameof(IsVisible));
+        } 
 
         private void RemoveSelectedPlannedRoutePoint()
         {

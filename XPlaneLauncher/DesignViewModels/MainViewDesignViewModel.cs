@@ -10,6 +10,9 @@ namespace XPlaneLauncher.DesignViewModels
     public class MainViewDesignViewModel : BindableBase, IMainViewModel
     {
         private DelegateCommand _showSettingsCommand;
+        private DelegateCommand _mapBoundariesChangedCommand;
+        private DelegateCommand<MapBoundary> _mapBoundariesChangedCommand1;
+        private bool _isListFilteredByMapBoundary;
 
         public MainViewDesignViewModel()
         {
@@ -41,5 +44,11 @@ namespace XPlaneLauncher.DesignViewModels
         public DelegateCommand UnselectAircraftCommand { get; } = new DelegateCommand(()=>{});
 
         public DelegateCommand ShowSettingsCommand => new DelegateCommand(()=>{});
+
+        DelegateCommand<MapBoundary> IMainViewModel.MapBoundariesChangedCommand => _mapBoundariesChangedCommand1;
+
+        public bool IsListFilteredByMapBoundary { get; set; } = true;
+
+        public DelegateCommand MapBoundariesChangedCommand { get; }
     }
 }

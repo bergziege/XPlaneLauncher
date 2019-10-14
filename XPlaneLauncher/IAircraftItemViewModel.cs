@@ -43,5 +43,7 @@ namespace XPlaneLauncher
         double? DistanceToDestination { get; }
 
         Location SelectedPlannedRoutePoint { get; set; }
+
+        bool IsVisible { get; set; }
     }
 }

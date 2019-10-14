@@ -50,6 +50,8 @@ namespace XPlaneLauncher.DesignViewModels
         public double? DistanceToDestination { get; } = 42000;
         public Location SelectedPlannedRoutePoint { get; set; }
 
+        public bool IsVisible { get; set; } = true;
+
         public bool IsSelected { get; set; }
     }
 }

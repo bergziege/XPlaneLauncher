@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using MapControl;
+using XPlaneLauncher.Dtos;
 
 namespace XPlaneLauncher
 {
@@ -46,6 +48,15 @@ namespace XPlaneLauncher
                 {
                     vm.ApplyTargetCommand.Execute(target);
                 }
+            }
+        }
+
+        private void Map_OnViewportChanged(object sender, ViewportChangedEventArgs e) {
+            if (DataContext is IMainViewModel mainViewModel)
+            {
+                Location topLeft = Map.ViewportPointToLocation(new Point(0, 0));
+                Location bottomRight = Map.ViewportPointToLocation(new Point(Map.ActualWidth, Map.ActualHeight));
+                mainViewModel.MapBoundariesChangedCommand.Execute(new MapBoundary(topLeft, bottomRight));
             }
         }
     }

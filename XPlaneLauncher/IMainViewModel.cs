@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using MapControl;
 using Prism.Commands;
@@ -30,5 +31,9 @@ namespace XPlaneLauncher {
         DelegateCommand UnselectAircraftCommand { get; }
 
         DelegateCommand ShowSettingsCommand { get; }
+
+        DelegateCommand<MapBoundary> MapBoundariesChangedCommand { get; }
+
+        bool IsListFilteredByMapBoundary { get; set; }
     }
 }
