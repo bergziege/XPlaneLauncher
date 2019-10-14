@@ -25,7 +25,7 @@ function log_basic_infos()
         local cleanedAircraftFileName = AIRCRAFT_FILENAME:gsub(".acf","")
 
         local positionFileName = cleanedAircraftFileName .. "_" .. cleanedLiveryPath .. ".txt"
-        local file = io.open("new:####|old:Z:/Bernd/X-Plane/Logs/"..positionFileName,"w")
+        local file = io.open("####"..positionFileName,"w")
         io.output(file)
 
         local payload = '{"Latitude":'..LATITUDE..',"Longitude":'..LONGITUDE..',"Elevation":'..ELEVATION..',"Heading":'.. Heading ..',"AircraftFile":"'.. AIRCRAFT_FILENAME ..'","Livery":"'.. string.sub(LiveryPath, 1, indexOfLastSeparator) ..'"}'
