@@ -52,7 +52,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Path x:Name="selectedPath" Fill="White" Opacity="0">
+                            <Path x:Name="selectedPath" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0">
                                 <Path.Data>
                                     <EllipseGeometry RadiusX="15" RadiusY="15" />
                                 </Path.Data>
@@ -161,7 +161,7 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="local:IAircraftItemViewModel">
-                        <Border HorizontalAlignment="Stretch" Padding="0" Margin="0" BorderThickness="1"
+                        <Border HorizontalAlignment="Stretch" Padding="0" Margin="0,2" BorderThickness="1"
                                 BorderBrush="Black" Background="White" Visibility="{Binding Path=IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
@@ -215,7 +215,11 @@
                                            HorizontalAlignment="Right" />
                                 <Border
                                     Visibility="{Binding Path=IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    BorderThickness="2" BorderBrush="Red" Grid.ColumnSpan="2" />
+                                    BorderThickness="3" BorderBrush="Red" Grid.ColumnSpan="2" />
+
+                                <Border
+                                    Visibility="{Binding Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    BorderThickness="5" BorderBrush="{StaticResource PrimaryHueMidBrush}" Grid.ColumnSpan="2" Margin="-5"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
