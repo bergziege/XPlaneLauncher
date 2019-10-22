@@ -134,12 +134,30 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Button Content="Refresh" Command="{Binding Path=RefreshCommand}" Margin="5" />
-                <ToggleButton Grid.Column="1" IsChecked="{Binding Path=IsListFilteredByMapBoundary}" ToolTip="Show only aircrafts visible on map"/>
-                <Button Command="{Binding Path=ShowSettingsCommand}" Margin="5" Grid.Column="2" Style="{StaticResource MaterialDesignFlatButton}">
+                <Grid Grid.Column="1" VerticalAlignment="Center" Margin="15,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <materialDesign:PackIcon Kind="MapOutline" Grid.Column="1" Foreground="Gray"/>
+                    <materialDesign:PackIcon Kind="FormatListBulleted" Foreground="Gray"></materialDesign:PackIcon>
+                    <materialDesign:PackIcon Kind="ArrowLeftBold" Grid.ColumnSpan="2" HorizontalAlignment="Center"></materialDesign:PackIcon>
+
+                    <ToggleButton IsChecked="{Binding Path=IsListFilteredByMapBoundary}" ToolTip="Show only aircrafts visible on map" Grid.Row="1" HorizontalAlignment="Center" Grid.ColumnSpan="2"
+                                  x:Name="MapListFilterToggle"/>
+                </Grid>
+                
+                <Button Command="{Binding Path=ShowSettingsCommand}" Margin="5" Grid.Column="3"
+                        Style="{StaticResource MaterialDesignFlatButton}">
                     <materialDesign:PackIcon Kind="Settings"></materialDesign:PackIcon>
                 </Button>
             </Grid>
