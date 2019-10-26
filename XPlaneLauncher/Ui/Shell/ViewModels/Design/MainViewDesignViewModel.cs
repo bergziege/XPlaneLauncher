@@ -29,7 +29,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Design {
         public DelegateCommand<MapBoundary> MapBoundariesChangedCommand => new DelegateCommand<MapBoundary>((x) => { });
 
         public Location MapCenter { get; set; } = new Location(51, 13);
-        public ObservableCollection<Location> PathsPoints { get; } = new ObservableCollection<Location>();
+        public ObservableCollection<IRoutePointViewModel> PathsPoints { get; } = new ObservableCollection<IRoutePointViewModel>();
         public ObservableCollection<Polyline> PathsToTarget { get; } = new ObservableCollection<Polyline>();
 
         public DelegateCommand RefreshCommand { get; } = new DelegateCommand(() => { });

@@ -77,13 +77,36 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="PathPointItemStyle" TargetType="mapControl:MapItem">
-            <Setter Property="mapControl:MapPanel.Location" Value="{Binding}" />
+            <Setter Property="mapControl:MapPanel.Location" Value="{Binding Location}" />
             <Setter Property="Foreground" Value="Black" />
-            <Setter Property="IsSelected" Value="{Binding Path=AircraftViewModel.IsSelected}" />
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="mapControl:MapItem">
                         <Canvas>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="labelBackground"
+                                                             Storyboard.TargetProperty="Opacity" To="0.5"
+                                                             Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="selectedPath"
+                                                             Storyboard.TargetProperty="Opacity" To="0.8"
+                                                             Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                             <Path x:Name="selectedPath" Fill="White" Opacity="0">
                                 <Path.Data>
                                     <EllipseGeometry RadiusX="15" RadiusY="15" />
@@ -299,7 +322,13 @@
 
                     <ListBox ItemsSource="{Binding Path=SelectedAircraft.PlannedRoutePoints}"
                              SelectedItem="{Binding Path=SelectedAircraft.SelectedPlannedRoutePoint}" Grid.Row="1"
-                             Margin="10" />
+                             Margin="10">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="viewModels:IRoutePointViewModel">
+                                <TextBlock Text="{Binding Path=Location}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
                     <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
                         <Button Command="{Binding Path=SelectedAircraft.StartTargetSelectionModeCommand}"

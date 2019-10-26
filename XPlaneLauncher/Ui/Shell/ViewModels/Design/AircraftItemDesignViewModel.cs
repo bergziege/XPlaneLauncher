@@ -3,6 +3,7 @@ using MapControl;
 using Prism.Commands;
 using Prism.Mvvm;
 using XPlaneLauncher.Dtos;
+using XPlaneLauncher.Ui.Shell.ViewModels.Runtime;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Design {
     public class AircraftItemDesignViewModel : BindableBase, IAircraftItemViewModel {
@@ -36,10 +37,11 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Design {
             }
         };
 
-        public ObservableCollection<Location> PlannedRoutePoints { get; } = new ObservableCollection<Location>() { new Location(15, 13) };
+        public ObservableCollection<IRoutePointViewModel> PlannedRoutePoints { get; } = new ObservableCollection<IRoutePointViewModel>()
+            { new RoutePointViewModel(new Location(15, 13)) };
 
         public DelegateCommand RemoveSelectedRouteLocationCommand { get; } = new DelegateCommand(() => { });
-        public Location SelectedPlannedRoutePoint { get; set; }
+        public IRoutePointViewModel SelectedPlannedRoutePoint { get; set; }
         public DelegateCommand StartTargetSelectionModeCommand { get; } = new DelegateCommand(() => { });
 
         public string ThumbnailPath { get; } = @"C:\Users\bernd\Pictures\P1210319.jpg";

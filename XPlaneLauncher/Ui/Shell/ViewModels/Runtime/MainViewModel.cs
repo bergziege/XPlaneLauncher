@@ -85,7 +85,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
             set { SetProperty(ref _mapCenter, value); }
         }
 
-        public ObservableCollection<Location> PathsPoints { get; } = new ObservableCollection<Location>();
+        public ObservableCollection<IRoutePointViewModel> PathsPoints { get; } = new ObservableCollection<IRoutePointViewModel>();
 
         public ObservableCollection<Polyline> PathsToTarget { get; } = new ObservableCollection<Polyline>();
 
@@ -279,7 +279,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
         private void UpdatePathsPoints() {
             PathsPoints.Clear();
             foreach (IAircraftItemViewModel aircraft in Aircrafts) {
-                foreach (Location aircraftPlannedRoutePoint in aircraft.PlannedRoutePoints) {
+                foreach (IRoutePointViewModel aircraftPlannedRoutePoint in aircraft.PlannedRoutePoints) {
                     PathsPoints.Add(aircraftPlannedRoutePoint);
                 }
             }

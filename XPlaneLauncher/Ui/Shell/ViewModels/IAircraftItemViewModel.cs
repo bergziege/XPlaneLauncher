@@ -30,7 +30,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels
 
         DelegateCommand EndTargetSelectionModeCommand { get; }
 
-        ObservableCollection<Location> PlannedRoutePoints { get; }
+        ObservableCollection<IRoutePointViewModel> PlannedRoutePoints { get; }
         void AddToPlannedRoute(Location location);
         DelegateCommand RemoveSelectedRouteLocationCommand { get; }
         IAircraftItemViewModel Initialize(AircraftDto aircraft);
@@ -39,7 +39,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels
 
         double? DistanceToDestination { get; }
 
-        Location SelectedPlannedRoutePoint { get; set; }
+        IRoutePointViewModel SelectedPlannedRoutePoint { get; set; }
 
         bool IsVisible { get; set; }
     }

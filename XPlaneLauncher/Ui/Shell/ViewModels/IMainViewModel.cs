@@ -25,7 +25,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels {
 
         ObservableCollection<Polyline> PathsToTarget { get; }
 
-        ObservableCollection<Location> PathsPoints { get; }
+        ObservableCollection<IRoutePointViewModel> PathsPoints { get; }
 
         DelegateCommand UnselectAircraftCommand { get; }
 

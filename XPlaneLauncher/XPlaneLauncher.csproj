@@ -98,6 +98,8 @@
     </Compile>
     <Compile Include="Ui\Modules\Settings\ViewCommands\SettingsViewCommand.cs" />
     <Compile Include="Ui\Modules\Settings\ViewModels\Runtime\SettingsViewModel.cs" />
+    <Compile Include="Ui\Shell\ViewModels\Design\RoutePointDesignViewModel.cs" />
+    <Compile Include="Ui\Shell\ViewModels\IRoutePointViewModel.cs" />
     <Compile Include="Ui\Shell\ViewModels\Runtime\AircraftItemViewModel.cs" />
     <Compile Include="Ui\Shell\ViewModels\Runtime\MainViewModel.cs" />
     <Page Include="Ui\Shell\Views\MainWindow.xaml">
@@ -112,6 +114,7 @@
     <Compile Include="Ui\Shell\ViewModels\IAircraftItemViewModel.cs" />
     <Compile Include="Ui\Shell\ViewModels\IMainViewModel.cs" />
     <Compile Include="Ui\Shell\ViewModels\Design\MainViewDesignViewModel.cs" />
+    <Compile Include="Ui\Shell\ViewModels\Runtime\RoutePointViewModel.cs" />
     <Compile Include="Ui\Shell\Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
