@@ -1,7 +1,8 @@
 ﻿using MapControl;
+using Prism.Mvvm;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Design {
-    public class RoutePointDesignViewModel : IRoutePointViewModel {
+    public class RoutePointDesignViewModel : BindableBase, IRoutePointViewModel {
         public bool IsSelected { get; set; } = true;
 
         public Location Location { get; } = new Location(51, 13);

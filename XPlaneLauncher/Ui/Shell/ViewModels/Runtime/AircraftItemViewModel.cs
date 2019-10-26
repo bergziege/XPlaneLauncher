@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using MapControl;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -8,7 +11,7 @@ using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Services;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
-    public class AircraftItemViewModel : BindableBase, IAircraftItemViewModel {
+    public class AircraftItemViewModel : BindableBase, IAircraftItemViewModel, IWeakEventListener {
         private readonly AircraftService _aircraftService;
         private double? _distanceToDestination;
         private DelegateCommand _endTargetSelectioNmodeCommand;
@@ -25,44 +28,11 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
             _aircraftService = aircraftService;
         }
 
-        public string ThumbnailPath { get; private set; }
-        public string Name { get; private set; }
-        public string Livery { get; private set; }
-
-        public string LastPartOfLiveryPath {
-            get { return _lastPartOfLiveryPath; }
-            private set { SetProperty(ref _lastPartOfLiveryPath, value, nameof(LastPartOfLiveryPath)); }
-        }
-
-        public bool HasSitFile { get; private set; }
-        public bool HasThumbnail { get; private set; }
-
-        public bool IsSelected {
-            get { return _isSelected; }
-            set {
-                if (IsInTargetSelectionMode) {
-                    return;
-                }
-
-                SetProperty(ref _isSelected, value);
-            }
-        }
-
         public AircraftDto AircraftDto { get; private set; }
 
-        public bool IsInTargetSelectionMode {
-            get { return _isInTargetSelectionMode; }
-            private set { SetProperty(ref _isInTargetSelectionMode, value); }
-        }
-
-        public DelegateCommand StartTargetSelectionModeCommand {
-            get {
-                if (_startTargetSelectionModeCommand == null) {
-                    _startTargetSelectionModeCommand = new DelegateCommand(StartTargetSelectionMode);
-                }
-
-                return _startTargetSelectionModeCommand;
-            }
+        public double? DistanceToDestination {
+            get => _distanceToDestination;
+            private set => SetProperty(ref _distanceToDestination, value);
         }
 
         public DelegateCommand EndTargetSelectionModeCommand {
@@ -76,14 +46,43 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
             }
         }
 
+        public bool HasSitFile { get; private set; }
+        public bool HasThumbnail { get; private set; }
+
+        public bool IsInTargetSelectionMode {
+            get { return _isInTargetSelectionMode; }
+            private set { SetProperty(ref _isInTargetSelectionMode, value); }
+        }
+
+        public bool IsSelected {
+            get { return _isSelected; }
+            set {
+                if (IsInTargetSelectionMode) {
+                    return;
+                }
+
+                SetProperty(ref _isSelected, value);
+            }
+        }
+
+        public bool IsVisible {
+            get => _isVisible;
+            set => SetProperty(ref _isVisible, value, nameof(IsVisible));
+        }
+
+        public string LastPartOfLiveryPath {
+            get { return _lastPartOfLiveryPath; }
+            private set { SetProperty(ref _lastPartOfLiveryPath, value, nameof(LastPartOfLiveryPath)); }
+        }
+
+        public string Livery { get; private set; }
+        public string Name { get; private set; }
+
+        public ObservableCollection<Polyline> PathToTarget { get; } = new ObservableCollection<Polyline>();
+
         public ObservableCollection<IRoutePointViewModel> PlannedRoutePoints {
             get { return _plannedRoutePoints; }
             private set { SetProperty(ref _plannedRoutePoints, value); }
-        }
-
-        public void AddToPlannedRoute(Location location) {
-            PlannedRoutePoints.Add(new RoutePointViewModel(location));
-            UpdatePlannedRoutePathAndDistance();
         }
 
         public DelegateCommand RemoveSelectedRouteLocationCommand {
@@ -94,6 +93,33 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
 
                 return _removeTargetCommand;
             }
+        }
+
+        public IRoutePointViewModel SelectedPlannedRoutePoint {
+            get { return _selectedPlannedRoutePoint; }
+            set {
+                _selectedPlannedRoutePoint?.Deselect();
+                value?.Select();
+                SetProperty(ref _selectedPlannedRoutePoint, value, nameof(SelectedPlannedRoutePoint));
+                RemoveSelectedRouteLocationCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public DelegateCommand StartTargetSelectionModeCommand {
+            get {
+                if (_startTargetSelectionModeCommand == null) {
+                    _startTargetSelectionModeCommand = new DelegateCommand(StartTargetSelectionMode);
+                }
+
+                return _startTargetSelectionModeCommand;
+            }
+        }
+
+        public string ThumbnailPath { get; private set; }
+
+        public void AddToPlannedRoute(Location location) {
+            PlannedRoutePoints.Add(new RoutePointViewModel(location));
+            UpdatePlannedRoutePathAndDistance();
         }
 
         public IAircraftItemViewModel Initialize(AircraftDto aircraft) {
@@ -110,33 +136,15 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
 
             AircraftLauncherInformation aircraftLauncherInformation = _aircraftService.GetLauncherInformation(AircraftDto);
             if (aircraftLauncherInformation != null) {
-                PlannedRoutePoints = new ObservableCollection<IRoutePointViewModel>(aircraftLauncherInformation.TargetLocation.Select(x=>new RoutePointViewModel(x)).ToList());
+                PlannedRoutePoints = new ObservableCollection<IRoutePointViewModel>(
+                    aircraftLauncherInformation.TargetLocation.Select(x => new RoutePointViewModel(x)).ToList());
+                foreach (IRoutePointViewModel routePointViewModel in PlannedRoutePoints) {
+                    PropertyChangedEventManager.AddListener(routePointViewModel, this, nameof(routePointViewModel.IsSelected));
+                }
                 UpdatePlannedRoutePathAndDistance();
             }
 
             return this;
-        }
-
-        public ObservableCollection<Polyline> PathToTarget { get; } = new ObservableCollection<Polyline>();
-
-        public double? DistanceToDestination {
-            get => _distanceToDestination;
-            private set => SetProperty(ref _distanceToDestination, value);
-        }
-
-        public IRoutePointViewModel SelectedPlannedRoutePoint {
-            get { return _selectedPlannedRoutePoint; }
-            set {
-                _selectedPlannedRoutePoint?.Deselect();
-                value?.Select();
-                SetProperty(ref _selectedPlannedRoutePoint, value, nameof(SelectedPlannedRoutePoint));
-                RemoveSelectedRouteLocationCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        public bool IsVisible {
-            get => _isVisible;
-            set => SetProperty(ref _isVisible, value, nameof(IsVisible));
         }
 
         private void StartTargetSelectionMode() {
@@ -151,7 +159,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
             if (PlannedRoutePoints.Any()) {
                 double distance = 0;
                 LocationCollection pathLocations = new LocationCollection();
-                foreach (Location segmentEnd in PlannedRoutePoints.Select(x=>x.Location)) {
+                foreach (Location segmentEnd in PlannedRoutePoints.Select(x => x.Location)) {
                     distance += segmentStart.GreatCircleDistance(segmentEnd);
                     pathLocations.AddRange(segmentStart.CalculateGreatCircleLocations(segmentEnd));
                     segmentStart = segmentEnd;
@@ -197,7 +205,14 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
         private void SaveLauncherInfo() {
             _aircraftService.SaveLauncherInformation(
                 AircraftDto,
-                new AircraftLauncherInformation() { TargetLocation = PlannedRoutePoints.Select(x=>x.Location).ToList() });
+                new AircraftLauncherInformation() { TargetLocation = PlannedRoutePoints.Select(x => x.Location).ToList() });
+        }
+
+        public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
+            if (sender is IRoutePointViewModel routePointViewModel && e is PropertyChangedEventArgs args && args.PropertyName == nameof(routePointViewModel.IsSelected)) {
+                SelectedPlannedRoutePoint = PlannedRoutePoints.FirstOrDefault(x => x.IsSelected);
+            }
+            return true;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using MapControl;
 using XPlaneLauncher.Dtos;
@@ -48,6 +49,10 @@ namespace XPlaneLauncher.Ui.Shell.Views {
                 Location bottomRight = Map.ViewportPointToLocation(new Point(Map.ActualWidth, Map.ActualHeight));
                 mainViewModel.MapBoundariesChangedCommand.Execute(new MapBoundary(topLeft, bottomRight));
             }
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            RoutePointList.ScrollIntoView(RoutePointList.SelectedItem);
         }
     }
 }

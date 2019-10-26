@@ -322,7 +322,9 @@
 
                     <ListBox ItemsSource="{Binding Path=SelectedAircraft.PlannedRoutePoints}"
                              SelectedItem="{Binding Path=SelectedAircraft.SelectedPlannedRoutePoint}" Grid.Row="1"
-                             Margin="10">
+                             Margin="10"
+                             SelectionChanged="Selector_OnSelectionChanged"
+                             x:Name="RoutePointList">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="viewModels:IRoutePointViewModel">
                                 <TextBlock Text="{Binding Path=Location}" />
