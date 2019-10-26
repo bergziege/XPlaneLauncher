@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using MapControl;
 using Prism.Commands;
 using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Map;
 
-namespace XPlaneLauncher {
+namespace XPlaneLauncher.Ui.Shell.ViewModels {
     public interface IMainViewModel : INotifyPropertyChanged {
         DelegateCommand RefreshCommand { get; }
 

@@ -1,10 +1,7 @@
 ﻿using System.IO;
-using System.Security.RightsManagement;
 
-namespace XPlaneLauncher.Dtos
-{
-    public class AircraftDto
-    {
+namespace XPlaneLauncher.Dtos {
+    public class AircraftDto {
         public string FileName { get; set; }
         public string Name { get; set; }
         public string LiveryName { get; set; }

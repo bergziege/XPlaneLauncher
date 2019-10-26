@@ -1,26 +1,23 @@
-﻿<Window x:Class="XPlaneLauncher.MainWindow"
+﻿<Window x:Class="XPlaneLauncher.Ui.Shell.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:XPlaneLauncher"
-        xmlns:designViewModels="clr-namespace:XPlaneLauncher.DesignViewModels"
         xmlns:mapControl="clr-namespace:MapControl;assembly=MapControl.WPF"
-        xmlns:caching="clr-namespace:MapControl.Caching;assembly=MapControl.WPF"
         xmlns:converter="clr-namespace:XPlaneLauncher.Converter"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:viewModels="clr-namespace:XPlaneLauncher.Ui.Shell.ViewModels"
+        xmlns:design="clr-namespace:XPlaneLauncher.Ui.Shell.ViewModels.Design"
         mc:Ignorable="d"
         Title="X-Plane Launcher" Height="600" Width="1280">
     <d:DesignProperties.DataContext>
-        <designViewModels:MainViewDesignViewModel />
+        <design:MainViewDesignViewModel />
     </d:DesignProperties.DataContext>
     <Window.Resources>
         <converter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <system:Boolean x:Key="True">True</system:Boolean>
-        <system:Boolean x:Key="False">False</system:Boolean>
+        <!--<system:Boolean x:Key="False">False</system:Boolean>-->
         <Style x:Key="PointItemStyle" TargetType="mapControl:MapItem">
             <Setter Property="mapControl:MapPanel.Location" Value="{Binding Location}" />
             <Setter Property="Foreground" Value="Black" />
@@ -134,31 +131,33 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <Button Content="Refresh" Command="{Binding Path=RefreshCommand}" Margin="5" />
                 <Grid Grid.Column="1" VerticalAlignment="Center" Margin="15,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <materialDesign:PackIcon Kind="MapOutline" Grid.Column="1" Foreground="Gray"/>
-                    <materialDesign:PackIcon Kind="FormatListBulleted" Foreground="Gray"></materialDesign:PackIcon>
-                    <materialDesign:PackIcon Kind="ArrowLeftBold" Grid.ColumnSpan="2" HorizontalAlignment="Center"></materialDesign:PackIcon>
+                    <materialDesign:PackIcon Kind="MapOutline" Grid.Column="1" Foreground="Gray" />
+                    <materialDesign:PackIcon Kind="FormatListBulleted" Foreground="Gray" />
+                    <materialDesign:PackIcon Kind="ArrowLeftBold" Grid.ColumnSpan="2" HorizontalAlignment="Center" />
 
-                    <ToggleButton IsChecked="{Binding Path=IsListFilteredByMapBoundary}" ToolTip="Show only aircrafts visible on map" Grid.Row="1" HorizontalAlignment="Center" Grid.ColumnSpan="2"
-                                  x:Name="MapListFilterToggle"/>
+                    <ToggleButton IsChecked="{Binding Path=IsListFilteredByMapBoundary}"
+                                  ToolTip="Show only aircrafts visible on map" Grid.Row="1"
+                                  HorizontalAlignment="Center" Grid.ColumnSpan="2"
+                                  x:Name="MapListFilterToggle" />
                 </Grid>
-                
+
                 <Button Command="{Binding Path=ShowSettingsCommand}" Margin="5" Grid.Column="3"
                         Style="{StaticResource MaterialDesignFlatButton}">
-                    <materialDesign:PackIcon Kind="Settings"></materialDesign:PackIcon>
+                    <materialDesign:PackIcon Kind="Settings" />
                 </Button>
             </Grid>
             <ListView ItemsSource="{Binding Path=Aircrafts}" Grid.Row="1"
@@ -169,18 +168,19 @@
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ContentControl">
-                        <Setter Property="Visibility" Value="Visible"></Setter>
+                        <Setter Property="Visibility" Value="Visible" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=IsVisible}" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
-                    <DataTemplate DataType="local:IAircraftItemViewModel">
+                    <DataTemplate DataType="viewModels:IAircraftItemViewModel">
                         <Border HorizontalAlignment="Stretch" Padding="0" Margin="0,2" BorderThickness="1"
-                                BorderBrush="Black" Background="White" Visibility="{Binding Path=IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                BorderBrush="Black" Background="White"
+                                Visibility="{Binding Path=IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                             <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="300" />
@@ -197,7 +197,8 @@
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Paintbrush" />
                                         <Separator Width="3" Visibility="Hidden" />
-                                        <TextBlock Text="{Binding Path=LastPartOfLiveryPath}" TextWrapping="Wrap" Margin="0,0,0,3"
+                                        <TextBlock Text="{Binding Path=LastPartOfLiveryPath}" TextWrapping="Wrap"
+                                                   Margin="0,0,0,3"
                                                    Foreground="Black" />
                                     </StackPanel>
                                 </StackPanel>
@@ -237,7 +238,8 @@
 
                                 <Border
                                     Visibility="{Binding Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    BorderThickness="5" BorderBrush="{StaticResource PrimaryHueMidBrush}" Grid.ColumnSpan="2" Margin="-5"/>
+                                    BorderThickness="5" BorderBrush="{StaticResource PrimaryHueMidBrush}"
+                                    Grid.ColumnSpan="2" Margin="-5" />
                             </Grid>
                         </Border>
                     </DataTemplate>

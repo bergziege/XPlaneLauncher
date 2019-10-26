@@ -1,7 +1,8 @@
-﻿using MaterialDesignThemes.Wpf;
-using XPlaneLauncher.Settings.ViewModels;
+﻿using XPlaneLauncher.Ui.Modules.Settings.ViewModels;
+using XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime;
+using XPlaneLauncher.Ui.Modules.Settings.Views;
 
-namespace XPlaneLauncher.Settings.ViewCommands {
+namespace XPlaneLauncher.Ui.Modules.Settings.ViewCommands {
     public class SettingsViewCommand {
         public void Execute() {
             var view = new SettingsView();

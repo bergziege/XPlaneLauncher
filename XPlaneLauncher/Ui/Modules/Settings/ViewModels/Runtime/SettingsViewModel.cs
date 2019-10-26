@@ -5,16 +5,15 @@ using Ookii.Dialogs.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace XPlaneLauncher.Settings.ViewModels {
+namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
     public class SettingsViewModel : BindableBase, ISettingsViewModel {
-        private string _xPlaneRootPath;
-        private string _xPlaneSituationPath;
+        private DelegateCommand _cancelCommand;
+        private DelegateCommand _createLuaScriptCommand;
         private string _dataPath;
         private DelegateCommand _finishCommand;
-        private DelegateCommand _cancelCommand;
-        private DelegateCommand _selectRootPathCommand;
         private DelegateCommand _selectDataPathCommand;
-        private DelegateCommand _createLuaScriptCommand;
+        private DelegateCommand _selectRootPathCommand;
+        private string _xPlaneRootPath;
 
         public SettingsViewModel() {
             XPlaneRootPath = Properties.Settings.Default.XPlaneRootPath;
@@ -33,30 +32,40 @@ namespace XPlaneLauncher.Settings.ViewModels {
 
         public DelegateCommand FinishCommand {
             get {
-                if (_finishCommand == null) _finishCommand = new DelegateCommand(OnFinish, CanFinish);
+                if (_finishCommand == null) {
+                    _finishCommand = new DelegateCommand(OnFinish, CanFinish);
+                }
+
                 return _finishCommand;
             }
         }
 
         public DelegateCommand CancelCommand {
             get {
-                if (_cancelCommand == null) _cancelCommand = new DelegateCommand(OnCancel, CanCancel);
+                if (_cancelCommand == null) {
+                    _cancelCommand = new DelegateCommand(OnCancel, CanCancel);
+                }
+
                 return _cancelCommand;
             }
         }
 
         public DelegateCommand SelectRootPathCommand {
             get {
-                if (_selectRootPathCommand == null)
+                if (_selectRootPathCommand == null) {
                     _selectRootPathCommand = new DelegateCommand(OnSelectRootPath, CanSelectRootPath);
+                }
+
                 return _selectRootPathCommand;
             }
         }
 
         public DelegateCommand SelectDataPathCommand {
             get {
-                if (_selectDataPathCommand == null)
+                if (_selectDataPathCommand == null) {
                     _selectDataPathCommand = new DelegateCommand(OnSelectDataPath, CanSelectDataPath);
+                }
+
                 return _selectDataPathCommand;
             }
         }
@@ -66,8 +75,10 @@ namespace XPlaneLauncher.Settings.ViewModels {
 
         public DelegateCommand CreateLuaScriptCommand {
             get {
-                if (_createLuaScriptCommand == null)
+                if (_createLuaScriptCommand == null) {
                     _createLuaScriptCommand = new DelegateCommand(OnCreateLuaScript, CanCreateLuaScript);
+                }
+
                 return _createLuaScriptCommand;
             }
         }
@@ -77,8 +88,10 @@ namespace XPlaneLauncher.Settings.ViewModels {
         }
 
         private bool LuaScriptPathExists() {
-            return Directory.Exists(Path.Combine(XPlaneRootPath,
-                Properties.Settings.Default.LuaPathRelativeToXPlaneRoot));
+            return Directory.Exists(
+                Path.Combine(
+                    XPlaneRootPath,
+                    Properties.Settings.Default.LuaPathRelativeToXPlaneRoot));
         }
 
         private void OnCreateLuaScript() {
@@ -87,9 +100,12 @@ namespace XPlaneLauncher.Settings.ViewModels {
 
         private void CreateLuaScript() {
             string luaScript = File.ReadAllText("./Assets/LuaScript/BasicInfoLogger.lua");
-            luaScript = luaScript.Replace("####",
-                $"{DataPath.Replace("\\","/")}/");
-            File.WriteAllText(Path.Combine(XPlaneRootPath, Properties.Settings.Default.LuaPathRelativeToXPlaneRoot,Properties.Settings.Default.LuaScriptFileName), luaScript);
+            luaScript = luaScript.Replace(
+                "####",
+                $"{DataPath.Replace("\\", "/")}/");
+            File.WriteAllText(
+                Path.Combine(XPlaneRootPath, Properties.Settings.Default.LuaPathRelativeToXPlaneRoot, Properties.Settings.Default.LuaScriptFileName),
+                luaScript);
         }
 
         private bool AllPathsExist() {
@@ -124,11 +140,11 @@ namespace XPlaneLauncher.Settings.ViewModels {
         }
 
         private void OnSelectRootPath() {
-            var ofd = new OpenFileDialog();
+            OpenFileDialog ofd = new OpenFileDialog();
             ofd.InitialDirectory = XPlaneRootPath;
             ofd.Filter =
                 $"{Properties.Settings.Default.XPlaneExecutableFile} | {Properties.Settings.Default.XPlaneExecutableFile}";
-            var showDialog = ofd.ShowDialog();
+            bool? showDialog = ofd.ShowDialog();
             if (showDialog.HasValue && showDialog.Value) {
                 XPlaneRootPath = Path.GetDirectoryName(ofd.FileName);
                 CommandsRaiseCanExecuteChanged();
@@ -140,9 +156,9 @@ namespace XPlaneLauncher.Settings.ViewModels {
         }
 
         private void OnSelectDataPath() {
-            var browserDialog = new VistaFolderBrowserDialog();
+            VistaFolderBrowserDialog browserDialog = new VistaFolderBrowserDialog();
             browserDialog.SelectedPath = DataPath;
-            var showDialog = browserDialog.ShowDialog();
+            bool? showDialog = browserDialog.ShowDialog();
             if (showDialog.HasValue && showDialog.Value) {
                 DataPath = browserDialog.SelectedPath;
                 CommandsRaiseCanExecuteChanged();

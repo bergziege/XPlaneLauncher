@@ -91,32 +91,32 @@
     <Compile Include="Dtos\Polyline.cs" />
     <Compile Include="Map\AircraftItem.cs" />
     <Compile Include="Services\AircraftService.cs" />
-    <Compile Include="Settings\DesignViewModels\SettingsDesignViewModel.cs" />
-    <Compile Include="Settings\ISettingsViewModel.cs" />
-    <Compile Include="Settings\SettingsView.xaml.cs">
+    <Compile Include="Ui\Modules\Settings\ViewModels\Design\SettingsDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\Settings\ViewModels\ISettingsViewModel.cs" />
+    <Compile Include="Ui\Modules\Settings\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings\ViewCommands\SettingsViewCommand.cs" />
-    <Compile Include="Settings\ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\AircraftItemViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Ui\Modules\Settings\ViewCommands\SettingsViewCommand.cs" />
+    <Compile Include="Ui\Modules\Settings\ViewModels\Runtime\SettingsViewModel.cs" />
+    <Compile Include="Ui\Shell\ViewModels\Runtime\AircraftItemViewModel.cs" />
+    <Compile Include="Ui\Shell\ViewModels\Runtime\MainViewModel.cs" />
+    <Page Include="Ui\Shell\Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="DesignViewModels\AircraftItemDesignViewModel.cs" />
+    <Compile Include="Ui\Shell\ViewModels\Design\AircraftItemDesignViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IAircraftItemViewModel.cs" />
-    <Compile Include="IMainViewModel.cs" />
-    <Compile Include="DesignViewModels\MainViewDesignViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Ui\Shell\ViewModels\IAircraftItemViewModel.cs" />
+    <Compile Include="Ui\Shell\ViewModels\IMainViewModel.cs" />
+    <Compile Include="Ui\Shell\ViewModels\Design\MainViewDesignViewModel.cs" />
+    <Compile Include="Ui\Shell\Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Settings\SettingsView.xaml">
+    <Page Include="Ui\Modules\Settings\Views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

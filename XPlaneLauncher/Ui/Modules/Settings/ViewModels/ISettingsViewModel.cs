@@ -1,7 +1,7 @@
 ﻿using System;
 using Prism.Commands;
 
-namespace XPlaneLauncher.Settings {
+namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels {
     public interface ISettingsViewModel {
         string XPlaneRootPath { get; set; }
 

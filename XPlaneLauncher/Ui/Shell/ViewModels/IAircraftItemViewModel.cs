@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using MapControl;
 using Prism.Commands;
 using XPlaneLauncher.Dtos;
-using XPlaneLauncher.ViewModels;
 
-namespace XPlaneLauncher
+namespace XPlaneLauncher.Ui.Shell.ViewModels
 {
     public interface IAircraftItemViewModel  :INotifyPropertyChanged
     {
