@@ -86,6 +86,7 @@
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Domain\AircraftInformation.cs" />
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
+    <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Dtos\AircraftDto.cs" />
     <Compile Include="Dtos\MapBoundary.cs" />
     <Compile Include="Dtos\Polyline.cs" />

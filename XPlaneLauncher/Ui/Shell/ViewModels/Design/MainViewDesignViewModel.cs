@@ -38,6 +38,5 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Design {
 
         public DelegateCommand ShowSettingsCommand => new DelegateCommand(() => { });
         public DelegateCommand StartSimCommand { get; } = new DelegateCommand(() => { });
-        public DelegateCommand UnselectAircraftCommand { get; } = new DelegateCommand(() => { });
     }
 }

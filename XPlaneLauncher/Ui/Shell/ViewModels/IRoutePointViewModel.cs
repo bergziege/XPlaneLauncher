@@ -7,5 +7,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels {
         Location Location { get; }
         void Deselect();
         void Select();
+        string Name { get; set; }
+        string Comment { get; set; }
     }
 }

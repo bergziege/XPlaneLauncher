@@ -145,16 +145,6 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
             }
         }
 
-        public DelegateCommand UnselectAircraftCommand {
-            get {
-                if (_unselectAircraftCommand == null) {
-                    _unselectAircraftCommand = new DelegateCommand(UnselectAircraft);
-                }
-
-                return _unselectAircraftCommand;
-            }
-        }
-
         private void CheckSettings() {
             if (!Directory.Exists(Properties.Settings.Default.XPlaneRootPath) || !Directory.Exists(Properties.Settings.Default.DataPath)
                                                                               || !File.Exists(
@@ -241,10 +231,6 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
 
         private void OnShowSetting() {
             new SettingsViewCommand().Execute();
-        }
-
-        private void UnselectAircraft() {
-            SelectedAircraft = null;
         }
 
         private void ApplyMapCenterAsTargetOnAircraftInSelectionMode(Location target) {

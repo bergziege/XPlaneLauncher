@@ -27,8 +27,6 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels {
 
         ObservableCollection<IRoutePointViewModel> PathsPoints { get; }
 
-        DelegateCommand UnselectAircraftCommand { get; }
-
         DelegateCommand ShowSettingsCommand { get; }
 
         DelegateCommand<MapBoundary> MapBoundariesChangedCommand { get; }

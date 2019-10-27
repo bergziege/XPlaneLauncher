@@ -142,6 +142,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="565" />
             <ColumnDefinition />
+            <ColumnDefinition Width="300"/>
         </Grid.ColumnDefinitions>
 
         <Grid>
@@ -270,98 +271,104 @@
             </ListView>
             <Button Content="Start" Command="{Binding Path=StartSimCommand}" Grid.Row="2" Margin="5" />
         </Grid>
-        <Grid Grid.Column="1">
+        <mapControl:Map MapLayer="{x:Static mapControl:MapTileLayer.OpenStreetMapTileLayer}"
+                        Center="{Binding Path=MapCenter}"
+                        MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
+                        x:Name="Map"
+                        ViewportChanged="Map_OnViewportChanged" Grid.Column="1">
+            <mapControl:MapItemsControl ItemsSource="{Binding Path=MapAircraftItems}"
+                                        ItemContainerStyle="{StaticResource PointItemStyle}"
+                                        SelectionMode="Single"
+                                        IsSynchronizedWithCurrentItem="True" />
+
+            <mapControl:MapItemsControl ItemsSource="{Binding SelectedAircraft.PathToTarget}"
+                                        ItemTemplate="{StaticResource SelectedPolylineItemTemplate}" />
+            <mapControl:MapItemsControl ItemsSource="{Binding PathsToTarget}"
+                                        ItemTemplate="{StaticResource PolylineItemTemplate}" />
+            <mapControl:MapItemsControl ItemsSource="{Binding PathsPoints}"
+                                        ItemContainerStyle="{StaticResource PathPointItemStyle}" />
+        </mapControl:Map>
+        <Border Grid.Row="0"
+                Visibility="{Binding Path=IsMapInSelectionMode, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                BorderThickness="2" BorderBrush="Red" Grid.Column="1"/>
+
+        <Grid Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <mapControl:Map MapLayer="{x:Static mapControl:MapTileLayer.OpenStreetMapTileLayer}"
-                            Center="{Binding Path=MapCenter}"
-                            MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
-                            x:Name="Map"
-                            ViewportChanged="Map_OnViewportChanged">
-                <mapControl:MapItemsControl ItemsSource="{Binding Path=MapAircraftItems}"
-                                            ItemContainerStyle="{StaticResource PointItemStyle}"
-                                            SelectionMode="Single"
-                                            IsSynchronizedWithCurrentItem="True" />
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center" Margin="10" />
+                <TextBlock
+                    Text="{Binding Path=SelectedAircraft.DistanceToDestination, StringFormat=0.00 km}"
+                    Foreground="Black"
+                    VerticalAlignment="Center" /></StackPanel>
+            <StackPanel Grid.Row="0" Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=SelectedAircraft}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <Button Command="{Binding Path=SelectedAircraft.StartTargetSelectionModeCommand}"
+                        Visibility="{Binding Path=SelectedAircraft.IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}">
+                    <materialDesign:PackIcon Kind="Add"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" Margin="6" />
+                </Button>
+                <Button Command="{Binding Path=SelectedAircraft.EndTargetSelectionModeCommand}"
+                        Visibility="{Binding Path=SelectedAircraft.IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <materialDesign:PackIcon Kind="Close"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" Margin="6" />
+                </Button>
+                <Separator Width="5" Visibility="Hidden" />
+                <Button Command="{Binding Path=SelectedAircraft.RemoveSelectedRouteLocationCommand}">
+                    <materialDesign:PackIcon Kind="Delete"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" Margin="6" />
+                </Button>
+            </StackPanel>
 
-                <mapControl:MapItemsControl ItemsSource="{Binding SelectedAircraft.PathToTarget}"
-                                            ItemTemplate="{StaticResource SelectedPolylineItemTemplate}" />
-                <mapControl:MapItemsControl ItemsSource="{Binding PathsToTarget}"
-                                            ItemTemplate="{StaticResource PolylineItemTemplate}" />
-                <mapControl:MapItemsControl ItemsSource="{Binding PathsPoints}"
-                                            ItemContainerStyle="{StaticResource PathPointItemStyle}" />
-            </mapControl:Map>
-            <Border Grid.Row="0"
-                    Visibility="{Binding Path=IsMapInSelectionMode, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    BorderThickness="2" BorderBrush="Red" />
+            <ListBox ItemsSource="{Binding Path=SelectedAircraft.PlannedRoutePoints}"
+                     SelectedItem="{Binding Path=SelectedAircraft.SelectedPlannedRoutePoint}" Grid.Row="2"
+                     Margin="0"
+                     SelectionChanged="Selector_OnSelectionChanged"
+                     x:Name="RoutePointList" HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="viewModels:IRoutePointViewModel">
+                        <Border Margin="-8" Padding="8">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <materialDesign:Card>
+                            <StackPanel Margin="5">
+                            <TextBlock Text="{Binding Path=Location}" />
+                            <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" ></TextBox>
+                            <TextBox Text="{Binding Path=Comment}" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
-            <materialDesign:Card Grid.Row="0" VerticalAlignment="Bottom"
-                                 materialDesign:ShadowAssist.ShadowDepth="Depth3" Margin="10,10"
-                                 HorizontalAlignment="Right">
-                <Grid Height="200" Width="250">
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Setter Property="Visibility" Value="Visible" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedAircraft}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
+            
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <ListBox ItemsSource="{Binding Path=SelectedAircraft.PlannedRoutePoints}"
-                             SelectedItem="{Binding Path=SelectedAircraft.SelectedPlannedRoutePoint}" Grid.Row="1"
-                             Margin="10"
-                             SelectionChanged="Selector_OnSelectionChanged"
-                             x:Name="RoutePointList">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate DataType="viewModels:IRoutePointViewModel">
-                                <TextBlock Text="{Binding Path=Location}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-
-                    <StackPanel Grid.Column="1" Grid.Row="1" Margin="10">
-                        <Button Command="{Binding Path=SelectedAircraft.StartTargetSelectionModeCommand}"
-                                Visibility="{Binding Path=SelectedAircraft.IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}">
-                            <materialDesign:PackIcon Kind="Edit"
-                                                     VerticalAlignment="Center"
-                                                     HorizontalAlignment="Center" Margin="6" />
-                        </Button>
-                        <Button Command="{Binding Path=SelectedAircraft.EndTargetSelectionModeCommand}"
-                                Visibility="{Binding Path=SelectedAircraft.IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <materialDesign:PackIcon Kind="EditOff"
-                                                     VerticalAlignment="Center"
-                                                     HorizontalAlignment="Center" Margin="6" />
-                        </Button>
-                        <Separator Height="3" Visibility="Hidden" />
-                        <Button Command="{Binding Path=SelectedAircraft.RemoveSelectedRouteLocationCommand}">
-                            <materialDesign:PackIcon Kind="Delete"
-                                                     VerticalAlignment="Center"
-                                                     HorizontalAlignment="Center" Margin="6" />
-                        </Button>
-                    </StackPanel>
-
-                    <Button Command="{Binding Path=UnselectAircraftCommand}"
-                            Margin="10" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom"
-                            Style="{StaticResource MaterialDesignFlatButton}">
-                        <materialDesign:PackIcon Kind="Close"
-                                                 VerticalAlignment="Center"
-                                                 HorizontalAlignment="Center" Margin="6" />
-                    </Button>
-                </Grid>
-            </materialDesign:Card>
+            
         </Grid>
+
+
     </Grid>
 </Window>
