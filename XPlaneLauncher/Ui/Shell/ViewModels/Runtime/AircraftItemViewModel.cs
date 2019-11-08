@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -139,7 +140,14 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
                 PlannedRoutePoints = new ObservableCollection<IRoutePointViewModel>(
                     aircraftLauncherInformation.TargetLocation.Select(x => new RoutePointViewModel(x)).ToList());
                 foreach (IRoutePointViewModel routePointViewModel in PlannedRoutePoints) {
+                    if (aircraftLauncherInformation.LocationInformations != null && aircraftLauncherInformation.LocationInformations.ContainsKey(routePointViewModel.Location)) {
+                        LocationInformation locationInformation = aircraftLauncherInformation.LocationInformations[routePointViewModel.Location];
+                        routePointViewModel.Name = locationInformation.Name;
+                        routePointViewModel.Comment = locationInformation.Comment;
+                    }
                     PropertyChangedEventManager.AddListener(routePointViewModel, this, nameof(routePointViewModel.IsSelected));
+                    PropertyChangedEventManager.AddListener(routePointViewModel, this, nameof(routePointViewModel.Name));
+                    PropertyChangedEventManager.AddListener(routePointViewModel, this, nameof(routePointViewModel.Comment));
                 }
                 UpdatePlannedRoutePathAndDistance();
             }
@@ -203,14 +211,29 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
         }
 
         private void SaveLauncherInfo() {
+            IDictionary<Location, LocationInformation> locationInformations = new Dictionary<Location, LocationInformation>();
+            foreach (IRoutePointViewModel routePointViewModel in PlannedRoutePoints) {
+                locationInformations.Add(routePointViewModel.Location, new LocationInformation(){Name = routePointViewModel.Name, Comment = routePointViewModel.Comment});
+            }
             _aircraftService.SaveLauncherInformation(
                 AircraftDto,
-                new AircraftLauncherInformation() { TargetLocation = PlannedRoutePoints.Select(x => x.Location).ToList() });
+                new AircraftLauncherInformation() {
+                    TargetLocation = locationInformations.Keys.ToList(),
+                    LocationInformations = locationInformations
+                });
         }
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
-            if (sender is IRoutePointViewModel routePointViewModel && e is PropertyChangedEventArgs args && args.PropertyName == nameof(routePointViewModel.IsSelected)) {
-                SelectedPlannedRoutePoint = PlannedRoutePoints.FirstOrDefault(x => x.IsSelected);
+            if (sender is IRoutePointViewModel routePointViewModel && e is PropertyChangedEventArgs args) {
+                switch (args.PropertyName) {
+                    case nameof(routePointViewModel.IsSelected):
+                        SelectedPlannedRoutePoint = PlannedRoutePoints.FirstOrDefault(x => x.IsSelected);
+                        break;
+                    case nameof(routePointViewModel.Name):
+                    case nameof(routePointViewModel.Comment):
+                        SaveLauncherInfo();
+                        break;
+                }
             }
             return true;
         }

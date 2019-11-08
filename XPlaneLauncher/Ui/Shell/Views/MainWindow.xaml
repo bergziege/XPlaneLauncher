@@ -355,8 +355,8 @@
                             <materialDesign:Card>
                             <StackPanel Margin="5">
                             <TextBlock Text="{Binding Path=Location}" />
-                            <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" ></TextBox>
-                            <TextBox Text="{Binding Path=Comment}" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
+                            <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" FontWeight="Bold" ></TextBox>
+                            <TextBox Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged, Delay=200}" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
                             </StackPanel>
                         </materialDesign:Card>
                         </Border>
