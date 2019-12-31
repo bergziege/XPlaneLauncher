@@ -42,3 +42,7 @@ The app is currently fully functional. As my time permits (about 1h per months ;
 Issues, ideas and pull requests are welcome!
 
 There will be no version for Linux/Mac from my side. But feel free to fork or use the general launcher idea.
+
+## Distribution
+
+https://forums.x-plane.org/index.php?/files/file/55402-x-plane-launcher/
