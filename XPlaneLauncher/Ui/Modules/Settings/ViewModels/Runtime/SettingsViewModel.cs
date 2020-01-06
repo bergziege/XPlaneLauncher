@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using Prism.Commands;
@@ -14,6 +17,7 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         private DelegateCommand _selectDataPathCommand;
         private DelegateCommand _selectRootPathCommand;
         private string _xPlaneRootPath;
+        private string _errorMessage;
 
         public SettingsViewModel() {
             XPlaneRootPath = Properties.Settings.Default.XPlaneRootPath;
@@ -83,6 +87,11 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
             }
         }
 
+        public string ErrorMessage {
+            get { return _errorMessage; }
+            private set { SetProperty(ref _errorMessage, value, nameof(ErrorMessage)); }
+        }
+
         private bool CanCreateLuaScript() {
             return AllPathsExist() && LuaScriptPathExists();
         }
@@ -109,7 +118,24 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         }
 
         private bool AllPathsExist() {
-            return Directory.Exists(XPlaneRootPath) && Directory.Exists(DataPath);
+            IList<string> errors = new List<string>();
+            bool pathsExists = true;
+            if (!Directory.Exists(XPlaneRootPath)) {
+                pathsExists = false;
+                errors.Add("X-Plane root not found.");
+            }
+
+            if (!Directory.Exists(DataPath)) {
+                pathsExists = false;
+                errors.Add("Data directory not found.");
+            }
+
+            if (errors.Any()) {
+                ErrorMessage = string.Join(", ", errors);
+            } else {
+                ErrorMessage = null;
+            }
+            return pathsExists ;
         }
 
         private void OnFinish() {

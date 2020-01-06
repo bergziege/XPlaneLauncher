@@ -12,5 +12,7 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Design {
         public event EventHandler RequestCloseOnCancel;
         public event EventHandler RequestCloseOnFinish;
         public DelegateCommand CreateLuaScriptCommand { get; } = new DelegateCommand(() => { });
+
+        public string ErrorMessage { get; } = "Ein etwas längerer Fehler mit bissl Text aber ohne Sinn.";
     }
 }

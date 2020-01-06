@@ -20,5 +20,7 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels {
         event EventHandler RequestCloseOnFinish;
 
         DelegateCommand CreateLuaScriptCommand { get; }
+
+        string ErrorMessage { get; }
     }
 }
