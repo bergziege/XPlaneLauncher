@@ -7,30 +7,30 @@ using XPlaneLauncher.Map;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels {
     public interface IMainViewModel : INotifyPropertyChanged {
-        DelegateCommand RefreshCommand { get; }
+        //DelegateCommand RefreshCommand { get; }
 
-        DelegateCommand StartSimCommand { get; }
+        //DelegateCommand StartSimCommand { get; }
 
-        ObservableCollection<IAircraftItemViewModel> Aircrafts { get; }
+        //ObservableCollection<IAircraftItemViewModel> Aircrafts { get; }
 
-        IAircraftItemViewModel SelectedAircraft { get; set; }
+        //IAircraftItemViewModel SelectedAircraft { get; set; }
 
-        ObservableCollection<AircraftItem> MapAircraftItems { get; }
+        //ObservableCollection<AircraftItem> MapAircraftItems { get; }
 
-        Location MapCenter { get; set; }
+        //Location MapCenter { get; set; }
 
-        bool IsMapInSelectionMode { get; }
+        //bool IsMapInSelectionMode { get; }
 
-        DelegateCommand<Location> ApplyTargetCommand { get; }
+        //DelegateCommand<Location> ApplyTargetCommand { get; }
 
-        ObservableCollection<Polyline> PathsToTarget { get; }
+        //ObservableCollection<Polyline> PathsToTarget { get; }
 
-        ObservableCollection<IRoutePointViewModel> PathsPoints { get; }
+        //ObservableCollection<IRoutePointViewModel> PathsPoints { get; }
 
-        DelegateCommand ShowSettingsCommand { get; }
+        //DelegateCommand ShowSettingsCommand { get; }
 
-        DelegateCommand<MapBoundary> MapBoundariesChangedCommand { get; }
+        //DelegateCommand<MapBoundary> MapBoundariesChangedCommand { get; }
 
-        bool IsListFilteredByMapBoundary { get; set; }
+        //bool IsListFilteredByMapBoundary { get; set; }
     }
 }

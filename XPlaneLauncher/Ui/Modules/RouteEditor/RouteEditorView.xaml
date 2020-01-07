@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="XPlaneLauncher.Ui.Modules.RouteEditor.RouteEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:XPlaneLauncher.Ui.Modules.RouteEditor"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewModels="clr-namespace:XPlaneLauncher.Ui.Shell.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!--<Grid Grid.Column="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center" Margin="10" />
+            <TextBlock
+                    Text="{Binding Path=SelectedAircraft.DistanceToDestination, StringFormat=0.00 km}"
+                    Foreground="Black"
+                    VerticalAlignment="Center" />
+        </StackPanel>
+        <StackPanel Grid.Row="0" Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=SelectedAircraft}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <Button Command="{Binding Path=SelectedAircraft.StartTargetSelectionModeCommand}"
+                        Visibility="{Binding Path=SelectedAircraft.IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}">
+                <materialDesign:PackIcon Kind="Add"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" Margin="6" />
+            </Button>
+            <Button Command="{Binding Path=SelectedAircraft.EndTargetSelectionModeCommand}"
+                        Visibility="{Binding Path=SelectedAircraft.IsInTargetSelectionMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <materialDesign:PackIcon Kind="Close"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" Margin="6" />
+            </Button>
+            <Separator Width="5" Visibility="Hidden" />
+            <Button Command="{Binding Path=SelectedAircraft.RemoveSelectedRouteLocationCommand}">
+                <materialDesign:PackIcon Kind="Delete"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center" Margin="6" />
+            </Button>
+        </StackPanel>
+
+        <ListBox ItemsSource="{Binding Path=SelectedAircraft.PlannedRoutePoints}"
+                     SelectedItem="{Binding Path=SelectedAircraft.SelectedPlannedRoutePoint}" Grid.Row="2"
+                     Margin="0"
+                     SelectionChanged="Selector_OnSelectionChanged"
+                     x:Name="RoutePointList" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="viewModels:IRoutePointViewModel">
+                    <Border Margin="-8" Padding="8">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                        <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <materialDesign:Card>
+                            <StackPanel Margin="5">
+                                <TextBlock Text="{Binding Path=Location}" />
+                                <TextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" FontWeight="Bold" ></TextBox>
+                                <TextBox Text="{Binding Path=Comment, UpdateSourceTrigger=PropertyChanged, Delay=200}" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
+
+
+    </Grid>-->
+</UserControl>

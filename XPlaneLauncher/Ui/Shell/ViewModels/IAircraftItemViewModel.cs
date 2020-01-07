@@ -8,39 +8,39 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels
 {
     public interface IAircraftItemViewModel  :INotifyPropertyChanged
     {
-        string ThumbnailPath { get; }
+        //string ThumbnailPath { get; }
 
-        string Name { get; }
+        //string Name { get; }
 
-        string Livery { get; }
+        //string Livery { get; }
 
-        string LastPartOfLiveryPath { get; }
+        //string LastPartOfLiveryPath { get; }
 
-        bool HasSitFile { get; }
+        //bool HasSitFile { get; }
 
-        bool HasThumbnail { get; }
+        //bool HasThumbnail { get; }
 
-        bool IsSelected { get; set; }
+        //bool IsSelected { get; set; }
 
-        AircraftDto AircraftDto { get; }
+        //AircraftDto AircraftDto { get; }
 
-        bool IsInTargetSelectionMode { get; }
+        //bool IsInTargetSelectionMode { get; }
 
-        DelegateCommand StartTargetSelectionModeCommand { get; }
+        //DelegateCommand StartTargetSelectionModeCommand { get; }
 
-        DelegateCommand EndTargetSelectionModeCommand { get; }
+        //DelegateCommand EndTargetSelectionModeCommand { get; }
 
-        ObservableCollection<IRoutePointViewModel> PlannedRoutePoints { get; }
-        void AddToPlannedRoute(Location location);
-        DelegateCommand RemoveSelectedRouteLocationCommand { get; }
-        IAircraftItemViewModel Initialize(AircraftDto aircraft);
+        //ObservableCollection<IRoutePointViewModel> PlannedRoutePoints { get; }
+        //void AddToPlannedRoute(Location location);
+        //DelegateCommand RemoveSelectedRouteLocationCommand { get; }
+        //IAircraftItemViewModel Initialize(AircraftDto aircraft);
 
-        ObservableCollection<Polyline> PathToTarget { get; }
+        //ObservableCollection<Polyline> PathToTarget { get; }
 
-        double? DistanceToDestination { get; }
+        //double? DistanceToDestination { get; }
 
-        IRoutePointViewModel SelectedPlannedRoutePoint { get; set; }
+        //IRoutePointViewModel SelectedPlannedRoutePoint { get; set; }
 
-        bool IsVisible { get; set; }
+        //bool IsVisible { get; set; }
     }
 }
