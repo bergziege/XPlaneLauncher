@@ -8,7 +8,6 @@ using XPlaneLauncher.Repositories.Impl;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Services.Impl;
 using XPlaneLauncher.Ui.Modules.AircraftList;
-using XPlaneLauncher.Ui.Shell.ViewModels.Runtime;
 using XPlaneLauncher.Ui.Shell.Views;
 
 namespace XPlaneLauncher {
@@ -22,8 +21,11 @@ namespace XPlaneLauncher {
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry) {
-            containerRegistry.Register<IAircraftRepository, AircraftRepository>();
-            containerRegistry.Register<IAircraftDao, AircraftDao>();
+            containerRegistry.Register<IAircraftModelRepository, AircraftModelRepository>();
+            containerRegistry.Register<IAircraftInformationDao, AircraftInformationDao>();
+            containerRegistry.Register<ILauncherInformationDao, LauncherInformationDao>();
+            containerRegistry.Register<ISitFileDao, SitFileDao>();
+            containerRegistry.Register<IThumbnailDao, ThumbnailDao>();
             containerRegistry.Register<IAircraftService, AircraftService>();
         }
 

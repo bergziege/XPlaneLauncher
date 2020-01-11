@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using XPlaneLauncher.Domain;
+using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Repositories.Impl {
-    public class AircraftRepository : IAircraftRepository{
+    public class AircraftModelRepository : IAircraftModelRepository {
         public IList<Aircraft> Aircrafts { get; } = new List<Aircraft>();
     }
 }

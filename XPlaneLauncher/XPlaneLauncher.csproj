@@ -109,17 +109,28 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
-    <Compile Include="Domain\Aircraft.cs" />
     <Compile Include="Domain\AircraftInformation.cs" />
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
     <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Dtos\MapBoundary.cs" />
     <Compile Include="Dtos\Polyline.cs" />
+    <Compile Include="Extensions\FileInfoExtension.cs" />
     <Compile Include="Map\AircraftItem.cs" />
-    <Compile Include="Persistence\IAircraftDao.cs" />
-    <Compile Include="Persistence\Impl\AircraftDao.cs" />
-    <Compile Include="Repositories\IAircraftRepository.cs" />
-    <Compile Include="Repositories\Impl\AircraftRepository.cs" />
+    <Compile Include="Model\Aircraft.cs" />
+    <Compile Include="Model\RoutePoint.cs" />
+    <Compile Include="Model\Situation.cs" />
+    <Compile Include="Model\Thumbnail.cs" />
+    <Compile Include="Persistence\IAircraftInformationDao.cs" />
+    <Compile Include="Persistence\ILauncherInformationDao.cs" />
+    <Compile Include="Persistence\Impl\AircraftInformationDao.cs" />
+    <Compile Include="Persistence\Impl\LauncherInformationDao.cs" />
+    <Compile Include="Persistence\Impl\SitFileDao.cs" />
+    <Compile Include="Persistence\Impl\ThumbnailDao.cs" />
+    <Compile Include="Persistence\ISitFileDao.cs" />
+    <Compile Include="Persistence\IThumbnailDao.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Repositories\IAircraftModelRepository.cs" />
+    <Compile Include="Repositories\Impl\AircraftModelRepository.cs" />
     <Compile Include="Services\IAircraftService.cs" />
     <Compile Include="Services\Impl\AircraftService.cs" />
     <Compile Include="Ui\Modules\AircraftList\AircraftListModule.cs" />
