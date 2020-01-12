@@ -1,7 +1,14 @@
-﻿using Prism.Commands;
+﻿using System.Collections.ObjectModel;
+using Prism.Commands;
+using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Design {
     public class AircraftListDesignViewModel : IAircraftListViewModel {
-        public DelegateCommand ReloadCommand { get; } = new DelegateCommand(()=>{});
+        public ObservableCollection<Aircraft> Aircrafts { get; } = new ObservableCollection<Aircraft>();
+        public DelegateCommand ReloadCommand { get; } = new DelegateCommand(() => { });
+
+        public Aircraft SelectedAircraft { get; set; }
+
+        public DelegateCommand StartSimCommand { get; } = new DelegateCommand(()=>{});
     }
 }

@@ -1,12 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using MapControl;
-using Prism.Commands;
-using Prism.Mvvm;
-using XPlaneLauncher.Dtos;
-using XPlaneLauncher.Map;
+﻿using Prism.Mvvm;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Design {
-    public class MainViewDesignViewModel : BindableBase, IMainViewModel {
+    public class MainViewDesignViewModel : BindableBase {
         //public MainViewDesignViewModel() {
         //    Aircrafts = new ObservableCollection<IAircraftItemViewModel>() {
         //        new AircraftItemDesignViewModel(true, false),

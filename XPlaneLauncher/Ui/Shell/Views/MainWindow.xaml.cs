@@ -21,9 +21,7 @@ namespace XPlaneLauncher.Ui.Shell.Views {
         }
 
         private void MainWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            if (DataContext is IMainViewModel vm) {
-                vm.PropertyChanged += Vm_PropertyChanged;
-            }
+            
         }
 
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {

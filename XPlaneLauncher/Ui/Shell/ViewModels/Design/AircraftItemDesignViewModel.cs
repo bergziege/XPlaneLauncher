@@ -6,7 +6,7 @@ using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Ui.Shell.ViewModels.Runtime;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Design {
-    public class AircraftItemDesignViewModel : BindableBase, IAircraftItemViewModel {
+    public class AircraftItemDesignViewModel : BindableBase {
         //public AircraftItemDesignViewModel(bool hasThumbnail, bool isSelected) {
         //    HasThumbnail = hasThumbnail;
         //    IsSelected = isSelected;

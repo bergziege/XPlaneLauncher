@@ -1,22 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using MapControl;
-using Prism.Commands;
 using Prism.Mvvm;
-using XPlaneLauncher.Dtos;
-using XPlaneLauncher.Map;
-using XPlaneLauncher.Services.Impl;
-using XPlaneLauncher.Ui.Modules.Settings.ViewCommands;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
-    public class MainViewModel : BindableBase, IMainViewModel, IWeakEventListener {
+    public class MainViewModel : BindableBase, IWeakEventListener {
         //private AircraftService _aircraftService;
         //private DelegateCommand<Location> _applyTargetCommand;
         //private bool _changingSelectedAicraftFromList;
@@ -135,16 +122,6 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
         //    }
         //}
 
-        //public DelegateCommand StartSimCommand {
-        //    get {
-        //        if (_startSimCommand == null) {
-        //            _startSimCommand = new DelegateCommand(OnStartSimRequested, CanStartSim);
-        //        }
-
-        //        return _startSimCommand;
-        //    }
-        //}
-
         //private void CheckSettings() {
         //    if (!Directory.Exists(Properties.Settings.Default.XPlaneRootPath) || !Directory.Exists(Properties.Settings.Default.DataPath)
         //                                                                      || !File.Exists(
@@ -153,50 +130,6 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
         //                                                                              Properties.Settings.Default.LuaPathRelativeToXPlaneRoot,
         //                                                                              Properties.Settings.Default.LuaScriptFileName))) {
         //        OnShowSetting();
-        //    }
-        //}
-
-        //private void OnRefreshRequested() {
-        //    IList<AircraftDto> aircraftDtos = _aircraftService.GetAircrafts();
-        //    Aircrafts.Clear();
-        //    MapAircraftItems.Clear();
-        //    foreach (AircraftDto aircraftDto in aircraftDtos) {
-        //        IAircraftItemViewModel itemViewModel =
-        //            new AircraftItemViewModel(_aircraftService).Initialize(aircraftDto);
-        //        PropertyChangedEventManager.AddListener(itemViewModel, this, nameof(itemViewModel.IsSelected));
-        //        PropertyChangedEventManager.AddListener(
-        //            itemViewModel,
-        //            this,
-        //            nameof(itemViewModel.IsInTargetSelectionMode));
-        //        PropertyChangedEventManager.AddListener(itemViewModel, this, nameof(itemViewModel.PlannedRoutePoints));
-        //        Aircrafts.Add(itemViewModel);
-        //        MapAircraftItems.Add(
-        //            new AircraftItem(
-        //                aircraftDto.LiveryName,
-        //                aircraftDto.Lat,
-        //                aircraftDto.Lon,
-        //                itemViewModel));
-        //    }
-
-        //    UpdateTargetPaths();
-        //    UpdatePathsPoints();
-        //}
-
-        //private bool CanStartSim() {
-        //    return SelectedAircraft != null && SelectedAircraft.HasSitFile;
-        //}
-
-        //private void OnStartSimRequested() {
-        //    string xplaneExecutable =
-        //        Path.Combine(Properties.Settings.Default.XPlaneRootPath, Properties.Settings.Default.XPlaneExecutableFile);
-        //    SelectedAircraft.AircraftDto.SitFile.CopyTo(
-        //        Path.Combine(
-        //            Properties.Settings.Default.XPlaneRootPath,
-        //            @"Output/Situations/default.sit"),
-        //        true);
-        //    FileInfo executable = new FileInfo(xplaneExecutable);
-        //    if (executable.Exists) {
-        //        Process.Start(xplaneExecutable);
         //    }
         //}
 

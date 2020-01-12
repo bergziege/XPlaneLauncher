@@ -1,10 +1,10 @@
 ﻿using System.Windows;
 using Prism.Ioc;
 using Prism.Modularity;
+using XPlaneLauncher.Model.Provider;
+using XPlaneLauncher.Model.Provider.Impl;
 using XPlaneLauncher.Persistence;
 using XPlaneLauncher.Persistence.Impl;
-using XPlaneLauncher.Repositories;
-using XPlaneLauncher.Repositories.Impl;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Services.Impl;
 using XPlaneLauncher.Ui.Modules.AircraftList;
@@ -21,7 +21,7 @@ namespace XPlaneLauncher {
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry) {
-            containerRegistry.Register<IAircraftModelRepository, AircraftModelRepository>();
+            containerRegistry.RegisterSingleton<IAircraftModelProvider, AircraftModelProvider>();
             containerRegistry.Register<IAircraftInformationDao, AircraftInformationDao>();
             containerRegistry.Register<ILauncherInformationDao, LauncherInformationDao>();
             containerRegistry.Register<ISitFileDao, SitFileDao>();

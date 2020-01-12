@@ -3,7 +3,7 @@ using MapControl;
 using Prism.Mvvm;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Design {
-    public class RoutePointDesignViewModel : BindableBase, IRoutePointViewModel {
+    public class RoutePointDesignViewModel : BindableBase {
         public string Comment { get; set; } = $"Testcomment{Environment.NewLine}Multilined";
         public bool IsSelected { get; set; } = true;
 

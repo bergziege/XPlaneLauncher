@@ -12,7 +12,7 @@ using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Services.Impl;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
-    public class AircraftItemViewModel : BindableBase, IAircraftItemViewModel, IWeakEventListener {
+    public class AircraftItemViewModel : BindableBase, IWeakEventListener {
         //private readonly AircraftService _aircraftService;
         //private double? _distanceToDestination;
         //private DelegateCommand _endTargetSelectioNmodeCommand;
@@ -71,13 +71,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
         //    set => SetProperty(ref _isVisible, value, nameof(IsVisible));
         //}
 
-        //public string LastPartOfLiveryPath {
-        //    get { return _lastPartOfLiveryPath; }
-        //    private set { SetProperty(ref _lastPartOfLiveryPath, value, nameof(LastPartOfLiveryPath)); }
-        //}
 
-        //public string Livery { get; private set; }
-        //public string Name { get; private set; }
 
         //public ObservableCollection<Polyline> PathToTarget { get; } = new ObservableCollection<Polyline>();
 
@@ -182,19 +176,7 @@ namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
         //    return SelectedPlannedRoutePoint != null;
         //}
 
-        //private string GetLastParthOfLiveryPath() {
-        //    string liveryToSplit = Livery;
-        //    if (liveryToSplit.EndsWith("/")) {
-        //        liveryToSplit = liveryToSplit.Substring(0, liveryToSplit.Length - 1);
-        //    }
-
-        //    string[] strings = liveryToSplit.Split('/');
-        //    if (strings.Any()) {
-        //        return strings.Last();
-        //    }
-
-        //    return string.Empty;
-        //}
+        
 
         //private void RemoveSelectedPlannedRoutePoint() {
         //    if (PlannedRoutePoints.Any() && SelectedPlannedRoutePoint != null) {

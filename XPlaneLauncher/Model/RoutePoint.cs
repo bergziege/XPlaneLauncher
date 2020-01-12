@@ -4,6 +4,7 @@ using Prism.Mvvm;
 namespace XPlaneLauncher.Model {
     public class RoutePoint : BindableBase {
         private string _description;
+        private bool _isSelected;
         private Location _location;
         private string _name;
 
@@ -14,6 +15,11 @@ namespace XPlaneLauncher.Model {
         public string Description {
             get { return _description; }
             set { SetProperty(ref _description, value); }
+        }
+
+        public bool IsSelected {
+            get { return _isSelected; }
+            set { SetProperty(ref _isSelected, value); }
         }
 
         public Location Location {

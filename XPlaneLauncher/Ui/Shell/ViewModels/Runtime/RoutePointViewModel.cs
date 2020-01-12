@@ -2,7 +2,7 @@
 using Prism.Mvvm;
 
 namespace XPlaneLauncher.Ui.Shell.ViewModels.Runtime {
-    public class RoutePointViewModel : BindableBase, IRoutePointViewModel {
+    public class RoutePointViewModel : BindableBase {
         private bool _isSelected;
         private Location _location;
         private string _name;
