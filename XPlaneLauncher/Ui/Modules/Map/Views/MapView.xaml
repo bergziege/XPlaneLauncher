@@ -143,7 +143,7 @@
                         MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
                         x:Name="Map"
                         ViewportChanged="Map_OnViewportChanged" Grid.Column="1">
-            <mapControl:MapItemsControl ItemsSource="{Binding Path=MapAircraftItems}"
+            <mapControl:MapItemsControl ItemsSource="{Binding Path=Aircrafts}"
                                         ItemContainerStyle="{StaticResource PointItemStyle}"
                                         SelectionMode="Single"
                                         IsSynchronizedWithCurrentItem="True" />
