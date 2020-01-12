@@ -139,7 +139,11 @@
     <Compile Include="Ui\Modules\AircraftList\Views\AircraftListView.xaml.cs">
       <DependentUpon>AircraftListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\Modules\Map\MapView.xaml.cs">
+    <Compile Include="Ui\Modules\Map\MapModule.cs" />
+    <Compile Include="Ui\Modules\Map\ViewModels\Design\MapDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\Map\ViewModels\IMapViewModel.cs" />
+    <Compile Include="Ui\Modules\Map\ViewModels\Runtime\MapViewModel.cs" />
+    <Compile Include="Ui\Modules\Map\Views\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ui\Modules\RouteEditor\RouteEditorView.xaml.cs">
@@ -160,7 +164,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\Modules\Map\MapView.xaml">
+    <Page Include="Ui\Modules\Map\Views\MapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

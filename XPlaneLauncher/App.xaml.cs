@@ -8,6 +8,7 @@ using XPlaneLauncher.Persistence.Impl;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Services.Impl;
 using XPlaneLauncher.Ui.Modules.AircraftList;
+using XPlaneLauncher.Ui.Modules.Map;
 using XPlaneLauncher.Ui.Shell.Views;
 
 namespace XPlaneLauncher {
@@ -18,6 +19,7 @@ namespace XPlaneLauncher {
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) {
             base.ConfigureModuleCatalog(moduleCatalog);
             moduleCatalog.AddModule<AircraftListModule>();
+            moduleCatalog.AddModule<MapModule>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry) {
