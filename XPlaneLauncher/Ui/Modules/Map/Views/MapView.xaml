@@ -20,7 +20,7 @@
         <Style x:Key="PointItemStyle" TargetType="mapControl:MapItem">
             <Setter Property="mapControl:MapPanel.Location" Value="{Binding Location}" />
             <Setter Property="Foreground" Value="Black" />
-            <Setter Property="IsSelected" Value="{Binding Path=AircraftViewModel.IsSelected}" />
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="mapControl:MapItem">

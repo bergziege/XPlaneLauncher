@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using XPlaneLauncher.Model;
@@ -29,12 +30,23 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get { return _selectedAircraft; }
             set {
                 SetProperty(ref _selectedAircraft, value);
+                MarkSelected();
                 StartSimCommand.RaiseCanExecuteChanged();
             }
         }
 
         public DelegateCommand StartSimCommand {
             get { return _startSimCommand ?? (_startSimCommand = new DelegateCommand(StartSim, CanStartSim)); }
+        }
+
+        private void MarkSelected() {
+            foreach (Aircraft aircraft in Aircrafts.Where(x => x.IsSelected)) {
+                aircraft.IsSelected = false;
+            }
+
+            if (SelectedAircraft != null) {
+                SelectedAircraft.IsSelected = true;
+            }
         }
 
         private void StartSim() {
