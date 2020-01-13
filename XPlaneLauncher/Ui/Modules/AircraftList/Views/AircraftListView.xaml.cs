@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
+using XPlaneLauncher.Ui.Modules.AircraftList.ViewModels;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.Views {
     /// <summary>
@@ -7,6 +9,12 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.Views {
     public partial class AircraftListView : UserControl {
         public AircraftListView() {
             InitializeComponent();
+        }
+
+        private void Aircrafts_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (DataContext is IAircraftListViewModel vm && vm.SelectedAircraft != null) {
+                Aircrafts.ScrollIntoView(vm.SelectedAircraft);
+            }
         }
     }
 }
