@@ -49,6 +49,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         }
 
         private void MarkSelected() {
+            _isMarkingSelectedAfterSelectedInList = true;
             foreach (Aircraft aircraft in Aircrafts.Where(x => x.IsSelected)) {
                 aircraft.IsSelected = false;
             }
@@ -56,6 +57,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             if (SelectedAircraft != null) {
                 SelectedAircraft.IsSelected = true;
             }
+            _isMarkingSelectedAfterSelectedInList = false;
         }
 
         private void StartSim() {
@@ -85,17 +87,19 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         }
 
         private bool _isSelectingAircraftAfterSelectionChangedInModel;
+        private bool _isMarkingSelectedAfterSelectedInList;
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(CollectionChangedEventManager)) {
                 foreach (Aircraft aircraft in Aircrafts) {
                     PropertyChangedEventManager.AddListener(aircraft, this, nameof(aircraft.IsSelected));
                 }
-            } else {
+            } else if (!_isMarkingSelectedAfterSelectedInList) {
                 _isSelectingAircraftAfterSelectionChangedInModel = true;
                 SelectedAircraft = Aircrafts.FirstOrDefault(x => x.IsSelected);
                 _isSelectingAircraftAfterSelectionChangedInModel = false;
             }
+
             return true;
         }
     }

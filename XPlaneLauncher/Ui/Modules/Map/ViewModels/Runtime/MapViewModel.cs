@@ -5,15 +5,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Security.RightsManagement;
 using System.Windows;
+using MapControl;
 using Prism.Common;
+using Prism.Mvvm;
 using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
 
 namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
-    public class MapViewModel : IMapViewModel, IWeakEventListener {
+    public class MapViewModel : BindableBase, IMapViewModel, IWeakEventListener {
         private readonly IRouteService _routeService;
+        private Location _mapCenter;
 
         public MapViewModel(IAircraftModelProvider modelProvider, IRouteService routeService) {
             _routeService = routeService;
@@ -29,9 +32,28 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
 
         public ObservableCollection<Polyline> SelectedRoute { get; } = new ObservableCollection<Polyline>();
 
+        public Location MapCenter {
+            get { return _mapCenter; }
+            set { SetProperty(ref _mapCenter, value); }
+        }
+
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
-            RefreshRoutePointsAndRoutes();
+            if (managerType == typeof(CollectionChangedEventManager)) {
+                RefreshRoutePointsAndRoutes();
+                foreach (Aircraft aircraft in Aircrafts) {
+                    PropertyChangedEventManager.AddListener(aircraft, this, nameof(aircraft.IsSelected));
+                }
+            } else {
+                CenterOnSelectedAircaft();
+            }
             return true;
+        }
+
+        private void CenterOnSelectedAircaft() {
+            Aircraft selected = Aircrafts.FirstOrDefault(x => x.IsSelected);
+            if (selected != null) {
+                MapCenter = new Location(selected.Location.Latitude, selected.Location.Longitude);
+            }
         }
 
         private void UpdateSelectedRoute() {
