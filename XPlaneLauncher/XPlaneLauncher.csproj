@@ -132,6 +132,8 @@
     <Compile Include="Model\Provider\Impl\AircraftModelProvider.cs" />
     <Compile Include="Services\IAircraftService.cs" />
     <Compile Include="Services\Impl\AircraftService.cs" />
+    <Compile Include="Services\Impl\RouteService.cs" />
+    <Compile Include="Services\IRouteService.cs" />
     <Compile Include="Ui\Modules\AircraftList\AircraftListModule.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Design\AircraftListDesignViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\IAircraftListViewModel.cs" />

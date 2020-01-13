@@ -148,11 +148,11 @@
                                         SelectionMode="Single"
                                         IsSynchronizedWithCurrentItem="True" />
 
-            <mapControl:MapItemsControl ItemsSource="{Binding SelectedAircraft.PathToTarget}"
+            <mapControl:MapItemsControl ItemsSource="{Binding SelectedRoute}"
                                         ItemTemplate="{StaticResource SelectedPolylineItemTemplate}" />
-            <mapControl:MapItemsControl ItemsSource="{Binding PathsToTarget}"
+            <mapControl:MapItemsControl ItemsSource="{Binding Routes}"
                                         ItemTemplate="{StaticResource PolylineItemTemplate}" />
-            <mapControl:MapItemsControl ItemsSource="{Binding PathsPoints}"
+            <mapControl:MapItemsControl ItemsSource="{Binding RoutePoints}"
                                         ItemContainerStyle="{StaticResource PathPointItemStyle}" />
         </mapControl:Map>
         <Border Grid.Row="0"

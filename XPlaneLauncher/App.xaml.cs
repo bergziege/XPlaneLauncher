@@ -29,6 +29,7 @@ namespace XPlaneLauncher {
             containerRegistry.Register<ISitFileDao, SitFileDao>();
             containerRegistry.Register<IThumbnailDao, ThumbnailDao>();
             containerRegistry.Register<IAircraftService, AircraftService>();
+            containerRegistry.Register<IRouteService, RouteService>();
         }
 
         protected override Window CreateShell() {
