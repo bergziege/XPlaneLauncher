@@ -149,7 +149,13 @@
     <Compile Include="Ui\Modules\Map\Views\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\Modules\RouteEditor\RouteEditorView.xaml.cs">
+    <Compile Include="Ui\Modules\RouteEditor\NavigationCommands\Parameters\RouteEditorNavigationParameters.cs" />
+    <Compile Include="Ui\Modules\RouteEditor\NavigationCommands\RouteEditorNavigationCommand.cs" />
+    <Compile Include="Ui\Modules\RouteEditor\RouteEditorModule.cs" />
+    <Compile Include="Ui\Modules\RouteEditor\ViewModels\Design\RouteEditorDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\RouteEditor\ViewModels\IRouteEditorViewModel.cs" />
+    <Compile Include="Ui\Modules\RouteEditor\ViewModels\Runtime\RouteEditorViewModel.cs" />
+    <Compile Include="Ui\Modules\RouteEditor\Views\RouteEditorView.xaml.cs">
       <DependentUpon>RouteEditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ui\Modules\Settings\SettingsModule.cs" />
@@ -172,7 +178,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ui\Modules\RouteEditor\RouteEditorView.xaml">
+    <Page Include="Ui\Modules\RouteEditor\Views\RouteEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

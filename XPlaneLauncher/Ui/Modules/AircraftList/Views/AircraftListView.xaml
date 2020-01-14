@@ -133,6 +133,7 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
+                                <Button Content="Edit Route" Click="ButtonBase_OnClick"></Button>
                             </StackPanel>
                             <Image Source="{Binding Path=ThumbnailPath}" Grid.Column="1" Width="200"
                                    Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}"

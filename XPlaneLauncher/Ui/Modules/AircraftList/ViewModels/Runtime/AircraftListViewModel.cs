@@ -11,12 +11,15 @@ using Prism.Mvvm;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
+using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Settings.ViewCommands;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
     public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener {
         private readonly IAircraftService _aircraftService;
+        private readonly RouteEditorNavigationCommand _routeEditorNavCommand;
         private readonly SettingsNavigationCommand _settingsNavigationCommand;
+        private DelegateCommand _editSelectedAircraftRoute;
         private bool _isMarkingSelectedAfterSelectedInList;
 
         private bool _isSelectingAircraftAfterSelectionChangedInModel;
@@ -26,14 +29,24 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private DelegateCommand _startSimCommand;
 
         public AircraftListViewModel(
-            IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand) {
+            IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand,
+            RouteEditorNavigationCommand routeEditorNavCommand) {
             _aircraftService = aircraftService;
             _settingsNavigationCommand = settingsNavigationCommand;
+            _routeEditorNavCommand = routeEditorNavCommand;
             Aircrafts = aircraftModelProvider.Aircrafts;
             CollectionChangedEventManager.AddListener(Aircrafts, this);
         }
 
         public ObservableCollection<Aircraft> Aircrafts { get; }
+
+        public DelegateCommand EditSelectedAircraftRoute {
+            get {
+                return _editSelectedAircraftRoute ?? (_editSelectedAircraftRoute = new DelegateCommand(
+                           OnEditSelectedAircraftRoute,
+                           CanEditSelectedAircraftRoute));
+            }
+        }
 
         public DelegateCommand ReloadCommand {
             get { return _reloadCommand ?? (_reloadCommand = new DelegateCommand(Reload, CanReload)); }
@@ -59,6 +72,14 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         public DelegateCommand StartSimCommand {
             get { return _startSimCommand ?? (_startSimCommand = new DelegateCommand(StartSim, CanStartSim)); }
+        }
+
+        private void OnEditSelectedAircraftRoute() {
+            _routeEditorNavCommand.Execute(SelectedAircraft);
+        }
+
+        private bool CanEditSelectedAircraftRoute() {
+            return SelectedAircraft != null;
         }
 
         private void OnShowSettings() {
