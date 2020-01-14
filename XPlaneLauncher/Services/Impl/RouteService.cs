@@ -7,25 +7,35 @@ using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Services.Impl {
     public class RouteService : IRouteService {
-        public Polyline GetRouteLine(Aircraft aircraft,ObservableCollection<RoutePoint> aircraftRoute) {
+        public Polyline GetRouteLine(Aircraft aircraft) {
             Polyline line = new Polyline();
-            //DistanceToDestination = null;
             Location segmentStart = aircraft.Location;
             if (aircraft.Route.Any()) {
-                //double distance = 0;
                 LocationCollection pathLocations = new LocationCollection();
                 foreach (Location segmentEnd in aircraft.Route.Select(x => x.Location)) {
-                    //distance += segmentStart.GreatCircleDistance(segmentEnd);
                     pathLocations.AddRange(segmentStart.CalculateGreatCircleLocations(segmentEnd));
                     segmentStart = segmentEnd;
                 }
 
-
                 line.Locations = pathLocations;
-                //DistanceToDestination = distance / 1000;
             }
 
             return line;
+        }
+
+        public double GetRouteLenght(Aircraft aircraft) {
+            double distanceToDestination = 0;
+            Location segmentStart = aircraft.Location;
+            if (aircraft.Route.Any()) {
+                foreach (Location segmentEnd in aircraft.Route.Select(x => x.Location)) {
+                    distanceToDestination += segmentStart.GreatCircleDistance(segmentEnd);
+                    segmentStart = segmentEnd;
+                }
+
+                distanceToDestination = distanceToDestination / 1000;
+            }
+
+            return distanceToDestination;
         }
     }
 }

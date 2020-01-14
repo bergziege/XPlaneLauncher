@@ -58,9 +58,9 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
 
         private void UpdateSelectedRoute() {
             SelectedRoute.Clear();
-            Aircraft firstOrDefault = Aircrafts.FirstOrDefault(x => x.IsSelected);
-            if (firstOrDefault != null) {
-                SelectedRoute.Add(_routeService.GetRouteLine(firstOrDefault, firstOrDefault.Route));
+            Aircraft aircraft = Aircrafts.FirstOrDefault(x => x.IsSelected);
+            if (aircraft != null) {
+                SelectedRoute.Add(_routeService.GetRouteLine(aircraft));
             }
         }
 
@@ -69,7 +69,7 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             Routes.Clear();
             foreach (Aircraft aircraft in Aircrafts) {
                 RoutePoints.AddRange(aircraft.Route);
-                Routes.Add(_routeService.GetRouteLine(aircraft, aircraft.Route));
+                Routes.Add(_routeService.GetRouteLine(aircraft));
             }
             foreach (RoutePoint routePoint in Aircrafts.SelectMany(x => x.Route)) {
                 RoutePoints.Add(routePoint);

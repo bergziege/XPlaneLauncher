@@ -11,16 +11,18 @@ namespace XPlaneLauncher.Services.Impl {
         private readonly IAircraftModelProvider _aircraftModelProvider;
         private readonly ISitFileDao _sitFileDao;
         private readonly IThumbnailDao _thumbnailDao;
+        private readonly IRouteService _routeService;
         private readonly ILauncherInformationDao _launcherInformationDao;
 
         public AircraftService(
             IAircraftInformationDao aircraftInformationDao, ILauncherInformationDao launcherInformationDao,
-            IAircraftModelProvider aircraftModelProvider, ISitFileDao sitFileDao, IThumbnailDao thumbnailDao) {
+            IAircraftModelProvider aircraftModelProvider, ISitFileDao sitFileDao, IThumbnailDao thumbnailDao, IRouteService routeService) {
             _aircraftInformationDao = aircraftInformationDao;
             _launcherInformationDao = launcherInformationDao;
             _aircraftModelProvider = aircraftModelProvider;
             _sitFileDao = sitFileDao;
             _thumbnailDao = thumbnailDao;
+            _routeService = routeService;
         }
 
         public async Task ReloadAsync() {
@@ -32,6 +34,7 @@ namespace XPlaneLauncher.Services.Impl {
                 aircraft.Init();
                 aircraft.Update(_sitFileDao.FindSit(aircraftInformation));
                 aircraft.Update(_thumbnailDao.FindThumbnail(aircraftInformation));
+                aircraft.Update(_routeService.GetRouteLenght(aircraft));
                 _aircraftModelProvider.Aircrafts.Add(aircraft);
             }
         }

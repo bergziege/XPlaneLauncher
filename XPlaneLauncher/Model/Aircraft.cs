@@ -11,6 +11,7 @@ namespace XPlaneLauncher.Model {
         private string _livery;
         private Location _location;
         private string _name;
+        private double _routeLength;
         private Situation _situation;
         private Thumbnail _thumbnail;
 
@@ -42,6 +43,11 @@ namespace XPlaneLauncher.Model {
         }
 
         public ObservableCollection<RoutePoint> Route { get; } = new ObservableCollection<RoutePoint>();
+
+        public double RouteLength {
+            get { return _routeLength; }
+            private set { SetProperty(ref _routeLength, value); }
+        }
 
         public Situation Situation {
             get { return _situation; }
@@ -93,6 +99,10 @@ namespace XPlaneLauncher.Model {
 
         public void Update(Thumbnail thumbnail) {
             Thumbnail = thumbnail;
+        }
+
+        public void Update(double routeLength) {
+            RouteLength = routeLength;
         }
     }
 }

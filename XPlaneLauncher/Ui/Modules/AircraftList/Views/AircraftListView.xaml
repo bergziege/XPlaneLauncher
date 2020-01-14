@@ -108,8 +108,8 @@
                                         <Style TargetType="materialDesign:PackIcon">
                                             <Setter Property="Visibility" Value="Visible" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Path=DistanceToDestination}"
-                                                             Value="{x:Null}">
+                                                <DataTrigger Binding="{Binding Path=RouteLength}"
+                                                             Value="0">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -118,9 +118,21 @@
                                 </materialDesign:PackIcon>
                                 <Separator Width="5" Visibility="Hidden" />
                                 <TextBlock
-                                    Text="{Binding Path=DistanceToDestination, StringFormat=0.00 km}"
+                                    Text="{Binding Path=RouteLength, StringFormat=0.00 km}"
                                     Foreground="Black"
-                                    VerticalAlignment="Center" />
+                                    VerticalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=RouteLength}"
+                                                             Value="0">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </StackPanel>
                             <Image Source="{Binding Path=ThumbnailPath}" Grid.Column="1" Width="200"
                                    Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}"
