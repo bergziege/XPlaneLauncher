@@ -7,9 +7,11 @@ using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
+using XPlaneLauncher.Ui.Common.Commands;
 
 namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
     public class SettingsViewModel : BindableBase, ISettingsViewModel {
+        private readonly NavigateBackCommand _navigateBackCommand;
         private DelegateCommand _cancelCommand;
         private DelegateCommand _createLuaScriptCommand;
         private string _dataPath;
@@ -19,7 +21,8 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         private string _xPlaneRootPath;
         private string _errorMessage;
 
-        public SettingsViewModel() {
+        public SettingsViewModel(NavigateBackCommand navigateBackCommand) {
+            _navigateBackCommand = navigateBackCommand;
             XPlaneRootPath = Properties.Settings.Default.XPlaneRootPath;
             DataPath = Properties.Settings.Default.DataPath;
         }
@@ -73,9 +76,6 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
                 return _selectDataPathCommand;
             }
         }
-
-        public event EventHandler RequestCloseOnCancel;
-        public event EventHandler RequestCloseOnFinish;
 
         public DelegateCommand CreateLuaScriptCommand {
             get {
@@ -140,7 +140,7 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
 
         private void OnFinish() {
             SaveSettings();
-            OnRequestCloseOnFinish();
+            _navigateBackCommand.Execute();
         }
 
         private void SaveSettings() {
@@ -158,7 +158,7 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         }
 
         private void OnCancel() {
-            OnRequestCloseOnCancel();
+            _navigateBackCommand.Execute();
         }
 
         private bool CanSelectRootPath() {
@@ -195,14 +195,6 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
             CancelCommand.RaiseCanExecuteChanged();
             FinishCommand.RaiseCanExecuteChanged();
             CreateLuaScriptCommand.RaiseCanExecuteChanged();
-        }
-
-        protected virtual void OnRequestCloseOnCancel() {
-            RequestCloseOnCancel?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnRequestCloseOnFinish() {
-            RequestCloseOnFinish?.Invoke(this, EventArgs.Empty);
         }
     }
 }

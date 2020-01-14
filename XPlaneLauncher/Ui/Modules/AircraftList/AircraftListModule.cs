@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using System;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -17,11 +18,12 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList {
 
         public void RegisterTypes(IContainerRegistry containerRegistry) {
             containerRegistry.Register<IAircraftListViewModel, AircraftListViewModel>();
+            containerRegistry.RegisterForNavigation<AircraftListView>();
             ViewModelLocationProvider.Register<AircraftListView, IAircraftListViewModel>();
         }
 
         public void OnInitialized(IContainerProvider containerProvider) { 
-            _regionManager.RegisterViewWithRegion(RegionNames.AppRegion, typeof(AircraftListView));
+            _regionManager.RequestNavigate(RegionNames.AppRegion, new Uri(nameof(AircraftListView), UriKind.Relative));
         }
     }
 }

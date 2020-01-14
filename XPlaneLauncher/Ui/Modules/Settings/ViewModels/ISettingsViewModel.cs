@@ -15,10 +15,6 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels {
 
         DelegateCommand SelectDataPathCommand { get; }
 
-        event EventHandler RequestCloseOnCancel;
-
-        event EventHandler RequestCloseOnFinish;
-
         DelegateCommand CreateLuaScriptCommand { get; }
 
         string ErrorMessage { get; }

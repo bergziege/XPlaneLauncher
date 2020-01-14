@@ -10,5 +10,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Design {
         public Aircraft SelectedAircraft { get; set; }
 
         public DelegateCommand StartSimCommand { get; } = new DelegateCommand(()=>{});
+
+        public DelegateCommand ShowSettingsCommand { get; } = new DelegateCommand(()=>{});
     }
 }

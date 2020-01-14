@@ -134,6 +134,7 @@
     <Compile Include="Services\Impl\AircraftService.cs" />
     <Compile Include="Services\Impl\RouteService.cs" />
     <Compile Include="Services\IRouteService.cs" />
+    <Compile Include="Ui\Common\Commands\NavigateBackCommand.cs" />
     <Compile Include="Ui\Modules\AircraftList\AircraftListModule.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Design\AircraftListDesignViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\IAircraftListViewModel.cs" />
@@ -151,12 +152,13 @@
     <Compile Include="Ui\Modules\RouteEditor\RouteEditorView.xaml.cs">
       <DependentUpon>RouteEditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Modules\Settings\SettingsModule.cs" />
     <Compile Include="Ui\Modules\Settings\ViewModels\Design\SettingsDesignViewModel.cs" />
     <Compile Include="Ui\Modules\Settings\ViewModels\ISettingsViewModel.cs" />
     <Compile Include="Ui\Modules\Settings\Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ui\Modules\Settings\ViewCommands\SettingsViewCommand.cs" />
+    <Compile Include="Ui\Modules\Settings\ViewCommands\SettingsNavigationCommand.cs" />
     <Compile Include="Ui\Modules\Settings\ViewModels\Runtime\SettingsViewModel.cs" />
     <Compile Include="Ui\Shell\RegionNames.cs" />
     <Compile Include="Ui\Shell\ViewModels\Design\RoutePointDesignViewModel.cs" />

@@ -7,8 +7,10 @@ using XPlaneLauncher.Persistence;
 using XPlaneLauncher.Persistence.Impl;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Services.Impl;
+using XPlaneLauncher.Ui.Common.Commands;
 using XPlaneLauncher.Ui.Modules.AircraftList;
 using XPlaneLauncher.Ui.Modules.Map;
+using XPlaneLauncher.Ui.Modules.Settings;
 using XPlaneLauncher.Ui.Shell.Views;
 
 namespace XPlaneLauncher {
@@ -20,10 +22,12 @@ namespace XPlaneLauncher {
             base.ConfigureModuleCatalog(moduleCatalog);
             moduleCatalog.AddModule<AircraftListModule>();
             moduleCatalog.AddModule<MapModule>();
+            moduleCatalog.AddModule<SettingsModule>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry) {
             containerRegistry.RegisterSingleton<IAircraftModelProvider, AircraftModelProvider>();
+            containerRegistry.Register<NavigateBackCommand>();
             containerRegistry.Register<IAircraftInformationDao, AircraftInformationDao>();
             containerRegistry.Register<ILauncherInformationDao, LauncherInformationDao>();
             containerRegistry.Register<ISitFileDao, SitFileDao>();

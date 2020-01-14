@@ -11,16 +11,24 @@ using Prism.Mvvm;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
+using XPlaneLauncher.Ui.Modules.Settings.ViewCommands;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
     public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener {
         private readonly IAircraftService _aircraftService;
+        private readonly SettingsNavigationCommand _settingsNavigationCommand;
+        private bool _isMarkingSelectedAfterSelectedInList;
+
+        private bool _isSelectingAircraftAfterSelectionChangedInModel;
         private DelegateCommand _reloadCommand;
         private Aircraft _selectedAircraft;
+        private DelegateCommand _showSettingsCommand;
         private DelegateCommand _startSimCommand;
 
-        public AircraftListViewModel(IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider) {
+        public AircraftListViewModel(
+            IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand) {
             _aircraftService = aircraftService;
+            _settingsNavigationCommand = settingsNavigationCommand;
             Aircrafts = aircraftModelProvider.Aircrafts;
             CollectionChangedEventManager.AddListener(Aircrafts, this);
         }
@@ -40,12 +48,21 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
                 } else {
                     RaisePropertyChanged();
                 }
+
                 StartSimCommand.RaiseCanExecuteChanged();
             }
         }
 
+        public DelegateCommand ShowSettingsCommand {
+            get { return _showSettingsCommand ?? (_showSettingsCommand = new DelegateCommand(OnShowSettings)); }
+        }
+
         public DelegateCommand StartSimCommand {
             get { return _startSimCommand ?? (_startSimCommand = new DelegateCommand(StartSim, CanStartSim)); }
+        }
+
+        private void OnShowSettings() {
+            _settingsNavigationCommand.Execute();
         }
 
         private void MarkSelected() {
@@ -57,6 +74,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             if (SelectedAircraft != null) {
                 SelectedAircraft.IsSelected = true;
             }
+
             _isMarkingSelectedAfterSelectedInList = false;
         }
 
@@ -85,9 +103,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private async void Reload() {
             await _aircraftService.ReloadAsync();
         }
-
-        private bool _isSelectingAircraftAfterSelectionChangedInModel;
-        private bool _isMarkingSelectedAfterSelectedInList;
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(CollectionChangedEventManager)) {
