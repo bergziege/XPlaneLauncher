@@ -1,4 +1,5 @@
-﻿using MapControl;
+﻿using System;
+using MapControl;
 using Prism.Mvvm;
 
 namespace XPlaneLauncher.Model {
@@ -10,12 +11,15 @@ namespace XPlaneLauncher.Model {
 
         public RoutePoint(Location location) {
             _location = location;
+            Id = Guid.NewGuid();
         }
 
         public string Description {
             get { return _description; }
             set { SetProperty(ref _description, value); }
         }
+
+        public Guid Id { get; }
 
         public bool IsSelected {
             get { return _isSelected; }

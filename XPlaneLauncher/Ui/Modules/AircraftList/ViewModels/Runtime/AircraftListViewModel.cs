@@ -7,10 +7,12 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
+using XPlaneLauncher.Ui.Modules.AircraftList.Events;
 using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Settings.ViewCommands;
 
@@ -18,6 +20,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
     public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener {
         private readonly IAircraftService _aircraftService;
         private readonly RouteEditorNavigationCommand _routeEditorNavCommand;
+        private readonly IEventAggregator _eventAggregator;
         private readonly SettingsNavigationCommand _settingsNavigationCommand;
         private DelegateCommand _editSelectedAircraftRoute;
         private bool _isMarkingSelectedAfterSelectedInList;
@@ -30,10 +33,12 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         public AircraftListViewModel(
             IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand,
-            RouteEditorNavigationCommand routeEditorNavCommand) {
+            RouteEditorNavigationCommand routeEditorNavCommand,
+            IEventAggregator eventAggregator) {
             _aircraftService = aircraftService;
             _settingsNavigationCommand = settingsNavigationCommand;
             _routeEditorNavCommand = routeEditorNavCommand;
+            _eventAggregator = eventAggregator;
             Aircrafts = aircraftModelProvider.Aircrafts;
             CollectionChangedEventManager.AddListener(Aircrafts, this);
         }
@@ -123,6 +128,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         private async void Reload() {
             await _aircraftService.ReloadAsync();
+            _eventAggregator.GetEvent<PubSubEvent<AircraftsLoadedEvent>>().Publish(new AircraftsLoadedEvent());
         }
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {

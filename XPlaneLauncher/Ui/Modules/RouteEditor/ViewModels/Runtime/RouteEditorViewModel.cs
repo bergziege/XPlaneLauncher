@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using System;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -73,9 +74,10 @@ namespace XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels.Runtime {
         }
 
         private void OnDeleteSelectedRoutePoint() {
-            _aircraftService.RemoveRoutePoint(_aircraft, SelectedRoutePoint);
+            Guid routePointId = SelectedRoutePoint.Id;
+            _aircraftService.RemoveRoutePointFromAircraft(_aircraft, SelectedRoutePoint);
             SelectedRoutePoint = null;
-            _eventAggregator.GetEvent<PubSubEvent<RoutePointRemovedEvent>>().Publish(new RoutePointRemovedEvent(_aircraft.Id));
+            _eventAggregator.GetEvent<PubSubEvent<RoutePointRemovedEvent>>().Publish(new RoutePointRemovedEvent(_aircraft.Id, routePointId));
         }
 
         private void OnLeaveEditor() {

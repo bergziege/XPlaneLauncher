@@ -1,51 +1,51 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.RightsManagement;
 using System.Windows;
 using MapControl;
-using Prism.Common;
+using Prism.Events;
 using Prism.Mvvm;
 using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
+using XPlaneLauncher.Ui.Modules.AircraftList.Events;
+using XPlaneLauncher.Ui.Modules.RouteEditor.Events;
 
 namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
     public class MapViewModel : BindableBase, IMapViewModel, IWeakEventListener {
         private readonly IRouteService _routeService;
         private Location _mapCenter;
 
-        public MapViewModel(IAircraftModelProvider modelProvider, IRouteService routeService) {
+        public MapViewModel(
+            IAircraftModelProvider modelProvider, IRouteService routeService,
+            IEventAggregator eventAggregator) {
             _routeService = routeService;
             Aircrafts = modelProvider.Aircrafts;
-            CollectionChangedEventManager.AddListener(Aircrafts, this);
+            eventAggregator.GetEvent<PubSubEvent<AircraftsLoadedEvent>>().Subscribe(OnAircraftsLoaded);
+            eventAggregator.GetEvent<PubSubEvent<RoutePointRemovedEvent>>().Subscribe(OnRoutePointRemoved);
         }
 
         public ObservableCollection<Aircraft> Aircrafts { get; }
-
-        public ObservableCollection<RoutePoint> RoutePoints { get; } = new ObservableCollection<RoutePoint>();
-
-        public ObservableCollection<Polyline> Routes { get; } = new ObservableCollection<Polyline>();
-
-        public ObservableCollection<Polyline> SelectedRoute { get; } = new ObservableCollection<Polyline>();
 
         public Location MapCenter {
             get { return _mapCenter; }
             set { SetProperty(ref _mapCenter, value); }
         }
 
+        public ObservableCollection<RoutePoint> RoutePoints { get; } = new ObservableCollection<RoutePoint>();
+
+        public ObservableCollection<AircraftRouteOnMap> Routes { get; } = new ObservableCollection<AircraftRouteOnMap>();
+
+        public ObservableCollection<AircraftRouteOnMap> SelectedRoute { get; } = new ObservableCollection<AircraftRouteOnMap>();
+
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
-            if (managerType == typeof(CollectionChangedEventManager)) {
-                RefreshRoutePointsAndRoutes();
-                foreach (Aircraft aircraft in Aircrafts) {
-                    PropertyChangedEventManager.AddListener(aircraft, this, nameof(aircraft.IsSelected));
-                }
-            } else {
+            if (managerType == typeof(PropertyChangedEventManager) && e is PropertyChangedEventArgs args &&
+                args.PropertyName == nameof(Aircraft.IsSelected)) {
                 CenterOnSelectedAircaft();
             }
+
             return true;
         }
 
@@ -56,11 +56,27 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             }
         }
 
-        private void UpdateSelectedRoute() {
-            SelectedRoute.Clear();
-            Aircraft aircraft = Aircrafts.FirstOrDefault(x => x.IsSelected);
+        private void OnAircraftsLoaded(AircraftsLoadedEvent obj) {
+            RefreshRoutePointsAndRoutes();
+            foreach (Aircraft aircraft in Aircrafts) {
+                PropertyChangedEventManager.AddListener(aircraft, this, nameof(aircraft.IsSelected));
+            }
+        }
+
+        private void OnRoutePointRemoved(RoutePointRemovedEvent obj) {
+            RoutePoint routePoint = RoutePoints.FirstOrDefault(x => x.Id == obj.RoutePointId);
+            if (routePoint != null) {
+                RoutePoints.Remove(routePoint);
+            }
+
+            AircraftRouteOnMap routeOnMap = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
+            if (routeOnMap != null) {
+                Routes.Remove(routeOnMap);
+            }
+
+            Aircraft aircraft = Aircrafts.FirstOrDefault(x => x.Id == obj.AircraftId);
             if (aircraft != null) {
-                SelectedRoute.Add(_routeService.GetRouteLine(aircraft));
+                Routes.Add(_routeService.GetRouteLine(aircraft));
             }
         }
 
@@ -70,9 +86,6 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             foreach (Aircraft aircraft in Aircrafts) {
                 RoutePoints.AddRange(aircraft.Route);
                 Routes.Add(_routeService.GetRouteLine(aircraft));
-            }
-            foreach (RoutePoint routePoint in Aircrafts.SelectMany(x => x.Route)) {
-                RoutePoints.Add(routePoint);
             }
         }
     }

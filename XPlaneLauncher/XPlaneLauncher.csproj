@@ -113,7 +113,7 @@
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
     <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Dtos\MapBoundary.cs" />
-    <Compile Include="Dtos\Polyline.cs" />
+    <Compile Include="Dtos\AircraftRouteOnMap.cs" />
     <Compile Include="Extensions\FileInfoExtension.cs" />
     <Compile Include="Model\Aircraft.cs" />
     <Compile Include="Model\RoutePoint.cs" />
@@ -136,6 +136,7 @@
     <Compile Include="Services\IRouteService.cs" />
     <Compile Include="Ui\Common\Commands\NavigateBackCommand.cs" />
     <Compile Include="Ui\Modules\AircraftList\AircraftListModule.cs" />
+    <Compile Include="Ui\Modules\AircraftList\Events\AircraftsLoadedEvent.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Design\AircraftListDesignViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\IAircraftListViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Runtime\AircraftListViewModel.cs" />
