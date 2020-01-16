@@ -42,7 +42,9 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
 
             Aircraft aircraft = Aircrafts.FirstOrDefault(x => x.Id == obj.AircraftId);
             if (aircraft != null) {
-                Routes.Add(_routeService.GetRouteLine(aircraft));
+                route = _routeService.GetRouteLine(aircraft);
+                route.IsSelected = true;
+                Routes.Add(route);
             }
         }
 
@@ -116,7 +118,9 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
 
             Aircraft aircraft = Aircrafts.FirstOrDefault(x => x.Id == obj.AircraftId);
             if (aircraft != null) {
-                Routes.Add(_routeService.GetRouteLine(aircraft));
+                AircraftRouteViewModel route = _routeService.GetRouteLine(aircraft);
+                route.IsSelected = true;
+                Routes.Add(route);
             }
         }
 
