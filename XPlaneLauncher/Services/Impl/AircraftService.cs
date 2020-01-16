@@ -38,5 +38,10 @@ namespace XPlaneLauncher.Services.Impl {
                 _aircraftModelProvider.Aircrafts.Add(aircraft);
             }
         }
+
+        public void RemoveRoutePoint(Aircraft aircraft, RoutePoint routePoint) {
+            aircraft.Route.Remove(routePoint);
+            aircraft.Update(_routeService.GetRouteLenght(aircraft));
+        }
     }
 }

@@ -149,6 +149,7 @@
     <Compile Include="Ui\Modules\Map\Views\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Modules\RouteEditor\Events\RoutePointRemovedEvent.cs" />
     <Compile Include="Ui\Modules\RouteEditor\NavigationCommands\Parameters\RouteEditorNavigationParameters.cs" />
     <Compile Include="Ui\Modules\RouteEditor\NavigationCommands\RouteEditorNavigationCommand.cs" />
     <Compile Include="Ui\Modules\RouteEditor\RouteEditorModule.cs" />

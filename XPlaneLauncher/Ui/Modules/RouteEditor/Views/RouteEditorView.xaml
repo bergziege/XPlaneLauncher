@@ -9,7 +9,8 @@
              xmlns:model="clr-namespace:XPlaneLauncher.Model"
              mc:Ignorable="d"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
-             d:DataContext="{d:DesignInstance {x:Type design1:RouteEditorDesignViewModel}, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance {x:Type design1:RouteEditorDesignViewModel}, IsDesignTimeCreatable=True}"
+             d:DesignWidth="200">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -24,17 +25,7 @@
                 VerticalAlignment="Center" />
         </StackPanel>
         <StackPanel Grid.Row="0" Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
-            <StackPanel.Style>
-                <Style TargetType="StackPanel">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=Aircraft}" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Hidden" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Style>
-            <Button Command="{Binding Path=RemoveSelectedRouteLocationCommand}">
+            <Button Command="{Binding Path=DeleteSelectedRoutePointCommand}">
                 <materialDesign:PackIcon Kind="Delete"
                                          VerticalAlignment="Center"
                                          HorizontalAlignment="Center" Margin="6" />

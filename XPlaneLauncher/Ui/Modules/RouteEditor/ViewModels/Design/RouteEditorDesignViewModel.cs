@@ -6,5 +6,7 @@ namespace XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels.Design {
         public Aircraft Aircraft { get; }
 
         public DelegateCommand LeaveEditorCommand { get; } = new DelegateCommand(()=>{});
+        public RoutePoint SelectedRoutePoint { get; set; }
+        public DelegateCommand DeleteSelectedRoutePointCommand { get; } = new DelegateCommand(()=>{});
     }
 }
