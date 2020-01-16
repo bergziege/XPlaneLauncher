@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MapControl;
 using XPlaneLauncher.Domain;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
@@ -42,6 +43,13 @@ namespace XPlaneLauncher.Services.Impl {
         public void RemoveRoutePointFromAircraft(Aircraft aircraft, RoutePoint routePoint) {
             aircraft.Route.Remove(routePoint);
             aircraft.Update(_routeService.GetRouteLenght(aircraft));
+        }
+
+        public RoutePoint AddRoutePointToAircraft(Aircraft aircraft, Location location) {
+            RoutePoint routePoint = new RoutePoint(location);
+            aircraft.Route.Add(routePoint);
+            aircraft.Update(_routeService.GetRouteLenght(aircraft));
+            return routePoint;
         }
     }
 }

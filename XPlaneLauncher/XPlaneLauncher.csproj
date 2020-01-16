@@ -143,6 +143,7 @@
     <Compile Include="Ui\Modules\AircraftList\Views\AircraftListView.xaml.cs">
       <DependentUpon>AircraftListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Modules\Map\Events\LocationSelectedEvent.cs" />
     <Compile Include="Ui\Modules\Map\MapModule.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\Design\MapDesignViewModel.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\IMapViewModel.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Ui\Modules\Map\Views\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Modules\RouteEditor\Events\RoutePointAddedEvent.cs" />
     <Compile Include="Ui\Modules\RouteEditor\Events\RoutePointRemovedEvent.cs" />
     <Compile Include="Ui\Modules\RouteEditor\NavigationCommands\Parameters\RouteEditorNavigationParameters.cs" />
     <Compile Include="Ui\Modules\RouteEditor\NavigationCommands\RouteEditorNavigationCommand.cs" />

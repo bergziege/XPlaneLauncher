@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using MapControl;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using XPlaneLauncher.Dtos;
@@ -11,23 +12,45 @@ using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Modules.AircraftList.Events;
+using XPlaneLauncher.Ui.Modules.Map.Events;
 using XPlaneLauncher.Ui.Modules.RouteEditor.Events;
 
 namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
     public class MapViewModel : BindableBase, IMapViewModel, IWeakEventListener {
+        private readonly IEventAggregator _eventAggregator;
         private readonly IRouteService _routeService;
+        private DelegateCommand<Location> _locationSelectedCommand;
         private Location _mapCenter;
 
         public MapViewModel(
             IAircraftModelProvider modelProvider, IRouteService routeService,
             IEventAggregator eventAggregator) {
             _routeService = routeService;
+            _eventAggregator = eventAggregator;
             Aircrafts = modelProvider.Aircrafts;
             eventAggregator.GetEvent<PubSubEvent<AircraftsLoadedEvent>>().Subscribe(OnAircraftsLoaded);
             eventAggregator.GetEvent<PubSubEvent<RoutePointRemovedEvent>>().Subscribe(OnRoutePointRemoved);
+            eventAggregator.GetEvent<PubSubEvent<RoutePointAddedEvent>>().Subscribe(OnRoutePointAdded);
+        }
+
+        private void OnRoutePointAdded(RoutePointAddedEvent obj) {
+            RoutePoints.Add(obj.AddedRoutePoint);
+            AircraftRouteOnMap route = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
+            if (route != null) {
+                Routes.Remove(route);
+            }
+
+            Aircraft aircraft = Aircrafts.FirstOrDefault(x => x.Id == obj.AircraftId);
+            if (aircraft != null) {
+                Routes.Add(_routeService.GetRouteLine(aircraft));
+            }
         }
 
         public ObservableCollection<Aircraft> Aircrafts { get; }
+
+        public DelegateCommand<Location> LocationSelectedCommand {
+            get { return _locationSelectedCommand ?? (_locationSelectedCommand = new DelegateCommand<Location>(OnLocationSelected)); }
+        }
 
         public Location MapCenter {
             get { return _mapCenter; }
@@ -61,6 +84,10 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             foreach (Aircraft aircraft in Aircrafts) {
                 PropertyChangedEventManager.AddListener(aircraft, this, nameof(aircraft.IsSelected));
             }
+        }
+
+        private void OnLocationSelected(Location obj) {
+            _eventAggregator.GetEvent<PubSubEvent<LocationSelectedEvent>>().Publish(new LocationSelectedEvent(obj));
         }
 
         private void OnRoutePointRemoved(RoutePointRemovedEvent obj) {
