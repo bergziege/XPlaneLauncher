@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using MapControl;
 using Prism.Mvvm;
@@ -16,9 +17,12 @@ namespace XPlaneLauncher.Model {
         private Thumbnail _thumbnail;
 
         public Aircraft(AircraftInformation aircraftInformation, AircraftLauncherInformation launcherInfo) {
+            Id = Guid.NewGuid();
             _launcherInfo = launcherInfo;
             AircraftInformation = aircraftInformation;
         }
+
+        public Guid Id { get; }
 
         public AircraftInformation AircraftInformation { get; }
 
