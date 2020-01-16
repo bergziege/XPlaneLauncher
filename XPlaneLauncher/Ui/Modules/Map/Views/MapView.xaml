@@ -130,11 +130,21 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <DataTemplate x:Key="SelectedPolylineItemTemplate">
-            <mapControl:MapPolyline Locations="{Binding Locations}" Stroke="Red" StrokeThickness="4" />
-        </DataTemplate>
         <DataTemplate x:Key="PolylineItemTemplate">
-            <mapControl:MapPolyline Locations="{Binding Locations}" Stroke="#868686" StrokeThickness="2" />
+            <mapControl:MapPolyline Locations="{Binding Locations}" >
+                <mapControl:MapPolyline.Style>
+                    <Style TargetType="mapControl:MapPolyline">
+                        <Setter Property="Stroke" Value="Black" />
+                        <Setter Property="StrokeThickness" Value="2" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
+                                <Setter Property="Stroke" Value="Red" />
+                                <Setter Property="StrokeThickness" Value="4" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </mapControl:MapPolyline.Style>
+            </mapControl:MapPolyline>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
@@ -147,9 +157,6 @@
                                         ItemContainerStyle="{StaticResource PointItemStyle}"
                                         SelectionMode="Single"
                                         IsSynchronizedWithCurrentItem="True" />
-
-            <mapControl:MapItemsControl ItemsSource="{Binding SelectedRoute}"
-                                        ItemTemplate="{StaticResource SelectedPolylineItemTemplate}" />
             <mapControl:MapItemsControl ItemsSource="{Binding Routes}"
                                         ItemTemplate="{StaticResource PolylineItemTemplate}" />
             <mapControl:MapItemsControl ItemsSource="{Binding RoutePoints}"

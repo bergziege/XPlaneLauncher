@@ -5,7 +5,7 @@ using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Services {
     public interface IRouteService {
-        AircraftRouteOnMap GetRouteLine(Aircraft aircraft);
+        AircraftRouteViewModel GetRouteLine(Aircraft aircraft);
         double GetRouteLenght(Aircraft aircraft);
     }
 }

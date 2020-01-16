@@ -7,8 +7,8 @@ using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Services.Impl {
     public class RouteService : IRouteService {
-        public AircraftRouteOnMap GetRouteLine(Aircraft aircraft) {
-            AircraftRouteOnMap line = new AircraftRouteOnMap(aircraft.Id);
+        public AircraftRouteViewModel GetRouteLine(Aircraft aircraft) {
+            AircraftRouteViewModel line = new AircraftRouteViewModel(aircraft.Id);
             Location segmentStart = aircraft.Location;
             if (aircraft.Route.Any()) {
                 LocationCollection pathLocations = new LocationCollection();

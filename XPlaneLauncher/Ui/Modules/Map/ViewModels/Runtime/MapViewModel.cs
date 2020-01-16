@@ -35,7 +35,7 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
 
         private void OnRoutePointAdded(RoutePointAddedEvent obj) {
             RoutePoints.Add(obj.AddedRoutePoint);
-            AircraftRouteOnMap route = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
+            AircraftRouteViewModel route = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
             if (route != null) {
                 Routes.Remove(route);
             }
@@ -59,17 +59,30 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
 
         public ObservableCollection<RoutePoint> RoutePoints { get; } = new ObservableCollection<RoutePoint>();
 
-        public ObservableCollection<AircraftRouteOnMap> Routes { get; } = new ObservableCollection<AircraftRouteOnMap>();
-
-        public ObservableCollection<AircraftRouteOnMap> SelectedRoute { get; } = new ObservableCollection<AircraftRouteOnMap>();
+        public ObservableCollection<AircraftRouteViewModel> Routes { get; } = new ObservableCollection<AircraftRouteViewModel>();
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(PropertyChangedEventManager) && e is PropertyChangedEventArgs args &&
                 args.PropertyName == nameof(Aircraft.IsSelected)) {
                 CenterOnSelectedAircaft();
+                HighlightSelectedAircraftRoute();
             }
 
             return true;
+        }
+
+        private void HighlightSelectedAircraftRoute() {
+            foreach (AircraftRouteViewModel aircraftRouteViewModel in Routes) {
+                aircraftRouteViewModel.IsSelected = false;
+            }
+
+            Aircraft selectedCraft = Aircrafts.FirstOrDefault(x => x.IsSelected);
+            if (selectedCraft != null) {
+                AircraftRouteViewModel aircraftRouteViewModel = Routes.FirstOrDefault(x => x.AircraftId == selectedCraft.Id);
+                if (aircraftRouteViewModel != null) {
+                    aircraftRouteViewModel.IsSelected = true;
+                }
+            }
         }
 
         private void CenterOnSelectedAircaft() {
@@ -96,9 +109,9 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
                 RoutePoints.Remove(routePoint);
             }
 
-            AircraftRouteOnMap routeOnMap = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
-            if (routeOnMap != null) {
-                Routes.Remove(routeOnMap);
+            AircraftRouteViewModel routeViewModel = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
+            if (routeViewModel != null) {
+                Routes.Remove(routeViewModel);
             }
 
             Aircraft aircraft = Aircrafts.FirstOrDefault(x => x.Id == obj.AircraftId);

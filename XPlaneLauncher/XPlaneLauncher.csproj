@@ -113,7 +113,7 @@
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
     <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Dtos\MapBoundary.cs" />
-    <Compile Include="Dtos\AircraftRouteOnMap.cs" />
+    <Compile Include="Dtos\AircraftRouteViewModel.cs" />
     <Compile Include="Extensions\FileInfoExtension.cs" />
     <Compile Include="Model\Aircraft.cs" />
     <Compile Include="Model\RoutePoint.cs" />

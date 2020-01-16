@@ -10,8 +10,7 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Design {
 
         public ObservableCollection<RoutePoint> RoutePoints { get; } = new ObservableCollection<RoutePoint>();
         public Location MapCenter { get; set; }
-        public ObservableCollection<AircraftRouteOnMap> Routes { get; }
-        public ObservableCollection<AircraftRouteOnMap> SelectedRoute { get; }
+        public ObservableCollection<AircraftRouteViewModel> Routes { get; }
         public DelegateCommand<Location> LocationSelectedCommand { get; }
     }
 }
