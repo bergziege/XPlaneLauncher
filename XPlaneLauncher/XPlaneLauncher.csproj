@@ -137,6 +137,7 @@
     <Compile Include="Ui\Common\Commands\NavigateBackCommand.cs" />
     <Compile Include="Ui\Modules\AircraftList\AircraftListModule.cs" />
     <Compile Include="Ui\Modules\AircraftList\Events\AircraftsLoadedEvent.cs" />
+    <Compile Include="Ui\Modules\AircraftList\Events\SelectionChangedEvent.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Design\AircraftListDesignViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\IAircraftListViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Runtime\AircraftListViewModel.cs" />

@@ -63,10 +63,11 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
                 SetProperty(ref _selectedAircraft, value);
                 if (!_isSelectingAircraftAfterSelectionChangedInModel) {
                     MarkSelected();
+                    _eventAggregator.GetEvent<PubSubEvent<SelectionChangedEvent>>().Publish(new SelectionChangedEvent(SelectedAircraft?.Id));
                 } else {
                     RaisePropertyChanged();
+                    
                 }
-
                 StartSimCommand.RaiseCanExecuteChanged();
             }
         }

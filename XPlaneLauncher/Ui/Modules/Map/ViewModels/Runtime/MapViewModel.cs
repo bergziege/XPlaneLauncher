@@ -31,6 +31,12 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             eventAggregator.GetEvent<PubSubEvent<AircraftsLoadedEvent>>().Subscribe(OnAircraftsLoaded);
             eventAggregator.GetEvent<PubSubEvent<RoutePointRemovedEvent>>().Subscribe(OnRoutePointRemoved);
             eventAggregator.GetEvent<PubSubEvent<RoutePointAddedEvent>>().Subscribe(OnRoutePointAdded);
+            eventAggregator.GetEvent<PubSubEvent<SelectionChangedEvent>>().Subscribe(OnAircraftListSelectioChanged);
+        }
+
+        private void OnAircraftListSelectioChanged(SelectionChangedEvent obj) {
+            CenterOnSelectedAircaft();
+            HighlightSelectedAircraftRoute();
         }
 
         private void OnRoutePointAdded(RoutePointAddedEvent obj) {
@@ -66,7 +72,7 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(PropertyChangedEventManager) && e is PropertyChangedEventArgs args &&
                 args.PropertyName == nameof(Aircraft.IsSelected)) {
-                CenterOnSelectedAircaft();
+                
                 HighlightSelectedAircraftRoute();
             }
 
