@@ -48,8 +48,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         public DelegateCommand EditSelectedAircraftRoute {
             get {
                 return _editSelectedAircraftRoute ?? (_editSelectedAircraftRoute = new DelegateCommand(
-                           OnEditSelectedAircraftRoute,
-                           CanEditSelectedAircraftRoute));
+                           OnEditSelectedAircraftRoute));
             }
         }
 
@@ -81,11 +80,8 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         }
 
         private void OnEditSelectedAircraftRoute() {
+            _eventAggregator.GetEvent<PubSubEvent<SelectionChangedEvent>>().Publish(new SelectionChangedEvent(SelectedAircraft.Id));
             _routeEditorNavCommand.Execute(SelectedAircraft);
-        }
-
-        private bool CanEditSelectedAircraftRoute() {
-            return SelectedAircraft != null;
         }
 
         private void OnShowSettings() {

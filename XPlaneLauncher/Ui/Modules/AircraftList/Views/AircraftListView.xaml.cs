@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using XPlaneLauncher.Model;
 using XPlaneLauncher.Ui.Modules.AircraftList.ViewModels;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.Views {
@@ -20,6 +21,9 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.Views {
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e) {
             if (DataContext is IAircraftListViewModel vm && vm.EditSelectedAircraftRoute.CanExecute()) {
+                if (sender is Button btn && btn.DataContext is Aircraft acft) {
+                    acft.IsSelected = true;
+                }
                 vm.EditSelectedAircraftRoute.Execute();
             }
         }

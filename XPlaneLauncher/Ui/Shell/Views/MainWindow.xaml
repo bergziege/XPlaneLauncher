@@ -13,8 +13,8 @@
     </d:DesignProperties.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="550"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <ContentControl regions:RegionManager.RegionName="{x:Static local:RegionNames.AppRegion}" Grid.Column="0" />

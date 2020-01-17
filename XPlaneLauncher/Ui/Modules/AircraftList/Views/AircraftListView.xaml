@@ -133,8 +133,10 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <Button Content="Edit Route" Click="ButtonBase_OnClick"></Button>
                             </StackPanel>
+                            <Button Content="Edit Route" Click="ButtonBase_OnClick"
+                                    HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5"></Button>
+
                             <Image Source="{Binding Path=ThumbnailPath}" Grid.Column="1" Width="200"
                                    Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}"
                                    HorizontalAlignment="Right" />
