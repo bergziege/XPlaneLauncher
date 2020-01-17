@@ -31,8 +31,8 @@
                                     <VisualState x:Name="Disabled" />
                                     <VisualState x:Name="MouseOver">
                                         <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="labelBackground"
-                                                             Storyboard.TargetProperty="Opacity" To="0.5"
+                                            <DoubleAnimation Storyboard.TargetName="labelHighlightBackground"
+                                                             Storyboard.TargetProperty="Opacity" To="0.4"
                                                              Duration="0:0:0.1" />
                                         </Storyboard>
                                     </VisualState>
@@ -43,6 +43,9 @@
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="selectedPath"
                                                              Storyboard.TargetProperty="Opacity" To="0.8"
+                                                             Duration="0:0:0.1" />
+                                            <DoubleAnimation Storyboard.TargetName="labelHighlightBackground"
+                                                             Storyboard.TargetProperty="Opacity" To="0.6"
                                                              Duration="0:0:0.1" />
                                         </Storyboard>
                                     </VisualState>
@@ -62,7 +65,8 @@
                                 </Path.Data>
                             </Path>
                             <Grid Canvas.Left="15" Canvas.Top="-8">
-                                <Rectangle x:Name="labelBackground" Fill="White" Opacity="0" />
+                                <Rectangle x:Name="labelBackground" Fill="White" Opacity="0.8" />
+                                <Rectangle x:Name="labelHighlightBackground" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0" />
                                 <Label Margin="1" Content="{Binding Name}" />
                             </Grid>
                         </Canvas>
