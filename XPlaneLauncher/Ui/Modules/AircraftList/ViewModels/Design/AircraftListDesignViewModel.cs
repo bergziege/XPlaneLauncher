@@ -14,5 +14,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Design {
         public DelegateCommand ShowSettingsCommand { get; } = new DelegateCommand(()=>{});
 
         public DelegateCommand EditSelectedAircraftRoute { get; } = new DelegateCommand(()=>{});
+        public bool IsFilteredToMapBoundaries { get; set; }
     }
 }

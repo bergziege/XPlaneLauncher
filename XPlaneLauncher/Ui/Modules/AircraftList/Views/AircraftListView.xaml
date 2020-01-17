@@ -44,7 +44,7 @@
                 <materialDesign:PackIcon Kind="FormatListBulleted" Foreground="Gray" />
                 <materialDesign:PackIcon Kind="ArrowLeftBold" Grid.ColumnSpan="2" HorizontalAlignment="Center" />
 
-                <ToggleButton IsChecked="{Binding Path=IsListFilteredByMapBoundary}"
+                <ToggleButton IsChecked="{Binding Path=IsFilteredToMapBoundaries}"
                               ToolTip="Show only aircrafts visible on map" Grid.Row="1"
                               HorizontalAlignment="Center" Grid.ColumnSpan="2"
                               x:Name="MapListFilterToggle" />

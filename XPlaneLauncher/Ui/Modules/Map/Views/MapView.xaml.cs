@@ -1,6 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using MapControl;
+using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Ui.Modules.Map.ViewModels;
 
 namespace XPlaneLauncher.Ui.Modules.Map.Views {
@@ -20,6 +22,11 @@ namespace XPlaneLauncher.Ui.Modules.Map.Views {
         }
 
         private void Map_OnViewportChanged(object sender, ViewportChangedEventArgs e) {
+            if (DataContext is IMapViewModel mainViewModel) {
+                Location topLeft = Map.ViewportPointToLocation(new Point(0, 0));
+                Location bottomRight = Map.ViewportPointToLocation(new Point(Map.ActualWidth, Map.ActualHeight));
+                mainViewModel.MapBoundariesChangedCommand.Execute(new MapBoundary(topLeft, bottomRight));
+            }
         }
     }
 }

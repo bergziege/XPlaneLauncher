@@ -12,5 +12,6 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Design {
         public Location MapCenter { get; set; }
         public ObservableCollection<AircraftRouteViewModel> Routes { get; }
         public DelegateCommand<Location> LocationSelectedCommand { get; }
+        public DelegateCommand<MapBoundary> MapBoundariesChangedCommand { get; }
     }
 }

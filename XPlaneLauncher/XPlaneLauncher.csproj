@@ -148,6 +148,7 @@
     <Compile Include="Ui\Modules\Map\MapModule.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\Design\MapDesignViewModel.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\IMapViewModel.cs" />
+    <Compile Include="Ui\Modules\Map\Events\MapBoundariesChangedEvent.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\Runtime\MapViewModel.cs" />
     <Compile Include="Ui\Modules\Map\Views\MapView.xaml.cs">
       <DependentUpon>MapView.xaml</DependentUpon>

@@ -8,7 +8,8 @@ using XPlaneLauncher.Domain;
 namespace XPlaneLauncher.Model {
     public class Aircraft : BindableBase {
         private bool _isSelected;
-        private AircraftLauncherInformation _launcherInfo;
+        private bool _isVisible = true;
+        private readonly AircraftLauncherInformation _launcherInfo;
         private string _livery;
         private Location _location;
         private string _name;
@@ -22,13 +23,21 @@ namespace XPlaneLauncher.Model {
             AircraftInformation = aircraftInformation;
         }
 
-        public Guid Id { get; }
-
         public AircraftInformation AircraftInformation { get; }
+
+        public Guid Id { get; }
 
         public bool IsSelected {
             get { return _isSelected; }
             set { SetProperty(ref _isSelected, value); }
+        }
+
+        public bool IsVisible {
+            get { return _isVisible; }
+            set {
+                SetProperty(ref _isVisible, value, nameof(IsVisible));
+                ;
+            }
         }
 
         public string Livery {
@@ -84,6 +93,18 @@ namespace XPlaneLauncher.Model {
             }
         }
 
+        public void Update(Situation sit) {
+            Situation = sit;
+        }
+
+        public void Update(Thumbnail thumbnail) {
+            Thumbnail = thumbnail;
+        }
+
+        public void Update(double routeLength) {
+            RouteLength = routeLength;
+        }
+
         private string GetLastParthOfLiveryPath(string livery) {
             if (livery.EndsWith("/")) {
                 livery = livery.Substring(0, livery.Length - 1);
@@ -95,18 +116,6 @@ namespace XPlaneLauncher.Model {
             }
 
             return string.Empty;
-        }
-
-        public void Update(Situation sit) {
-            Situation = sit;
-        }
-
-        public void Update(Thumbnail thumbnail) {
-            Thumbnail = thumbnail;
-        }
-
-        public void Update(double routeLength) {
-            RouteLength = routeLength;
         }
     }
 }
