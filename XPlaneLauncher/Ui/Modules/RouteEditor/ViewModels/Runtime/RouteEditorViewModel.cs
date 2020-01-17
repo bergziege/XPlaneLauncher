@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Windows;
 using Prism;
 using Prism.Commands;
 using Prism.Events;
@@ -13,7 +15,7 @@ using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands.Parameters;
 
 namespace XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels.Runtime {
-    public class RouteEditorViewModel : BindableBase, IRouteEditorViewModel, INavigationAware, IActiveAware {
+    public class RouteEditorViewModel : BindableBase, IRouteEditorViewModel, INavigationAware, IActiveAware, IWeakEventListener {
         private readonly IAircraftService _aircraftService;
         private readonly IEventAggregator _eventAggregator;
         private readonly NavigateBackCommand _navigateBackCommand;
@@ -80,6 +82,9 @@ namespace XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels.Runtime {
 
             if (navigationContext.Parameters[RouteEditorNavigationCommand.RouteEditorNavParamKey] is RouteEditorNavigationParameters navParams) {
                 Aircraft = navParams.Aircraft;
+                foreach (RoutePoint routePoint in Aircraft.Route) {
+                    PropertyChangedEventManager.AddListener(routePoint, this, nameof(RoutePoint.IsSelected));
+                }
             }
         }
 
@@ -101,8 +106,29 @@ namespace XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels.Runtime {
         private void OnLocationSelected(LocationSelectedEvent obj) {
             if (IsActive) {
                 RoutePoint addedRoutePoint = _aircraftService.AddRoutePointToAircraft(_aircraft, obj.Location);
+                PropertyChangedEventManager.AddListener(addedRoutePoint, this, nameof(RoutePoint.IsSelected));
                 _eventAggregator.GetEvent<PubSubEvent<RoutePointAddedEvent>>().Publish(new RoutePointAddedEvent(_aircraft.Id, addedRoutePoint));
             }
+        }
+
+        /// <summary>Empfängt Ereignisse vom zentralen Ereignis-Manager.</summary>
+        /// <param name="managerType">
+        ///   Der Typ, der die <see cref="T:System.Windows.WeakEventManager" /> Aufrufen dieser Methode.
+        /// </param>
+        /// <param name="sender">
+        ///   Objekt, das das Ereignis ausgelöst wurde.
+        /// </param>
+        /// <param name="e">Ereignisdaten.</param>
+        /// <returns>
+        ///   <see langword="true" /> Wenn der Listener das Ereignis behandelt.
+        ///    Fehler durch gilt die <see cref="T:System.Windows.WeakEventManager" /> Behandlung in WPF Registrieren eines Listeners für ein Ereignis, das der Listener nicht behandelt wird.
+        ///    Die Methode sollte jedoch unabhängig davon zurückgeben <see langword="false" /> wenn ein Ereignis empfangen wird, die nicht erkannt oder behandelt.
+        /// </returns>
+        public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
+            if (sender is RoutePoint) {
+                SelectedRoutePoint = (RoutePoint)sender;
+            }
+            return true;
         }
     }
 }

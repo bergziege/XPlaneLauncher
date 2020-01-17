@@ -35,10 +35,12 @@
         <ListBox ItemsSource="{Binding Path=Aircraft.Route}"
                  SelectedItem="{Binding Path=SelectedRoutePoint}" Grid.Row="2"
                  Margin="0"
-                 HorizontalContentAlignment="Stretch">
+                 HorizontalContentAlignment="Stretch"
+                 Name="RoutePoints"
+                 SelectionChanged="RoutePoints_OnSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="model:RoutePoint">
-                    <Border Margin="-8" Padding="8">
+                    <Border Margin="-8" Padding="8" PreviewMouseDown="UIElement_OnPreviewMouseDown">
                         <Border.Style>
                             <Style TargetType="Border">
                                 <Setter Property="Background" Value="Transparent" />
