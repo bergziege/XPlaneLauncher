@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using Prism.Commands;
 using Prism.Events;
@@ -64,9 +65,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
                 if (_isFilteredToMapBoundaries) {
                     FilterByMapBoundary(_lastMapBoundaries);
                 } else {
-                    foreach (Aircraft aircraft in Aircrafts) {
-                        aircraft.IsVisible = true;
-                    }
+                    Parallel.ForEach(Aircrafts, aircraft => { aircraft.IsVisible = true; });
                 }
             }
         }
@@ -100,9 +99,9 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(CollectionChangedEventManager)) {
-                foreach (Aircraft aircraft in Aircrafts) {
-                    PropertyChangedEventManager.AddListener(aircraft, this, nameof(aircraft.IsSelected));
-                }
+                Parallel.ForEach(
+                    Aircrafts,
+                    aircraft => { PropertyChangedEventManager.AddListener(aircraft, this, nameof(aircraft.IsSelected)); });
             } else if (!_isMarkingSelectedAfterSelectedInList) {
                 _isSelectingAircraftAfterSelectionChangedInModel = true;
                 SelectedAircraft = Aircrafts.FirstOrDefault(x => x.IsSelected);
@@ -121,15 +120,16 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         }
 
         private void FilterByMapBoundary(MapBoundary mapBoundaries) {
-            foreach (Aircraft aircraft in Aircrafts) {
-                aircraft.IsVisible = IsWithinMapBoundaries(aircraft, mapBoundaries);
-            }
+            Parallel.ForEach(
+                Aircrafts,
+                aircraft => { aircraft.IsVisible = IsWithinMapBoundaries(aircraft, mapBoundaries); });
         }
 
         private bool IsWithinMapBoundaries(Aircraft aircraft, MapBoundary mapBoundaries) {
             if (aircraft.Location == null) {
                 return false;
             }
+
             return aircraft.Location.Longitude >= mapBoundaries.TopLeft.Longitude && aircraft.Location.Longitude <=
                                                                                   mapBoundaries.BottomRight.Longitude
                                                                                   && aircraft.Location.Latitude <= mapBoundaries.TopLeft.Latitude &&
@@ -138,9 +138,9 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         private void MarkSelected() {
             _isMarkingSelectedAfterSelectedInList = true;
-            foreach (Aircraft aircraft in Aircrafts.Where(x => x.IsSelected)) {
-                aircraft.IsSelected = false;
-            }
+            Parallel.ForEach(
+                Aircrafts,
+                aircraft => { aircraft.IsSelected = false; });
 
             if (SelectedAircraft != null) {
                 SelectedAircraft.IsSelected = true;
