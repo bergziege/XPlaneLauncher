@@ -65,7 +65,7 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
 
         private void CenterOnSelectedAircaft() {
             Aircraft selected = Aircrafts.FirstOrDefault(x => x.IsSelected);
-            if (selected != null) {
+            if (selected != null && selected.Location != null) {
                 MapCenter = new Location(selected.Location.Latitude, selected.Location.Longitude);
             }
         }
