@@ -2,7 +2,7 @@
 using MapControl;
 using Prism.Mvvm;
 
-namespace XPlaneLauncher.Dtos {
+namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
     public class AircraftRouteViewModel : BindableBase {
         private bool _isSelected;
 

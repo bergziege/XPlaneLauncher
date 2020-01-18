@@ -3,14 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:design="clr-namespace:XPlaneLauncher.Ui.Shell.ViewModels.Design"
         xmlns:local="clr-namespace:XPlaneLauncher.Ui.Shell"
         xmlns:regions="http://prismlibrary.com/"
         mc:Ignorable="d"
         Title="X-Plane Launcher" Height="600" Width="1280">
-    <d:DesignProperties.DataContext>
-        <design:MainViewDesignViewModel />
-    </d:DesignProperties.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="550"/>

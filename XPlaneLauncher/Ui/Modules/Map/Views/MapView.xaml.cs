@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using MapControl;
-using XPlaneLauncher.Dtos;
+using XPlaneLauncher.Ui.Modules.Map.Dtos;
 using XPlaneLauncher.Ui.Modules.Map.ViewModels;
 
 namespace XPlaneLauncher.Ui.Modules.Map.Views {

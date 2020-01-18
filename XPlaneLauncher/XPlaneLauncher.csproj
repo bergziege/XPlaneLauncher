@@ -112,8 +112,8 @@
     <Compile Include="Domain\AircraftInformation.cs" />
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
     <Compile Include="Domain\LocationInformation.cs" />
-    <Compile Include="Dtos\MapBoundary.cs" />
-    <Compile Include="Dtos\AircraftRouteViewModel.cs" />
+    <Compile Include="Ui\Modules\Map\Dtos\MapBoundary.cs" />
+    <Compile Include="Ui\Modules\Map\ViewModels\Runtime\AircraftRouteViewModel.cs" />
     <Compile Include="Extensions\FileInfoExtension.cs" />
     <Compile Include="Model\Aircraft.cs" />
     <Compile Include="Model\RoutePoint.cs" />
@@ -173,9 +173,6 @@
     <Compile Include="Ui\Modules\Settings\ViewCommands\SettingsNavigationCommand.cs" />
     <Compile Include="Ui\Modules\Settings\ViewModels\Runtime\SettingsViewModel.cs" />
     <Compile Include="Ui\Shell\RegionNames.cs" />
-    <Compile Include="Ui\Shell\ViewModels\Design\RoutePointDesignViewModel.cs" />
-    <Compile Include="Ui\Shell\ViewModels\Runtime\AircraftItemViewModel.cs" />
-    <Compile Include="Ui\Shell\ViewModels\Runtime\MainViewModel.cs" />
     <Page Include="Ui\Modules\AircraftList\Views\AircraftListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -192,13 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Ui\Shell\ViewModels\Design\AircraftItemDesignViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Ui\Shell\ViewModels\Design\MainViewDesignViewModel.cs" />
-    <Compile Include="Ui\Shell\ViewModels\Runtime\RoutePointViewModel.cs" />
     <Compile Include="Ui\Shell\Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -238,6 +232,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Dtos\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

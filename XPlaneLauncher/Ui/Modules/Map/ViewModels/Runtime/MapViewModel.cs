@@ -7,11 +7,11 @@ using MapControl;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Modules.AircraftList.Events;
+using XPlaneLauncher.Ui.Modules.Map.Dtos;
 using XPlaneLauncher.Ui.Modules.Map.Events;
 using XPlaneLauncher.Ui.Modules.RouteEditor.Events;
 

@@ -1,6 +1,6 @@
 ﻿using MapControl;
 
-namespace XPlaneLauncher.Dtos {
+namespace XPlaneLauncher.Ui.Modules.Map.Dtos {
     public class MapBoundary {
         public Location TopLeft { get; }
         public Location BottomRight { get; }

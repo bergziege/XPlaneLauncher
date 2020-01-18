@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using XPlaneLauncher.Dtos;
-using XPlaneLauncher.Model;
+﻿using XPlaneLauncher.Model;
+using XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime;
 
 namespace XPlaneLauncher.Services {
     public interface IRouteService {
-        AircraftRouteViewModel GetRouteLine(Aircraft aircraft);
         double GetRouteLenght(Aircraft aircraft);
+        AircraftRouteViewModel GetRouteLine(Aircraft aircraft);
     }
 }

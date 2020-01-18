@@ -1,4 +1,4 @@
-﻿using XPlaneLauncher.Dtos;
+﻿using XPlaneLauncher.Ui.Modules.Map.Dtos;
 
 namespace XPlaneLauncher.Ui.Modules.Map.Events {
     internal class MapBoundariesChangedEvent {
