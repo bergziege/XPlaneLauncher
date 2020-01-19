@@ -8,7 +8,18 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v1
+      - name: Setup NuGet.exe for use with actions
+        uses: NuGet/setup-nuget@v1.0.2
+        with:
+          # NuGet version to install. Can be `latest`, `preview`, a concrete version like `5.3.1`, or a semver range specifier like `5.x`.
+          nuget-version: # optional, default is latest
+          # NuGet API Key to configure.
+          nuget-api-key: # optional
+          # Source to scope the NuGet API Key to.
+          nuget-api-key-source: # optional
+      - name: nuget restore
+        run: nuget restore $Env:GITHUB_WORKSPACE\XPlaneLauncher\XPlaneLauncher.csproj
       - name: Build DotNET35
         run: |
            cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-           .\MSBuild.exe /restore $Env:GITHUB_WORKSPACE\XPlaneLauncher\XPlaneLauncher.csproj 
+           .\MSBuild.exe $Env:GITHUB_WORKSPACE\XPlaneLauncher\XPlaneLauncher.csproj 
