@@ -4,10 +4,11 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows
     steps:
-    - uses: actions/checkout@v1
-    # Include asciidoctor-action and run the cli tool
-    - uses: mgred/asciidoctor-action@master
-      with:
-        args: asciidoctor -b pdf ../../Doc/index.adoc
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: Build DotNET35
+        run: |
+           cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
+           .\MSBuild.exe $Env:GITHUB_WORKSPACE\XPlaneLauncher.sln
