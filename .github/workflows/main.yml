@@ -11,4 +11,4 @@ jobs:
       - name: Build DotNET35
         run: |
            cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
-           .\MSBuild.exe /restore $Env:GITHUB_WORKSPACE\XPlaneLauncher.sln 
+           .\MSBuild.exe /restore $Env:GITHUB_WORKSPACE\XPlaneLauncher\XPlaneLauncher.csproj 
