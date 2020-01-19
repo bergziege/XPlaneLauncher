@@ -18,7 +18,7 @@ jobs:
           # Source to scope the NuGet API Key to.
           nuget-api-key-source: # optional
       - name: nuget restore
-        run: nuget restore $Env:GITHUB_WORKSPACE\XPlaneLauncher\XPlaneLauncher.csproj
+        run: nuget restore $Env:GITHUB_WORKSPACE\XPlaneLauncher.sln
       - name: Build DotNET35
         run: |
            cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\"
