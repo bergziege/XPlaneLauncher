@@ -1,0 +1,3 @@
+= Settings
+
+image::Modules/Settings/Assets/settings.png[Settings,300,200]

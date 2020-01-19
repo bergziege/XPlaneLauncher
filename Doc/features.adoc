@@ -1,0 +1,10 @@
+= Features
+
+* lists all previous flown aircraft by livery (since LUA script installation)
+* shows all the aircraft on an OpenStreetmap map
+* shows thumbnail if possible
+* lets you select an aircraft from the list or the map
+* starts the sim with the selected aircraft
+* define a route of future desitnations
+* filter aircrafts in the list by the region beeing shown on the map
+* simple settings dialog and LUA installer 

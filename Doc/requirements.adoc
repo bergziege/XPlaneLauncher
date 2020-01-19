@@ -1,0 +1,4 @@
+= Requirements
+
+* Windows with .net 4.7.2 framework
+* X-Plane with FlyWithLUA 

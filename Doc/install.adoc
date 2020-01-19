@@ -1,0 +1,5 @@
+= Installation
+
+* unzip in any folder (its a portable app)
+* on first start select x-plane root directory via x-plane.exe and a folder where the plane positions should be stored
+* install the LUA script via the app (the FWL scripts folder need to be located at "X-Plane root\Resources\plugins\FlyWithLua\Scripts" 

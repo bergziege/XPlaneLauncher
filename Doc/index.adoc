@@ -1,1 +1,16 @@
-= X-Plane Launcher Manual
+:source-highlighter: prettify
+:doctype: article
+:icons: font
+
+= X-Plane Launcher
+
+image::Assets/complete.png[]
+
+include::requirements.adoc[leveloffset=+1]
+include::features.adoc[leveloffset=+1]
+include::install.adoc[leveloffset=+1]
+include::usage.adoc[leveloffset=+1]
+include::Modules/Settings/settings.adoc[leveloffset=+1]
+include::Modules/Map/map.adoc[leveloffset=+1]
+include::Modules/AircraftList/aircraftList.adoc[leveloffset=+1]
+include::Modules/RouteEditor/routeEditor.adoc[leveloffset=+1]
