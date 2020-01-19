@@ -1,3 +1,16 @@
 = Route Editor
 
 image::Modules/RouteEditor/Assets/routeEditor.png[RouteEditor,300,200]
+
+Allows the user to coarsly plan a route of points to fly next.
+To append a new waypoint to the list simply double click anywhere on the map as long as the route editor is displayed.
+
+[horizontal]
+Back:: Shows the aircraft list
+Waypoint icon:: Lenght of the planned track
+Trashcan:: Remove selected waypoint
+
+Name:: Custom name for the waypoint. Also shown on the map
+Description:: Custom description for the waypoint
+
+Lat/Lon:: Shows the latitude/longitude of the waypoint.

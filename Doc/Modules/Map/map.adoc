@@ -1,3 +1,9 @@
 = Map
 
 image::Modules/Map/Assets/map.png[Map,300,200]
+
+Shows all planes on their last known position and their planned route.
+
+The selected plane and its route will be highlighted.
+
+If a plane is selected from the list the map view will auto center on that plane.

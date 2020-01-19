@@ -1,3 +1,21 @@
 = Aircraft List
 
 image::Modules/AircraftList/Assets/aircraftList.png[AircraftList,300,200]
+
+Allows the user to select a plane, show it on the map, edit its planned route and start the simulator.
+
+[horizontal]
+Refresh:: Refreshes the aircraft list
+Map to list:: Shows only aircrafts visible on the map
+Settings:: Opens the settings view
+
+Aircraft Name:: Name of the .acf file (without the .acf ending)
+Livery:: Name of the livery as reported by X-Plane
+
+Document icon/checkbox:: Shows if a .sit file exists and the simulator can be started with this plane
+Route Icon:: Shows the length of the planned route
+Edit route:: Opens the route editor
+
+Grey box:: Shows the thumbnail of the plane if it could be found in the livery folder
+
+Start:: Starts the simulator with the selected plane

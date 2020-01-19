@@ -8,3 +8,5 @@
 * define a route of future desitnations
 * filter aircrafts in the list by the region beeing shown on the map
 * simple settings dialog and LUA installer 
+* keeps data in simple json files
+* portable (no installer needed/runs wherever you unzip it)
