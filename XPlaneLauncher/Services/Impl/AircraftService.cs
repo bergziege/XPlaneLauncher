@@ -10,10 +10,10 @@ namespace XPlaneLauncher.Services.Impl {
     public class AircraftService : IAircraftService {
         private readonly IAircraftInformationDao _aircraftInformationDao;
         private readonly IAircraftModelProvider _aircraftModelProvider;
+        private readonly ILauncherInformationDao _launcherInformationDao;
+        private readonly IRouteService _routeService;
         private readonly ISitFileDao _sitFileDao;
         private readonly IThumbnailDao _thumbnailDao;
-        private readonly IRouteService _routeService;
-        private readonly ILauncherInformationDao _launcherInformationDao;
 
         public AircraftService(
             IAircraftInformationDao aircraftInformationDao, ILauncherInformationDao launcherInformationDao,
@@ -24,6 +24,13 @@ namespace XPlaneLauncher.Services.Impl {
             _sitFileDao = sitFileDao;
             _thumbnailDao = thumbnailDao;
             _routeService = routeService;
+        }
+
+        public RoutePoint AddRoutePointToAircraft(Aircraft aircraft, Location location) {
+            RoutePoint routePoint = new RoutePoint(location);
+            aircraft.Route.Add(routePoint);
+            aircraft.Update(_routeService.GetRouteLenght(aircraft));
+            return routePoint;
         }
 
         public async Task ReloadAsync() {
@@ -45,11 +52,24 @@ namespace XPlaneLauncher.Services.Impl {
             aircraft.Update(_routeService.GetRouteLenght(aircraft));
         }
 
-        public RoutePoint AddRoutePointToAircraft(Aircraft aircraft, Location location) {
-            RoutePoint routePoint = new RoutePoint(location);
-            aircraft.Route.Add(routePoint);
-            aircraft.Update(_routeService.GetRouteLenght(aircraft));
-            return routePoint;
+        public void Save(Aircraft aircraft) {
+            AircraftLauncherInformation launcherInfo = new AircraftLauncherInformation {
+                TargetLocation = new List<Location>(),
+                LocationInformations = new Dictionary<Location, LocationInformation>()
+            };
+            foreach (RoutePoint routePoint in aircraft.Route) {
+                launcherInfo.TargetLocation.Add(routePoint.Location);
+                if (!string.IsNullOrWhiteSpace(routePoint.Name) || !string.IsNullOrWhiteSpace(routePoint.Description)) {
+                    launcherInfo.LocationInformations.Add(
+                        routePoint.Location,
+                        new LocationInformation {
+                            Name = routePoint.Name,
+                            Comment = routePoint.Description
+                        });
+                }
+            }
+
+            _launcherInformationDao.SaveToFile(aircraft.LauncherInfoFile, launcherInfo);
         }
     }
 }

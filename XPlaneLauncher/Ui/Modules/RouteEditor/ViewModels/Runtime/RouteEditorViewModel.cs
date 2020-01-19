@@ -100,6 +100,7 @@ namespace XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels.Runtime {
         }
 
         private void OnLeaveEditor() {
+            _aircraftService.Save(_aircraft);
             _navigateBackCommand.Execute();
         }
 

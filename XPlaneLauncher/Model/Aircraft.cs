@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using MapControl;
 using Prism.Mvvm;
@@ -7,9 +8,9 @@ using XPlaneLauncher.Domain;
 
 namespace XPlaneLauncher.Model {
     public class Aircraft : BindableBase {
+        private readonly AircraftLauncherInformation _launcherInfo;
         private bool _isSelected;
         private bool _isVisible = true;
-        private readonly AircraftLauncherInformation _launcherInfo;
         private string _livery;
         private Location _location;
         private string _name;
@@ -38,6 +39,10 @@ namespace XPlaneLauncher.Model {
                 SetProperty(ref _isVisible, value, nameof(IsVisible));
                 ;
             }
+        }
+
+        public FileInfo LauncherInfoFile {
+            get { return _launcherInfo.LauncherInfoFile; }
         }
 
         public string Livery {

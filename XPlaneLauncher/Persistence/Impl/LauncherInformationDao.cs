@@ -14,20 +14,16 @@ namespace XPlaneLauncher.Persistence.Impl {
                     launcherContent = await reader.ReadToEndAsync();
                 }
 
-                return JsonConvert.DeserializeObject<AircraftLauncherInformation>(launcherContent);
+                AircraftLauncherInformation aircraftLauncherInformation = JsonConvert.DeserializeObject<AircraftLauncherInformation>(launcherContent);
+                aircraftLauncherInformation.LauncherInfoFile = launcherFile;
+                return aircraftLauncherInformation;
             }
 
             return null;
         }
 
-        //public AircraftLauncherInformation GetLauncherInformation(AircraftDto aircraft) {
-        //    
-        //}
-
-        //public void SaveLauncherInformation(AircraftDto aircraftDto, AircraftLauncherInformation info) {
-        //    FileInfo aircraftFile = new FileInfo(aircraftDto.File);
-        //    FileInfo launcherFile = new FileInfo(aircraftFile.FullName.Replace(aircraftFile.Extension, ".launcherV2"));
-        //    File.WriteAllText(launcherFile.FullName, JsonConvert.SerializeObject(info));
-        //}
+        public void SaveToFile(FileInfo launcherInfoFile, AircraftLauncherInformation launcherInfo) {
+            File.WriteAllText(launcherInfoFile.FullName,JsonConvert.SerializeObject(launcherInfo));
+        }
     }
 }
