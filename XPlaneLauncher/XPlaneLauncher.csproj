@@ -112,6 +112,8 @@
     <Compile Include="Domain\AircraftInformation.cs" />
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
     <Compile Include="Domain\LocationInformation.cs" />
+    <Compile Include="Services\Impl\SettingsService.cs" />
+    <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Ui\Modules\Map\Dtos\MapBoundary.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\Runtime\AircraftRouteViewModel.cs" />
     <Compile Include="Extensions\FileInfoExtension.cs" />

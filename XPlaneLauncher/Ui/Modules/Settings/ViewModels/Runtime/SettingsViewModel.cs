@@ -7,11 +7,13 @@ using Microsoft.Win32;
 using Ookii.Dialogs.Wpf;
 using Prism.Commands;
 using Prism.Mvvm;
+using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Common.Commands;
 
 namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
     public class SettingsViewModel : BindableBase, ISettingsViewModel {
         private readonly NavigateBackCommand _navigateBackCommand;
+        private readonly ISettingsService _settingsService;
         private DelegateCommand _cancelCommand;
         private DelegateCommand _createLuaScriptCommand;
         private string _dataPath;
@@ -21,8 +23,10 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         private string _xPlaneRootPath;
         private string _errorMessage;
 
-        public SettingsViewModel(NavigateBackCommand navigateBackCommand) {
+        public SettingsViewModel(NavigateBackCommand navigateBackCommand,
+            ISettingsService settingsService) {
             _navigateBackCommand = navigateBackCommand;
+            _settingsService = settingsService;
             XPlaneRootPath = Properties.Settings.Default.XPlaneRootPath;
             DataPath = Properties.Settings.Default.DataPath;
         }
@@ -118,17 +122,7 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         }
 
         private bool AllPathsExist() {
-            IList<string> errors = new List<string>();
-            bool pathsExists = true;
-            if (!Directory.Exists(XPlaneRootPath)) {
-                pathsExists = false;
-                errors.Add("X-Plane root not found.");
-            }
-
-            if (!Directory.Exists(DataPath)) {
-                pathsExists = false;
-                errors.Add("Data directory not found.");
-            }
+            bool pathsExists = _settingsService.IsHavingRequiredDirectories(XPlaneRootPath, DataPath, out IList<string> errors);
 
             if (errors.Any()) {
                 ErrorMessage = string.Join(", ", errors);

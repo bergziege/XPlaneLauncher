@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -20,12 +22,14 @@ using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Settings.ViewCommands;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
-    public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener {
+    public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener, IActiveAware {
         private readonly IAircraftService _aircraftService;
         private readonly IEventAggregator _eventAggregator;
         private readonly RouteEditorNavigationCommand _routeEditorNavCommand;
         private readonly SettingsNavigationCommand _settingsNavigationCommand;
+        private readonly ISettingsService _settingsService;
         private DelegateCommand _editSelectedAircraftRoute;
+        private bool _isActive;
         private bool _isFilteredToMapBoundaries;
         private bool _isMarkingSelectedAfterSelectedInList;
 
@@ -39,11 +43,13 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         public AircraftListViewModel(
             IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand,
             RouteEditorNavigationCommand routeEditorNavCommand,
-            IEventAggregator eventAggregator) {
+            IEventAggregator eventAggregator,
+            ISettingsService settingsService) {
             _aircraftService = aircraftService;
             _settingsNavigationCommand = settingsNavigationCommand;
             _routeEditorNavCommand = routeEditorNavCommand;
             _eventAggregator = eventAggregator;
+            _settingsService = settingsService;
             Aircrafts = aircraftModelProvider.Aircrafts;
             CollectionChangedEventManager.AddListener(Aircrafts, this);
             _eventAggregator.GetEvent<PubSubEvent<MapBoundariesChangedEvent>>().Subscribe(OnMapBoundariesChanged);
@@ -55,6 +61,18 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get {
                 return _editSelectedAircraftRoute ?? (_editSelectedAircraftRoute = new DelegateCommand(
                            OnEditSelectedAircraftRoute));
+            }
+        }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether the object is active.
+        /// </summary>
+        /// <value><see langword="true" /> if the object is active; otherwise <see langword="false" />.</value>
+        public bool IsActive {
+            get { return _isActive; }
+            set {
+                _isActive = value;
+                CheckSettings();
             }
         }
 
@@ -97,6 +115,11 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get { return _startSimCommand ?? (_startSimCommand = new DelegateCommand(StartSim, CanStartSim)); }
         }
 
+        /// <summary>
+        ///     Notifies that the value for <see cref="P:Prism.IActiveAware.IsActive" /> property has changed.
+        /// </summary>
+        public event EventHandler IsActiveChanged;
+
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(CollectionChangedEventManager)) {
                 Parallel.ForEach(
@@ -117,6 +140,15 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         private bool CanStartSim() {
             return SelectedAircraft != null && SelectedAircraft.Situation.HasSit;
+        }
+
+        private void CheckSettings() {
+            if (!_settingsService.IsHavingRequiredDirectories(
+                Properties.Settings.Default.XPlaneRootPath,
+                Properties.Settings.Default.DataPath,
+                out IList<string> errors)) {
+                _settingsNavigationCommand.Execute();
+            }
         }
 
         private void FilterByMapBoundary(MapBoundary mapBoundaries) {
