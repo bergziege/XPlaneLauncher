@@ -9,10 +9,10 @@ namespace XPlaneLauncher.Persistence.Impl {
             FileInfo thumbnail = new FileInfo(
                 $@"{xplaneRootPath.FullName}{Path.DirectorySeparatorChar}{aircraftInformation.Livery}{aircraftInformation.AircraftFile?.Replace(".acf", "")}{Properties.Settings.Default.ThumbnailEnding}");
             if (thumbnail.Exists) {
-                return new Thumbnail(thumbnail);
+                return new Thumbnail(true, thumbnail);
             }
 
-            return null;
+            return new Thumbnail(false, null); ;
         }
     }
 }

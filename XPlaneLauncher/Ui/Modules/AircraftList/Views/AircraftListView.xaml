@@ -8,12 +8,14 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:design="clr-namespace:XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Design"
              xmlns:model="clr-namespace:XPlaneLauncher.Model"
+             xmlns:converter="clr-namespace:XPlaneLauncher.Converter"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type design:AircraftListDesignViewModel}, IsDesignTimeCreatable=True}">
     <UserControl.Resources>
         <system:Boolean x:Key="True">True</system:Boolean>
+        <converter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter"></converter:BoolToVisibilityConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -176,11 +178,11 @@
                                 </Grid>
 
 
-                                <Image Source="{Binding Path=ThumbnailPath}" Grid.Column="1" Width="200"
-                                       Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                <Image Source="{Binding Path=Thumbnail.ThumbnailFile.FullName}" Grid.Column="1" Width="200"
+                                       Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}"
                                        HorizontalAlignment="Right" />
                                 <Rectangle Grid.Column="1" Width="200" Height="100" Fill="#ABABAB"
-                                           Visibility="{Binding Path=HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}"
+                                           Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}"
                                            HorizontalAlignment="Right" />
 
 
