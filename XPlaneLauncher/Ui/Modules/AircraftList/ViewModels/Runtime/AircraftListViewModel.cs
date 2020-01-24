@@ -12,6 +12,7 @@ using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
@@ -22,7 +23,7 @@ using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Settings.ViewCommands;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
-    public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener, IActiveAware {
+    public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener, INavigationAware {
         private readonly IAircraftService _aircraftService;
         private readonly IEventAggregator _eventAggregator;
         private readonly RouteEditorNavigationCommand _routeEditorNavCommand;
@@ -61,18 +62,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get {
                 return _editSelectedAircraftRoute ?? (_editSelectedAircraftRoute = new DelegateCommand(
                            OnEditSelectedAircraftRoute));
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether the object is active.
-        /// </summary>
-        /// <value><see langword="true" /> if the object is active; otherwise <see langword="false" />.</value>
-        public bool IsActive {
-            get { return _isActive; }
-            set {
-                _isActive = value;
-                CheckSettings();
             }
         }
 
@@ -115,11 +104,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get { return _startSimCommand ?? (_startSimCommand = new DelegateCommand(StartSim, CanStartSim)); }
         }
 
-        /// <summary>
-        ///     Notifies that the value for <see cref="P:Prism.IActiveAware.IsActive" /> property has changed.
-        /// </summary>
-        public event EventHandler IsActiveChanged;
-
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(CollectionChangedEventManager)) {
                 Parallel.ForEach(
@@ -142,7 +126,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             return SelectedAircraft != null && SelectedAircraft.Situation.HasSit;
         }
 
-        private void CheckSettings() {
+        public void CheckSettings() {
             if (!_settingsService.IsHavingRequiredDirectories(
                 Properties.Settings.Default.XPlaneRootPath,
                 Properties.Settings.Default.DataPath,
@@ -214,6 +198,31 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             if (executable.Exists) {
                 Process.Start(xplaneExecutable);
             }
+        }
+
+        /// <summary>Called when the implementer has been navigated to.</summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        public void OnNavigatedTo(NavigationContext navigationContext) {
+            CheckSettings();
+        }
+
+        /// <summary>
+        /// Called to determine if this instance can handle the navigation request.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        /// <returns>
+        /// <see langword="true" /> if this instance accepts the navigation request; otherwise, <see langword="false" />.
+        /// </returns>
+        public bool IsNavigationTarget(NavigationContext navigationContext) {
+            return true;
+        }
+
+        /// <summary>
+        /// Called when the implementer is being navigated away from.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        public void OnNavigatedFrom(NavigationContext navigationContext) {
+            
         }
     }
 }

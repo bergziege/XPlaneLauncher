@@ -21,9 +21,9 @@ namespace XPlaneLauncher {
     public partial class App {
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) {
             base.ConfigureModuleCatalog(moduleCatalog);
+            moduleCatalog.AddModule<SettingsModule>();
             moduleCatalog.AddModule<AircraftListModule>();
             moduleCatalog.AddModule<MapModule>();
-            moduleCatalog.AddModule<SettingsModule>();
             moduleCatalog.AddModule<RouteEditorModule>();
         }
 
