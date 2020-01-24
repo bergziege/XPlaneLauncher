@@ -7,3 +7,5 @@ Shows all planes on their last known position and their planned route.
 The selected plane and its route will be highlighted.
 
 If a plane is selected from the list the map view will auto center on that plane.
+
+Click on a plane on the map to have it selected in the list.

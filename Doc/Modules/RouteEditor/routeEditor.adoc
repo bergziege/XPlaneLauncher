@@ -5,6 +5,8 @@ image::Modules/RouteEditor/Assets/routeEditor.png[RouteEditor,300,200]
 Allows the user to coarsly plan a route of points to fly next.
 To append a new waypoint to the list simply double click anywhere on the map as long as the route editor is displayed.
 
+This route editor is by no means a replacement for flight planning solutions like Skyvector, Simbrief, LittleNavMap and so on.
+
 [horizontal]
 Back:: Shows the aircraft list
 Waypoint icon:: Lenght of the planned track
