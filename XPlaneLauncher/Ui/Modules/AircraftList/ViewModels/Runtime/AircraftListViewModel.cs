@@ -17,6 +17,7 @@ using Prism.Regions;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
+using XPlaneLauncher.Ui.Modules.AircraftList.DialogCommands;
 using XPlaneLauncher.Ui.Modules.AircraftList.Events;
 using XPlaneLauncher.Ui.Modules.AircraftList.Views;
 using XPlaneLauncher.Ui.Modules.Map.Dtos;
@@ -31,6 +32,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private readonly RouteEditorNavigationCommand _routeEditorNavCommand;
         private readonly SettingsNavigationCommand _settingsNavigationCommand;
         private readonly ISettingsService _settingsService;
+        private readonly ShowRemoveConfirmationDialogCommand _showRemoveConfirmationDialogCommand;
         private DelegateCommand _editSelectedAircraftRoute;
         private bool _isActive;
         private bool _isFilteredToMapBoundaries;
@@ -48,12 +50,14 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand,
             RouteEditorNavigationCommand routeEditorNavCommand,
             IEventAggregator eventAggregator,
-            ISettingsService settingsService) {
+            ISettingsService settingsService,
+            ShowRemoveConfirmationDialogCommand showRemoveConfirmationDialogCommand) {
             _aircraftService = aircraftService;
             _settingsNavigationCommand = settingsNavigationCommand;
             _routeEditorNavCommand = routeEditorNavCommand;
             _eventAggregator = eventAggregator;
             _settingsService = settingsService;
+            _showRemoveConfirmationDialogCommand = showRemoveConfirmationDialogCommand;
             Aircrafts = aircraftModelProvider.Aircrafts;
             CollectionChangedEventManager.AddListener(Aircrafts, this);
             _eventAggregator.GetEvent<PubSubEvent<MapBoundariesChangedEvent>>().Subscribe(OnMapBoundariesChanged);
@@ -85,8 +89,9 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         }
 
         private async void RemoveSelectedAircraft() {
-            RemoveConfirmView confirmView = new RemoveConfirmView();
-            object show = await DialogHost.Show(confirmView);
+            if (await _showRemoveConfirmationDialogCommand.Execute(SelectedAircraft)) {
+                _aircraftService.RemoveAircraft(SelectedAircraft);
+            }
         }
 
         public DelegateCommand ReloadCommand {

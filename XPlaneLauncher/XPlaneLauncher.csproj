@@ -114,6 +114,7 @@
     <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Services\Impl\SettingsService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
+    <Compile Include="Ui\Modules\AircraftList\DialogCommands\ShowRemoveConfirmationDialogCommand.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Design\RemoveConfirmDesignViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\IRemoveConfirmViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Runtime\RemoveConfirmViewModel.cs" />

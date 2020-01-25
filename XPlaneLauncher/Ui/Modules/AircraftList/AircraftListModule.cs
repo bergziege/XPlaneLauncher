@@ -3,6 +3,7 @@ using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
+using XPlaneLauncher.Ui.Modules.AircraftList.DialogCommands;
 using XPlaneLauncher.Ui.Modules.AircraftList.ViewModels;
 using XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime;
 using XPlaneLauncher.Ui.Modules.AircraftList.Views;
@@ -18,6 +19,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList {
 
         public void RegisterTypes(IContainerRegistry containerRegistry) {
             containerRegistry.Register<IAircraftListViewModel, AircraftListViewModel>();
+            containerRegistry.Register<ShowRemoveConfirmationDialogCommand>();
             containerRegistry.RegisterForNavigation<AircraftListView>();
             ViewModelLocationProvider.Register<AircraftListView, IAircraftListViewModel>();
         }

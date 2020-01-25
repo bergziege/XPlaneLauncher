@@ -71,5 +71,9 @@ namespace XPlaneLauncher.Services.Impl {
 
             _launcherInformationDao.SaveToFile(aircraft.LauncherInfoFile, launcherInfo);
         }
+
+        public void RemoveAircraft(Aircraft aircraft) {
+            _aircraftModelProvider.Aircrafts.Remove(aircraft);
+        }
     }
 }
