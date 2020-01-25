@@ -9,6 +9,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:converter="clr-namespace:XPlaneLauncher.Converter"
              xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              d:DataContext="{d:DesignInstance {x:Type design:MapDesignViewModel}, IsDesignTimeCreatable=True}"
@@ -56,14 +57,22 @@
                                     <EllipseGeometry RadiusX="15" RadiusY="15" />
                                 </Path.Data>
                             </Path>
-                            <Path StrokeThickness="2" Fill="DeepSkyBlue">
+                            <Path StrokeThickness="3" Fill="DeepSkyBlue">
                                 <Path.Stroke>
-                                    <SolidColorBrush Color="Black" />
+                                    <SolidColorBrush Color="DeepSkyBlue" />
                                 </Path.Stroke>
                                 <Path.Data>
                                     <EllipseGeometry RadiusX="8" RadiusY="8" />
                                 </Path.Data>
                             </Path>
+                            <materialDesign:PackIcon Kind="Plane" Width="16" Height="16"
+                                                     Canvas.Top="-8" Canvas.Left="-8"
+                                                     Foreground="#313131">
+                                <materialDesign:PackIcon.RenderTransform>
+                                    <RotateTransform Angle="{Binding Path=AircraftInformation.Heading}"
+                                                     CenterX="8" CenterY="8"></RotateTransform>
+                                </materialDesign:PackIcon.RenderTransform>
+                            </materialDesign:PackIcon>
                             <Grid Canvas.Left="15" Canvas.Top="-8">
                                 <Rectangle x:Name="labelBackground" Fill="White" Opacity="0.8" />
                                 <Rectangle x:Name="labelHighlightBackground" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0" />
