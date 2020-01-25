@@ -9,11 +9,11 @@
              xmlns:design="clr-namespace:XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Design"
              xmlns:model="clr-namespace:XPlaneLauncher.Model"
              xmlns:converter="clr-namespace:XPlaneLauncher.Converter"
-             xmlns:policy="clr-namespace:System.Security.Policy;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
-             d:DataContext="{d:DesignInstance {x:Type design:AircraftListDesignViewModel}, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance {x:Type design:AircraftListDesignViewModel}, IsDesignTimeCreatable=True}"
+             x:Name="AircraftListViewControl">
     <UserControl.Resources>
         <system:Boolean x:Key="True">True</system:Boolean>
         <converter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -197,10 +197,11 @@
                                         </Style.Triggers>
                                     </Style>
                                 </materialDesign:Card.Style>
-                                <StackPanel>
+
+                                <Grid DataContext="{Binding ElementName=AircraftListViewControl, Path=DataContext}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Click="EditRouteButtonOnClick"
-                                                Style="{StaticResource MaterialDesignFlatButton}">
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                Command="{Binding Path=EditSelectedAircraftRoute}">
                                             <StackPanel Orientation="Horizontal">
                                                 <materialDesign:PackIcon Kind="Edit" />
                                                 <Separator Width="5" Visibility="Hidden" />
@@ -208,8 +209,20 @@
                                             </StackPanel>
                                         </Button>
                                     </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                                Foreground="#D90000"
+                                                Command="{Binding Path=RemoveSelectedAircraftCommand}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="Trash" />
+                                                <Separator Width="5" Visibility="Hidden" />
+                                                <TextBlock Text="Remove" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
 
-                                </StackPanel>
+                                
                             </materialDesign:Card>
                         </StackPanel>
                     </Border>

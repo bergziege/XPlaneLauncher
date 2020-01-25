@@ -40,6 +40,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private Aircraft _selectedAircraft;
         private DelegateCommand _showSettingsCommand;
         private DelegateCommand _startSimCommand;
+        private DelegateCommand _removeSelectedPlaneCommand;
 
         public AircraftListViewModel(
             IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand,
@@ -75,6 +76,14 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
                     Parallel.ForEach(Aircrafts, aircraft => { aircraft.IsVisible = true; });
                 }
             }
+        }
+
+        public DelegateCommand RemoveSelectedAircraftCommand {
+            get { return _removeSelectedPlaneCommand ?? (_removeSelectedPlaneCommand = new DelegateCommand(RemoveSelectedAircraft)); }
+        }
+
+        private void RemoveSelectedAircraft() {
+            throw new NotImplementedException();
         }
 
         public DelegateCommand ReloadCommand {

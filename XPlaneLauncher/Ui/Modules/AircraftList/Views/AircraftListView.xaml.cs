@@ -18,14 +18,5 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.Views {
                 Aircrafts.ScrollIntoView(vm.SelectedAircraft);
             }
         }
-
-        private void EditRouteButtonOnClick(object sender, RoutedEventArgs e) {
-            if (DataContext is IAircraftListViewModel vm && vm.EditSelectedAircraftRoute.CanExecute()) {
-                if (sender is Button btn && btn.DataContext is Aircraft acft) {
-                    acft.IsSelected = true;
-                }
-                vm.EditSelectedAircraftRoute.Execute();
-            }
-        }
     }
 }
