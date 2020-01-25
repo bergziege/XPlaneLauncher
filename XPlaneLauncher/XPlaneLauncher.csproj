@@ -114,6 +114,12 @@
     <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Services\Impl\SettingsService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
+    <Compile Include="Ui\Modules\AircraftList\ViewModels\Design\RemoveConfirmDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\AircraftList\ViewModels\IRemoveConfirmViewModel.cs" />
+    <Compile Include="Ui\Modules\AircraftList\ViewModels\Runtime\RemoveConfirmViewModel.cs" />
+    <Compile Include="Ui\Modules\AircraftList\Views\RemoveConfirmView.xaml.cs">
+      <DependentUpon>RemoveConfirmView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ui\Modules\Map\Dtos\MapBoundary.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\Runtime\AircraftRouteViewModel.cs" />
     <Compile Include="Extensions\FileInfoExtension.cs" />
@@ -176,6 +182,10 @@
     <Compile Include="Ui\Modules\Settings\ViewModels\Runtime\SettingsViewModel.cs" />
     <Compile Include="Ui\Shell\RegionNames.cs" />
     <Page Include="Ui\Modules\AircraftList\Views\AircraftListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\Modules\AircraftList\Views\RemoveConfirmView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

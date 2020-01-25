@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using MaterialDesignThemes.Wpf;
 using Prism;
 using Prism.Commands;
 using Prism.Events;
@@ -17,6 +18,7 @@ using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Modules.AircraftList.Events;
+using XPlaneLauncher.Ui.Modules.AircraftList.Views;
 using XPlaneLauncher.Ui.Modules.Map.Dtos;
 using XPlaneLauncher.Ui.Modules.Map.Events;
 using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
@@ -82,8 +84,9 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get { return _removeSelectedPlaneCommand ?? (_removeSelectedPlaneCommand = new DelegateCommand(RemoveSelectedAircraft)); }
         }
 
-        private void RemoveSelectedAircraft() {
-            throw new NotImplementedException();
+        private async void RemoveSelectedAircraft() {
+            RemoveConfirmView confirmView = new RemoveConfirmView();
+            object show = await DialogHost.Show(confirmView);
         }
 
         public DelegateCommand ReloadCommand {
