@@ -2,7 +2,7 @@
 
 namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels {
     public interface ISettingsViewModel {
-        DelegateCommand CancelCommand { get; }
+        DelegateCommand BackCommand { get; }
 
         DelegateCommand CreateLuaScriptCommand { get; }
 
@@ -10,11 +10,10 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels {
 
         string ErrorMessage { get; }
 
-        DelegateCommand FinishCommand { get; }
-
         DelegateCommand SelectDataPathCommand { get; }
 
         DelegateCommand SelectRootPathCommand { get; }
+
         string XPlaneRootPath { get; set; }
     }
 }

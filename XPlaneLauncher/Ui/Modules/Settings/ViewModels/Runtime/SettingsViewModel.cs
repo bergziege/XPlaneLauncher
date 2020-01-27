@@ -20,6 +20,7 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         private DelegateCommand _selectDataPathCommand;
         private DelegateCommand _selectRootPathCommand;
         private string _xPlaneRootPath;
+        private DelegateCommand _backCommand;
 
         public SettingsViewModel(
             NavigateBackCommand navigateBackCommand,
@@ -28,16 +29,6 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
             _settingsService = settingsService;
             XPlaneRootPath = Properties.Settings.Default.XPlaneRootPath;
             DataPath = Properties.Settings.Default.DataPath;
-        }
-
-        public DelegateCommand CancelCommand {
-            get {
-                if (_cancelCommand == null) {
-                    _cancelCommand = new DelegateCommand(OnCancel, CanCancel);
-                }
-
-                return _cancelCommand;
-            }
         }
 
         public DelegateCommand CreateLuaScriptCommand {
@@ -60,20 +51,10 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
             private set { SetProperty(ref _errorMessage, value, nameof(ErrorMessage)); }
         }
 
-        public DelegateCommand FinishCommand {
-            get {
-                if (_finishCommand == null) {
-                    _finishCommand = new DelegateCommand(OnFinish, CanFinish);
-                }
-
-                return _finishCommand;
-            }
-        }
-
         public DelegateCommand SelectDataPathCommand {
             get {
                 if (_selectDataPathCommand == null) {
-                    _selectDataPathCommand = new DelegateCommand(OnSelectDataPath, CanSelectDataPath);
+                    _selectDataPathCommand = new DelegateCommand(OnSelectDataPath);
                 }
 
                 return _selectDataPathCommand;
@@ -83,7 +64,7 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         public DelegateCommand SelectRootPathCommand {
             get {
                 if (_selectRootPathCommand == null) {
-                    _selectRootPathCommand = new DelegateCommand(OnSelectRootPath, CanSelectRootPath);
+                    _selectRootPathCommand = new DelegateCommand(OnSelectRootPath);
                 }
 
                 return _selectRootPathCommand;
@@ -93,6 +74,19 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         public string XPlaneRootPath {
             get => _xPlaneRootPath;
             set => SetProperty(ref _xPlaneRootPath, value, nameof(XPlaneRootPath));
+        }
+
+        public DelegateCommand BackCommand {
+            get { return _backCommand ?? (_backCommand = new DelegateCommand(OnNavigateBack, CanNavigateBack)); }
+        }
+
+        private bool CanNavigateBack() {
+            return AllPathsExist();
+        }
+
+        private void OnNavigateBack() {
+            SaveSettings();
+            _navigateBackCommand.Execute();
         }
 
         private bool AllPathsExist() {
@@ -107,30 +101,13 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
             return pathsExists;
         }
 
-        private bool CanCancel() {
-            return AllPathsExist();
-        }
-
         private bool CanCreateLuaScript() {
             return AllPathsExist() && LuaScriptPathExists();
         }
 
-        private bool CanFinish() {
-            return AllPathsExist();
-        }
-
-        private bool CanSelectDataPath() {
-            return true;
-        }
-
-        private bool CanSelectRootPath() {
-            return true;
-        }
-
         private void CommandsRaiseCanExecuteChanged() {
-            CancelCommand.RaiseCanExecuteChanged();
-            FinishCommand.RaiseCanExecuteChanged();
             CreateLuaScriptCommand.RaiseCanExecuteChanged();
+            BackCommand.RaiseCanExecuteChanged();
         }
 
         private void CreateLuaScript() {
@@ -150,17 +127,8 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
                     Properties.Settings.Default.LuaPathRelativeToXPlaneRoot));
         }
 
-        private void OnCancel() {
-            _navigateBackCommand.Execute();
-        }
-
         private void OnCreateLuaScript() {
             CreateLuaScript();
-        }
-
-        private void OnFinish() {
-            SaveSettings();
-            _navigateBackCommand.Execute();
         }
 
         private void OnSelectDataPath() {

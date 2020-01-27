@@ -11,14 +11,18 @@
     <d:DesignProperties.DataContext>
         <design:SettingsDesignViewModel />
     </d:DesignProperties.DataContext>
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Grid>
+        <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left">
+            <materialDesign:PackIcon Kind="ArrowBack"/>
+        </Button>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
@@ -46,14 +50,10 @@
             </Button>
         </Grid>
 
-        <TextBlock Text="{Binding Path=ErrorMessage}" Grid.Row="1" Foreground="Red" HorizontalAlignment="Right" Margin="0,0,15,0"></TextBlock>
+        <TextBlock Text="{Binding Path=ErrorMessage}" Grid.Row="2" Foreground="Red" HorizontalAlignment="Right" Margin="0,0,15,0"></TextBlock>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Grid.Row="2">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5" Grid.Row="3">
             <Button Command="{Binding Path=CreateLuaScriptCommand}" Content="Install LUA Script" Style="{StaticResource MaterialDesignFlatButton}"/>
-            <Separator Visibility="Hidden" Width="5"></Separator>
-            <Button Command="{Binding Path=FinishCommand}" Content="OK" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
-            <Separator Visibility="Hidden" Width="5"></Separator>
-            <Button Command="{Binding Path=CancelCommand}" Content="Cancel" Style="{StaticResource MaterialDesignFlatButton}"/>
         </StackPanel>
     </Grid>
 </UserControl>
