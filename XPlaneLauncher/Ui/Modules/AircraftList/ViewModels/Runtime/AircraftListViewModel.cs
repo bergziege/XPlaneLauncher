@@ -8,8 +8,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using MaterialDesignThemes.Wpf;
-using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -19,7 +17,6 @@ using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Modules.AircraftList.DialogCommands;
 using XPlaneLauncher.Ui.Modules.AircraftList.Events;
-using XPlaneLauncher.Ui.Modules.AircraftList.Views;
 using XPlaneLauncher.Ui.Modules.Map.Dtos;
 using XPlaneLauncher.Ui.Modules.Map.Events;
 using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
@@ -41,10 +38,10 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private bool _isSelectingAircraftAfterSelectionChangedInModel;
         private MapBoundary _lastMapBoundaries;
         private DelegateCommand _reloadCommand;
+        private DelegateCommand _removeSelectedPlaneCommand;
         private Aircraft _selectedAircraft;
         private DelegateCommand _showSettingsCommand;
         private DelegateCommand _startSimCommand;
-        private DelegateCommand _removeSelectedPlaneCommand;
 
         public AircraftListViewModel(
             IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand,
@@ -84,18 +81,12 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             }
         }
 
-        public DelegateCommand RemoveSelectedAircraftCommand {
-            get { return _removeSelectedPlaneCommand ?? (_removeSelectedPlaneCommand = new DelegateCommand(RemoveSelectedAircraft)); }
-        }
-
-        private async void RemoveSelectedAircraft() {
-            if (await _showRemoveConfirmationDialogCommand.Execute(SelectedAircraft)) {
-                _aircraftService.RemoveAircraft(SelectedAircraft);
-            }
-        }
-
         public DelegateCommand ReloadCommand {
             get { return _reloadCommand ?? (_reloadCommand = new DelegateCommand(Reload, CanReload)); }
+        }
+
+        public DelegateCommand RemoveSelectedAircraftCommand {
+            get { return _removeSelectedPlaneCommand ?? (_removeSelectedPlaneCommand = new DelegateCommand(RemoveSelectedAircraft)); }
         }
 
         public Aircraft SelectedAircraft {
@@ -121,6 +112,39 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get { return _startSimCommand ?? (_startSimCommand = new DelegateCommand(StartSim, CanStartSim)); }
         }
 
+        public void CheckSettings() {
+            if (!_settingsService.IsHavingRequiredDirectories(
+                Properties.Settings.Default.XPlaneRootPath,
+                Properties.Settings.Default.DataPath,
+                out IList<string> errors)) {
+                _settingsNavigationCommand.Execute();
+            }
+        }
+
+        /// <summary>
+        ///     Called to determine if this instance can handle the navigation request.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        /// <returns>
+        ///     <see langword="true" /> if this instance accepts the navigation request; otherwise, <see langword="false" />.
+        /// </returns>
+        public bool IsNavigationTarget(NavigationContext navigationContext) {
+            return true;
+        }
+
+        /// <summary>
+        ///     Called when the implementer is being navigated away from.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        public void OnNavigatedFrom(NavigationContext navigationContext) {
+        }
+
+        /// <summary>Called when the implementer has been navigated to.</summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        public void OnNavigatedTo(NavigationContext navigationContext) {
+            CheckSettings();
+        }
+
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(CollectionChangedEventManager)) {
                 Parallel.ForEach(
@@ -141,15 +165,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         private bool CanStartSim() {
             return SelectedAircraft != null && SelectedAircraft.Situation.HasSit;
-        }
-
-        public void CheckSettings() {
-            if (!_settingsService.IsHavingRequiredDirectories(
-                Properties.Settings.Default.XPlaneRootPath,
-                Properties.Settings.Default.DataPath,
-                out IList<string> errors)) {
-                _settingsNavigationCommand.Execute();
-            }
         }
 
         private void FilterByMapBoundary(MapBoundary mapBoundaries) {
@@ -203,6 +218,14 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             _eventAggregator.GetEvent<PubSubEvent<AircraftsLoadedEvent>>().Publish(new AircraftsLoadedEvent());
         }
 
+        private async void RemoveSelectedAircraft() {
+            if (await _showRemoveConfirmationDialogCommand.Execute(SelectedAircraft)) {
+                Guid aircraftIdToRemove = SelectedAircraft.Id;
+                _aircraftService.RemoveAircraft(SelectedAircraft);
+                _eventAggregator.GetEvent<PubSubEvent<AircraftRemovedEvent>>().Publish(new AircraftRemovedEvent(aircraftIdToRemove));
+            }
+        }
+
         private void StartSim() {
             string xplaneExecutable =
                 Path.Combine(Properties.Settings.Default.XPlaneRootPath, Properties.Settings.Default.XPlaneExecutableFile);
@@ -215,31 +238,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             if (executable.Exists) {
                 Process.Start(xplaneExecutable);
             }
-        }
-
-        /// <summary>Called when the implementer has been navigated to.</summary>
-        /// <param name="navigationContext">The navigation context.</param>
-        public void OnNavigatedTo(NavigationContext navigationContext) {
-            CheckSettings();
-        }
-
-        /// <summary>
-        /// Called to determine if this instance can handle the navigation request.
-        /// </summary>
-        /// <param name="navigationContext">The navigation context.</param>
-        /// <returns>
-        /// <see langword="true" /> if this instance accepts the navigation request; otherwise, <see langword="false" />.
-        /// </returns>
-        public bool IsNavigationTarget(NavigationContext navigationContext) {
-            return true;
-        }
-
-        /// <summary>
-        /// Called when the implementer is being navigated away from.
-        /// </summary>
-        /// <param name="navigationContext">The navigation context.</param>
-        public void OnNavigatedFrom(NavigationContext navigationContext) {
-            
         }
     }
 }
