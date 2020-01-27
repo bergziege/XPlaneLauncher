@@ -88,7 +88,7 @@ namespace XPlaneLauncher.Model {
                         additionalInformation = _launcherInfo.LocationInformations[location];
                     }
 
-                    RoutePoint routePoint = new RoutePoint(location);
+                    RoutePoint routePoint = new RoutePoint(location, Id);
                     if (additionalInformation != null) {
                         routePoint.Update(additionalInformation.Name, additionalInformation.Comment);
                     }

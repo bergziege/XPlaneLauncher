@@ -9,10 +9,13 @@ namespace XPlaneLauncher.Model {
         private Location _location;
         private string _name;
 
-        public RoutePoint(Location location) {
+        public RoutePoint(Location location, Guid aircraftId) {
+            AircraftId = aircraftId;
             _location = location;
             Id = Guid.NewGuid();
         }
+
+        public Guid AircraftId { get; }
 
         public string Description {
             get { return _description; }

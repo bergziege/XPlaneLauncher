@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -33,6 +34,22 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             eventAggregator.GetEvent<PubSubEvent<RoutePointRemovedEvent>>().Subscribe(OnRoutePointRemoved);
             eventAggregator.GetEvent<PubSubEvent<RoutePointAddedEvent>>().Subscribe(OnRoutePointAdded);
             eventAggregator.GetEvent<PubSubEvent<SelectionChangedEvent>>().Subscribe(OnAircraftListSelectioChanged);
+            eventAggregator.GetEvent<PubSubEvent<AircraftRemovedEvent>>().Subscribe(OnAircraftRemoved);
+        }
+
+        private void OnAircraftRemoved(AircraftRemovedEvent obj) {
+            List<RoutePoint> routePointsToRemove = RoutePoints.Where(x => x.AircraftId == obj.AircraftId).ToList();
+            AircraftRouteViewModel routeToRemove = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
+
+            if (routePointsToRemove.Any()) {
+                foreach (RoutePoint routePoint in routePointsToRemove) {
+                    RoutePoints.Remove(routePoint);
+                }
+            }
+
+            if (routeToRemove != null) {
+                Routes.Remove(routeToRemove);
+            }
         }
 
         public ObservableCollection<Aircraft> Aircrafts { get; }

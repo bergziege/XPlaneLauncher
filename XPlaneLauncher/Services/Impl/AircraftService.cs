@@ -27,7 +27,7 @@ namespace XPlaneLauncher.Services.Impl {
         }
 
         public RoutePoint AddRoutePointToAircraft(Aircraft aircraft, Location location) {
-            RoutePoint routePoint = new RoutePoint(location);
+            RoutePoint routePoint = new RoutePoint(location, aircraft.Id);
             aircraft.Route.Add(routePoint);
             aircraft.Update(_routeService.GetRouteLenght(aircraft));
             return routePoint;
