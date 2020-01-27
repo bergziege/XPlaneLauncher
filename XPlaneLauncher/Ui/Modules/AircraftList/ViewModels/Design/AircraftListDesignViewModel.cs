@@ -14,12 +14,12 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Design {
                 AircraftFile = "test.acf",
                 Livery = "my/test/livery",
             }, new AircraftLauncherInformation());
-            //aircraft.Init();
+            aircraft.Update(new Situation(true, new FileInfo("temp.tmp")));
             Aircraft aircraft2 = new Aircraft(new AircraftInformation() {
                 AircraftFile = "test.acf",
                 Livery = "my/test/livery"
             }, new AircraftLauncherInformation());
-            //aircraft2.Init();
+            aircraft2.Update(new Situation(false, null));
             Aircrafts.Add(aircraft);
             Aircrafts.Add(aircraft2);
             SelectedAircraft = aircraft;

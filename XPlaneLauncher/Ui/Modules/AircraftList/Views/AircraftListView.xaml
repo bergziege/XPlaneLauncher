@@ -130,24 +130,22 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
-                                        <materialDesign:Chip>
+                                        <materialDesign:Chip Background="#FFA1A1" ToolTip="Missing situation file">
                                             <materialDesign:Chip.Style>
                                                 <Style TargetType="materialDesign:Chip">
                                                     <Setter Property="Visibility" Value="Visible" />
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Path=Situation.HasSit}"
-                                                                     Value="false">
+                                                                     Value="true">
                                                             <Setter Property="Visibility" Value="Collapsed" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
                                             </materialDesign:Chip.Style>
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Kind="FileOutline" VerticalAlignment="Center" />
 
-                                                <CheckBox IsChecked="{Binding Path=Situation.HasSit, Mode=OneWay}"
-                                                          IsEnabled="False" />
-                                            </StackPanel>
+                                            <materialDesign:PackIcon Kind="FileDocumentBoxRemoveOutline"
+                                                                     VerticalAlignment="Center" />
+
                                         </materialDesign:Chip>
 
                                         <Separator Width="5" Visibility="Hidden" Grid.Column="1" />
@@ -203,9 +201,9 @@
 
                                 <Grid DataContext="{Binding ElementName=AircraftListViewControl, Path=DataContext}">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Button Content="Start" Command="{Binding Path=StartSimCommand}" 
-                                                Style="{StaticResource MaterialDesignRaisedAccentButton}" Width="110"/>
-                                        <Separator Width="5" Visibility="Hidden"></Separator>
+                                        <Button Content="Start" Command="{Binding Path=StartSimCommand}"
+                                                Style="{StaticResource MaterialDesignRaisedAccentButton}" Width="110" />
+                                        <Separator Width="5" Visibility="Hidden" />
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 Command="{Binding Path=EditSelectedAircraftRoute}" Width="110">
                                             <StackPanel Orientation="Horizontal">
@@ -229,7 +227,7 @@
                                     </StackPanel>
                                 </Grid>
 
-                                
+
                             </materialDesign:Card>
                         </StackPanel>
                     </Border>
