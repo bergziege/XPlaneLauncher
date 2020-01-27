@@ -202,27 +202,24 @@
                                 <Grid DataContext="{Binding ElementName=AircraftListViewControl, Path=DataContext}">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Button Content="Start" Command="{Binding Path=StartSimCommand}"
-                                                Style="{StaticResource MaterialDesignRaisedAccentButton}" Width="110" />
+                                                Style="{StaticResource MaterialDesignRaisedButton}" Width="110" />
                                         <Separator Width="5" Visibility="Hidden" />
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 Command="{Binding Path=EditSelectedAircraftRoute}" Width="110">
                                             <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Kind="Edit" />
+                                                <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"/>
                                                 <Separator Width="5" Visibility="Hidden" />
-                                                <TextBlock Text="Route" />
+                                                <TextBlock Text="Route" VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 Foreground="#D90000"
-                                                Command="{Binding Path=RemoveSelectedAircraftCommand}"
-                                                Width="110">
-                                            <StackPanel Orientation="Horizontal">
+                                                Command="{Binding Path=RemoveSelectedAircraftCommand}">
+                                            
                                                 <materialDesign:PackIcon Kind="Trash" />
-                                                <Separator Width="5" Visibility="Hidden" />
-                                                <TextBlock Text="Remove" />
-                                            </StackPanel>
+                                            
                                         </Button>
                                     </StackPanel>
                                 </Grid>
