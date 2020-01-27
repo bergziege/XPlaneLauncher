@@ -25,5 +25,11 @@ namespace XPlaneLauncher.Persistence.Impl {
         public void SaveToFile(FileInfo launcherInfoFile, AircraftLauncherInformation launcherInfo) {
             File.WriteAllText(launcherInfoFile.FullName,JsonConvert.SerializeObject(launcherInfo));
         }
+
+        public void Delete(FileInfo aircraftLauncherInfoFile) {
+            if (aircraftLauncherInfoFile != null && aircraftLauncherInfoFile.Exists) {
+                aircraftLauncherInfoFile.Delete();
+            }
+        }
     }
 }

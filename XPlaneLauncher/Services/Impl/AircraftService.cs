@@ -47,6 +47,14 @@ namespace XPlaneLauncher.Services.Impl {
             }
         }
 
+        public void RemoveAircraft(Aircraft aircraft) {
+            _sitFileDao.Delete(aircraft.Situation?.SitFile);
+            _launcherInformationDao.Delete(aircraft.LauncherInfoFile);
+            _aircraftInformationDao.Delete(aircraft.AircraftInformation.File);
+
+            _aircraftModelProvider.Aircrafts.Remove(aircraft);
+        }
+
         public void RemoveRoutePointFromAircraft(Aircraft aircraft, RoutePoint routePoint) {
             aircraft.Route.Remove(routePoint);
             aircraft.Update(_routeService.GetRouteLenght(aircraft));
@@ -70,10 +78,6 @@ namespace XPlaneLauncher.Services.Impl {
             }
 
             _launcherInformationDao.SaveToFile(aircraft.LauncherInfoFile, launcherInfo);
-        }
-
-        public void RemoveAircraft(Aircraft aircraft) {
-            _aircraftModelProvider.Aircrafts.Remove(aircraft);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace XPlaneLauncher.Model {
         }
 
         public FileInfo LauncherInfoFile {
-            get { return _launcherInfo.LauncherInfoFile; }
+            get { return _launcherInfo?.LauncherInfoFile; }
         }
 
         public string Livery {
