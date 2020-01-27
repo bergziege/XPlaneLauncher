@@ -1,9 +1,31 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using Prism.Commands;
+using XPlaneLauncher.Domain;
 using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Design {
     public class AircraftListDesignViewModel : IAircraftListViewModel {
+        /// <summary>
+        ///   Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
+        /// </summary>
+        public AircraftListDesignViewModel() {
+            Aircraft aircraft = new Aircraft(new AircraftInformation() {
+                AircraftFile = "test.acf",
+                Livery = "my/test/livery",
+            }, new AircraftLauncherInformation());
+            //aircraft.Init();
+            Aircraft aircraft2 = new Aircraft(new AircraftInformation() {
+                AircraftFile = "test.acf",
+                Livery = "my/test/livery"
+            }, new AircraftLauncherInformation());
+            //aircraft2.Init();
+            Aircrafts.Add(aircraft);
+            Aircrafts.Add(aircraft2);
+            SelectedAircraft = aircraft;
+            SelectedAircraft.IsSelected = true;
+        }
+
         public ObservableCollection<Aircraft> Aircrafts { get; } = new ObservableCollection<Aircraft>();
         public DelegateCommand ReloadCommand { get; } = new DelegateCommand(() => { });
 

@@ -202,10 +202,12 @@
                                 </materialDesign:Card.Style>
 
                                 <Grid DataContext="{Binding ElementName=AircraftListViewControl, Path=DataContext}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="Start" Command="{Binding Path=StartSimCommand}" />
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Button Content="Start" Command="{Binding Path=StartSimCommand}" 
+                                                Style="{StaticResource MaterialDesignRaisedAccentButton}" Width="110"/>
+                                        <Separator Width="5" Visibility="Hidden"></Separator>
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                Command="{Binding Path=EditSelectedAircraftRoute}">
+                                                Command="{Binding Path=EditSelectedAircraftRoute}" Width="110">
                                             <StackPanel Orientation="Horizontal">
                                                 <materialDesign:PackIcon Kind="Edit" />
                                                 <Separator Width="5" Visibility="Hidden" />
@@ -216,7 +218,8 @@
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 Foreground="#D90000"
-                                                Command="{Binding Path=RemoveSelectedAircraftCommand}">
+                                                Command="{Binding Path=RemoveSelectedAircraftCommand}"
+                                                Width="110">
                                             <StackPanel Orientation="Horizontal">
                                                 <materialDesign:PackIcon Kind="Trash" />
                                                 <Separator Width="5" Visibility="Hidden" />
