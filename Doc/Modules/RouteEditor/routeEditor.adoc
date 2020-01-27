@@ -10,9 +10,9 @@ This route editor is by no means a replacement for flight planning solutions lik
 [horizontal]
 Back:: Shows the aircraft list
 Waypoint icon:: Lenght of the planned track
-Trashcan:: Remove selected waypoint
 
 Name:: Custom name for the waypoint. Also shown on the map
 Description:: Custom description for the waypoint
 
 Lat/Lon:: Shows the latitude/longitude of the waypoint.
+Trashcan:: Remove selected waypoint. Only visible when the route point is selected .

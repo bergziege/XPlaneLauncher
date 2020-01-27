@@ -3,11 +3,9 @@
 image::Modules/Settings/Assets/settings.png[Settings,300,200]
 
 [horizontal]
+Back:: Saves the settings and returns to the aircraft list
 X-Plane root folder:: Select X-Plane.exe to define the X-Plane root folder. This setting is needed to read thumbnails, situation files and as base folder for the LUA script installation.
 
 Data folder:: Defines the folder where the position files and launcher information files should be stored. This can be anywhere on your local system or a network drive.
 
 Install LUA script:: Tries to install the LUA script in the LUA scripts folder after the root folder is defined.
-
-OK:: Saves the settings and returns to the aircraft list
-Cancel:: Just returns to the aircraft list.

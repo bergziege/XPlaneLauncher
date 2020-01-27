@@ -12,9 +12,13 @@ Settings:: Opens the settings view
 Aircraft Name:: Name of the .acf file (without the .acf ending)
 Livery:: Name of the livery as reported by X-Plane
 
-Document icon/checkbox:: Shows if a .sit file exists and the simulator can be started with this plane
+Document icon (red):: Shows if the .sit file does not exist and the simulator can not be started with this plane
 Route Icon:: Shows the length of the planned route
+
+Start:: Start the simulator with the selected aircraft
 Edit route:: Opens the route editor
+
+Trashcan:: Removes the aircraft from the launcher (after confirmation)
 
 Grey box:: Shows the thumbnail of the plane if it could be found in the livery folder
 
