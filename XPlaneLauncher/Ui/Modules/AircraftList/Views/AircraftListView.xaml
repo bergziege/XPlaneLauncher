@@ -203,6 +203,7 @@
 
                                 <Grid DataContext="{Binding ElementName=AircraftListViewControl, Path=DataContext}">
                                     <StackPanel Orientation="Horizontal">
+                                        <Button Content="Start" Command="{Binding Path=StartSimCommand}" />
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
                                                 Command="{Binding Path=EditSelectedAircraftRoute}">
                                             <StackPanel Orientation="Horizontal">
@@ -232,6 +233,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button Content="Start" Command="{Binding Path=StartSimCommand}" Grid.Row="2" Margin="5" />
     </Grid>
 </UserControl>
