@@ -10,26 +10,23 @@
              mc:Ignorable="d"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type design1:RouteEditorDesignViewModel}, IsDesignTimeCreatable=True}"
-             d:DesignWidth="200">
+             d:DesignWidth="200"
+             x:Name="RouteEditorViewControl">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
-            <Button Content="Back" Command="{Binding Path=LeaveEditorCommand}" Margin="5"/>
+            <Button Command="{Binding Path=LeaveEditorCommand}" Margin="5"
+                    Style="{StaticResource MaterialDesignFlatButton}">
+                <materialDesign:PackIcon Kind="ArrowBack" />
+            </Button>
             <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center" Margin="5" />
             <TextBlock
                 Text="{Binding Path=Aircraft.RouteLength, StringFormat=0.00 km}"
                 Foreground="Black"
                 VerticalAlignment="Center" />
-        </StackPanel>
-        <StackPanel Grid.Row="0" Margin="5" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Command="{Binding Path=DeleteSelectedRoutePointCommand}">
-                <materialDesign:PackIcon Kind="Delete"
-                                         VerticalAlignment="Center"
-                                         HorizontalAlignment="Center" Margin="6" />
-            </Button>
         </StackPanel>
 
         <ListBox ItemsSource="{Binding Path=Aircraft.Route}"
@@ -53,27 +50,61 @@
                         </Border.Style>
                         <materialDesign:Card>
                             <StackPanel Margin="5">
-                                <TextBox
-                                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}"
-                                    FontWeight="Bold" materialDesign:HintAssist.Hint="Name"/>
-                                <TextBox
-                                    Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Delay=200}"
-                                    TextWrapping="Wrap" AcceptsReturn="True" materialDesign:HintAssist.Hint="Description"/>
-                                <materialDesign:Chip Margin="0,5,0,0">
+                                <StackPanel>
+                                    <TextBox
+                                        Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}"
+                                        FontWeight="Bold" materialDesign:HintAssist.Hint="Name" />
+                                    <TextBox
+                                        Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Delay=200}"
+                                        TextWrapping="Wrap" AcceptsReturn="True"
+                                        materialDesign:HintAssist.Hint="Description" />
+                                </StackPanel>
+                                <Grid Margin="0,5,0,0">
                                     <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Axis" />
-                                        <Separator Width="5" Visibility="Hidden" />
-                                        <TextBlock >
-                                            <Run Text="Lat.:"></Run>
-                                            <Run Text="{Binding Path=Location.Latitude}"></Run>
-                                        </TextBlock>
-                                        <Separator Width="5" Visibility="Hidden" />
-                                        <TextBlock>
-                                            <Run Text="Lon.:"></Run>
-                                            <Run Text="{Binding Path=Location.Longitude}"></Run>
-                                        </TextBlock>
+                                        <materialDesign:Chip>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="Axis" />
+                                                <Separator Width="5" Visibility="Hidden" />
+                                                <TextBlock>
+                                                    <Run Text="Lat.:"></Run>
+                                                    <Run Text="{Binding Path=Location.Latitude}"></Run>
+                                                </TextBlock>
+                                                <Separator Width="5" Visibility="Hidden" />
+                                                <TextBlock>
+                                                    <Run Text="Lon.:"></Run>
+                                                    <Run Text="{Binding Path=Location.Longitude}"></Run>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </materialDesign:Chip>
                                     </StackPanel>
-                                </materialDesign:Chip>
+                                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal"
+                                                VerticalAlignment="Center">
+                                        <ContentControl>
+                                            <ContentControl.Style>
+                                                <Style TargetType="ContentControl">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=IsSelected}"
+                                                                     Value="true">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ContentControl.Style>
+                                            <StackPanel
+                                                DataContext="{Binding ElementName=RouteEditorViewControl, Path=DataContext}"
+                                                VerticalAlignment="Center">
+                                                <Button Command="{Binding Path=DeleteSelectedRoutePointCommand}"
+                                                        Foreground="#D90000"
+                                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                                        VerticalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="Delete"
+                                                                             VerticalAlignment="Center"
+                                                                             HorizontalAlignment="Center" />
+                                                </Button>
+                                            </StackPanel>
+                                        </ContentControl>
+                                    </StackPanel></Grid>
                             </StackPanel>
                         </materialDesign:Card>
                     </Border>
