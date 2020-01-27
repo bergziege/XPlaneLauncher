@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Win32;
@@ -17,38 +15,19 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
         private DelegateCommand _cancelCommand;
         private DelegateCommand _createLuaScriptCommand;
         private string _dataPath;
+        private string _errorMessage;
         private DelegateCommand _finishCommand;
         private DelegateCommand _selectDataPathCommand;
         private DelegateCommand _selectRootPathCommand;
         private string _xPlaneRootPath;
-        private string _errorMessage;
 
-        public SettingsViewModel(NavigateBackCommand navigateBackCommand,
+        public SettingsViewModel(
+            NavigateBackCommand navigateBackCommand,
             ISettingsService settingsService) {
             _navigateBackCommand = navigateBackCommand;
             _settingsService = settingsService;
             XPlaneRootPath = Properties.Settings.Default.XPlaneRootPath;
             DataPath = Properties.Settings.Default.DataPath;
-        }
-
-        public string XPlaneRootPath {
-            get => _xPlaneRootPath;
-            set => SetProperty(ref _xPlaneRootPath, value, nameof(XPlaneRootPath));
-        }
-
-        public string DataPath {
-            get => _dataPath;
-            set => SetProperty(ref _dataPath, value, nameof(DataPath));
-        }
-
-        public DelegateCommand FinishCommand {
-            get {
-                if (_finishCommand == null) {
-                    _finishCommand = new DelegateCommand(OnFinish, CanFinish);
-                }
-
-                return _finishCommand;
-            }
         }
 
         public DelegateCommand CancelCommand {
@@ -58,26 +37,6 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
                 }
 
                 return _cancelCommand;
-            }
-        }
-
-        public DelegateCommand SelectRootPathCommand {
-            get {
-                if (_selectRootPathCommand == null) {
-                    _selectRootPathCommand = new DelegateCommand(OnSelectRootPath, CanSelectRootPath);
-                }
-
-                return _selectRootPathCommand;
-            }
-        }
-
-        public DelegateCommand SelectDataPathCommand {
-            get {
-                if (_selectDataPathCommand == null) {
-                    _selectDataPathCommand = new DelegateCommand(OnSelectDataPath, CanSelectDataPath);
-                }
-
-                return _selectDataPathCommand;
             }
         }
 
@@ -91,24 +50,87 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
             }
         }
 
+        public string DataPath {
+            get => _dataPath;
+            set => SetProperty(ref _dataPath, value, nameof(DataPath));
+        }
+
         public string ErrorMessage {
             get { return _errorMessage; }
             private set { SetProperty(ref _errorMessage, value, nameof(ErrorMessage)); }
+        }
+
+        public DelegateCommand FinishCommand {
+            get {
+                if (_finishCommand == null) {
+                    _finishCommand = new DelegateCommand(OnFinish, CanFinish);
+                }
+
+                return _finishCommand;
+            }
+        }
+
+        public DelegateCommand SelectDataPathCommand {
+            get {
+                if (_selectDataPathCommand == null) {
+                    _selectDataPathCommand = new DelegateCommand(OnSelectDataPath, CanSelectDataPath);
+                }
+
+                return _selectDataPathCommand;
+            }
+        }
+
+        public DelegateCommand SelectRootPathCommand {
+            get {
+                if (_selectRootPathCommand == null) {
+                    _selectRootPathCommand = new DelegateCommand(OnSelectRootPath, CanSelectRootPath);
+                }
+
+                return _selectRootPathCommand;
+            }
+        }
+
+        public string XPlaneRootPath {
+            get => _xPlaneRootPath;
+            set => SetProperty(ref _xPlaneRootPath, value, nameof(XPlaneRootPath));
+        }
+
+        private bool AllPathsExist() {
+            bool pathsExists = _settingsService.IsHavingRequiredDirectories(XPlaneRootPath, DataPath, out IList<string> errors);
+
+            if (errors.Any()) {
+                ErrorMessage = string.Join(", ", errors);
+            } else {
+                ErrorMessage = null;
+            }
+
+            return pathsExists;
+        }
+
+        private bool CanCancel() {
+            return AllPathsExist();
         }
 
         private bool CanCreateLuaScript() {
             return AllPathsExist() && LuaScriptPathExists();
         }
 
-        private bool LuaScriptPathExists() {
-            return Directory.Exists(
-                Path.Combine(
-                    XPlaneRootPath,
-                    Properties.Settings.Default.LuaPathRelativeToXPlaneRoot));
+        private bool CanFinish() {
+            return AllPathsExist();
         }
 
-        private void OnCreateLuaScript() {
-            CreateLuaScript();
+        private bool CanSelectDataPath() {
+            return true;
+        }
+
+        private bool CanSelectRootPath() {
+            return true;
+        }
+
+        private void CommandsRaiseCanExecuteChanged() {
+            CancelCommand.RaiseCanExecuteChanged();
+            FinishCommand.RaiseCanExecuteChanged();
+            CreateLuaScriptCommand.RaiseCanExecuteChanged();
         }
 
         private void CreateLuaScript() {
@@ -121,15 +143,19 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
                 luaScript);
         }
 
-        private bool AllPathsExist() {
-            bool pathsExists = _settingsService.IsHavingRequiredDirectories(XPlaneRootPath, DataPath, out IList<string> errors);
+        private bool LuaScriptPathExists() {
+            return Directory.Exists(
+                Path.Combine(
+                    XPlaneRootPath,
+                    Properties.Settings.Default.LuaPathRelativeToXPlaneRoot));
+        }
 
-            if (errors.Any()) {
-                ErrorMessage = string.Join(", ", errors);
-            } else {
-                ErrorMessage = null;
-            }
-            return pathsExists ;
+        private void OnCancel() {
+            _navigateBackCommand.Execute();
+        }
+
+        private void OnCreateLuaScript() {
+            CreateLuaScript();
         }
 
         private void OnFinish() {
@@ -137,26 +163,14 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
             _navigateBackCommand.Execute();
         }
 
-        private void SaveSettings() {
-            Properties.Settings.Default.XPlaneRootPath = XPlaneRootPath;
-            Properties.Settings.Default.DataPath = DataPath;
-            Properties.Settings.Default.Save();
-        }
-
-        private bool CanFinish() {
-            return AllPathsExist();
-        }
-
-        private bool CanCancel() {
-            return AllPathsExist();
-        }
-
-        private void OnCancel() {
-            _navigateBackCommand.Execute();
-        }
-
-        private bool CanSelectRootPath() {
-            return true;
+        private void OnSelectDataPath() {
+            VistaFolderBrowserDialog browserDialog = new VistaFolderBrowserDialog();
+            browserDialog.SelectedPath = DataPath;
+            bool? showDialog = browserDialog.ShowDialog();
+            if (showDialog.HasValue && showDialog.Value) {
+                DataPath = browserDialog.SelectedPath;
+                CommandsRaiseCanExecuteChanged();
+            }
         }
 
         private void OnSelectRootPath() {
@@ -171,24 +185,10 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime {
             }
         }
 
-        private bool CanSelectDataPath() {
-            return true;
-        }
-
-        private void OnSelectDataPath() {
-            VistaFolderBrowserDialog browserDialog = new VistaFolderBrowserDialog();
-            browserDialog.SelectedPath = DataPath;
-            bool? showDialog = browserDialog.ShowDialog();
-            if (showDialog.HasValue && showDialog.Value) {
-                DataPath = browserDialog.SelectedPath;
-                CommandsRaiseCanExecuteChanged();
-            }
-        }
-
-        private void CommandsRaiseCanExecuteChanged() {
-            CancelCommand.RaiseCanExecuteChanged();
-            FinishCommand.RaiseCanExecuteChanged();
-            CreateLuaScriptCommand.RaiseCanExecuteChanged();
+        private void SaveSettings() {
+            Properties.Settings.Default.XPlaneRootPath = XPlaneRootPath;
+            Properties.Settings.Default.DataPath = DataPath;
+            Properties.Settings.Default.Save();
         }
     }
 }

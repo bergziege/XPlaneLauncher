@@ -17,6 +17,6 @@
         
         <ContentControl regions:RegionManager.RegionName="{x:Static local:RegionNames.AppRegion}" Grid.Column="0" />
         <ContentControl regions:RegionManager.RegionName="{x:Static local:RegionNames.MapRegion}" Grid.Column="1" />
-        <materialDesign:DialogHost Grid.ColumnSpan="2"></materialDesign:DialogHost>
+        <materialDesign:DialogHost Grid.ColumnSpan="2" Grid.Column="0"></materialDesign:DialogHost>
     </Grid>
 </Window>

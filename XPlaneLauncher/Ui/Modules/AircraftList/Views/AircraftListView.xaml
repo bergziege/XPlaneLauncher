@@ -48,12 +48,13 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <materialDesign:PackIcon Kind="MapOutline" Grid.Column="1" Foreground="Gray" />
-                <materialDesign:PackIcon Kind="FormatListBulleted" Foreground="Gray" />
-                <materialDesign:PackIcon Kind="ArrowLeftBold" Grid.ColumnSpan="2" HorizontalAlignment="Center" />
+                <materialDesign:PackIcon Grid.Row="0" Grid.Column="0" Kind="FormatListBulleted" Foreground="Gray" />
+                <materialDesign:PackIcon Kind="ArrowLeftBold" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0"
+                                         HorizontalAlignment="Center" />
 
                 <ToggleButton IsChecked="{Binding Path=IsFilteredToMapBoundaries}"
                               ToolTip="Show only aircrafts visible on map" Grid.Row="1"
-                              HorizontalAlignment="Center" Grid.ColumnSpan="2" />
+                              HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="0" />
             </Grid>
 
             <Button Command="{Binding Path=ShowSettingsCommand}" Margin="5" Grid.Column="3"
@@ -71,6 +72,7 @@
                 <Style TargetType="ContentControl" BasedOn="{StaticResource {x:Type ContentControl}}">
                     <Setter Property="Visibility" Value="Visible" />
                     <Style.Triggers>
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                         <DataTrigger Binding="{Binding Path=IsVisible}" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
@@ -120,7 +122,7 @@
                                                        Foreground="Black" />
                                         </StackPanel>
                                     </StackPanel>
-                                    <Grid VerticalAlignment="Bottom" Margin="5">
+                                    <Grid Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Margin="5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="Auto" />
@@ -175,11 +177,12 @@
                                         </materialDesign:Chip>
                                     </Grid>
 
-                                    <Image Source="{Binding Path=Thumbnail.ThumbnailFile.FullName}" Grid.Column="1"
+                                    <Image Source="{Binding Path=Thumbnail.ThumbnailFile.FullName}" Grid.Row="0"
+                                           Grid.Column="1"
                                            Width="200"
                                            Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}"
                                            HorizontalAlignment="Right" />
-                                    <Rectangle Grid.Column="1" Width="200" Height="100" Fill="#ABABAB"
+                                    <Rectangle Grid.Row="0" Grid.Column="1" Width="200" Height="100" Fill="#ABABAB"
                                                Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}"
                                                HorizontalAlignment="Right" />
 

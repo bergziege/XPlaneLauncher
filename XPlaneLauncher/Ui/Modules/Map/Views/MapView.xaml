@@ -3,11 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-
              xmlns:design="clr-namespace:XPlaneLauncher.Ui.Modules.Map.ViewModels.Design"
              xmlns:mapControl="clr-namespace:MapControl;assembly=MapControl.WPF"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:converter="clr-namespace:XPlaneLauncher.Converter"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
@@ -15,12 +12,11 @@
              d:DataContext="{d:DesignInstance {x:Type design:MapDesignViewModel}, IsDesignTimeCreatable=True}"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
-        <converter:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <system:Boolean x:Key="True">True</system:Boolean>
-        <system:Boolean x:Key="False">False</system:Boolean>
         <Style x:Key="PointItemStyle" TargetType="mapControl:MapItem">
+            <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
             <Setter Property="mapControl:MapPanel.Location" Value="{Binding Location}" />
             <Setter Property="Foreground" Value="Black" />
+            <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
             <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -69,13 +65,16 @@
                                                      Canvas.Top="-8" Canvas.Left="-8"
                                                      Foreground="#313131">
                                 <materialDesign:PackIcon.RenderTransform>
+                                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                                     <RotateTransform Angle="{Binding Path=AircraftInformation.Heading}"
-                                                     CenterX="8" CenterY="8"></RotateTransform>
+                                                     CenterX="8" CenterY="8" />
                                 </materialDesign:PackIcon.RenderTransform>
                             </materialDesign:PackIcon>
                             <Grid Canvas.Left="15" Canvas.Top="-8">
                                 <Rectangle x:Name="labelBackground" Fill="White" Opacity="0.8" />
-                                <Rectangle x:Name="labelHighlightBackground" Fill="{StaticResource PrimaryHueMidBrush}" Opacity="0" />
+                                <Rectangle x:Name="labelHighlightBackground" Fill="{StaticResource PrimaryHueMidBrush}"
+                                           Opacity="0" />
+                                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                                 <Label Margin="1" Content="{Binding Name}" />
                             </Grid>
                         </Canvas>
@@ -89,8 +88,10 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="PathPointItemStyle" TargetType="mapControl:MapItem">
+            <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
             <Setter Property="mapControl:MapPanel.Location" Value="{Binding Location}" />
             <Setter Property="Foreground" Value="Black" />
+            <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
             <Setter Property="IsSelected" Value="{Binding Path=IsSelected}" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -131,6 +132,7 @@
                             </Path>
                             <Grid Canvas.Left="15" Canvas.Top="-8">
                                 <Rectangle x:Name="labelBackground" Fill="White" Opacity="0" />
+                                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                                 <Label Margin="1" Content="{Binding Name}" />
                             </Grid>
                         </Canvas>
@@ -144,12 +146,14 @@
             </Style.Triggers>
         </Style>
         <DataTemplate x:Key="PolylineItemTemplate">
-            <mapControl:MapPolyline Locations="{Binding Locations}" >
+            <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+            <mapControl:MapPolyline Locations="{Binding Locations}">
                 <mapControl:MapPolyline.Style>
                     <Style TargetType="mapControl:MapPolyline">
                         <Setter Property="Stroke" Value="Black" />
                         <Setter Property="StrokeThickness" Value="2" />
                         <Style.Triggers>
+                            <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                             <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
                                 <Setter Property="Stroke" Value="Red" />
                                 <Setter Property="StrokeThickness" Value="4" />
@@ -165,7 +169,7 @@
                         Center="{Binding Path=MapCenter}"
                         MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
                         x:Name="Map"
-                        ViewportChanged="Map_OnViewportChanged" Grid.Column="1">
+                        ViewportChanged="Map_OnViewportChanged" >
             <mapControl:MapItemsControl ItemsSource="{Binding Path=Aircrafts}"
                                         ItemContainerStyle="{StaticResource PointItemStyle}"
                                         SelectionMode="Single"

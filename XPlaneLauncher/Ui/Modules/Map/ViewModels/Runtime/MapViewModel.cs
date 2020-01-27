@@ -37,21 +37,6 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             eventAggregator.GetEvent<PubSubEvent<AircraftRemovedEvent>>().Subscribe(OnAircraftRemoved);
         }
 
-        private void OnAircraftRemoved(AircraftRemovedEvent obj) {
-            List<RoutePoint> routePointsToRemove = RoutePoints.Where(x => x.AircraftId == obj.AircraftId).ToList();
-            AircraftRouteViewModel routeToRemove = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
-
-            if (routePointsToRemove.Any()) {
-                foreach (RoutePoint routePoint in routePointsToRemove) {
-                    RoutePoints.Remove(routePoint);
-                }
-            }
-
-            if (routeToRemove != null) {
-                Routes.Remove(routeToRemove);
-            }
-        }
-
         public ObservableCollection<Aircraft> Aircrafts { get; }
 
         public DelegateCommand<Location> LocationSelectedCommand {
@@ -104,6 +89,21 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
         private void OnAircraftListSelectioChanged(SelectionChangedEvent obj) {
             CenterOnSelectedAircaft();
             HighlightSelectedAircraftRoute();
+        }
+
+        private void OnAircraftRemoved(AircraftRemovedEvent obj) {
+            List<RoutePoint> routePointsToRemove = RoutePoints.Where(x => x.AircraftId == obj.AircraftId).ToList();
+            AircraftRouteViewModel routeToRemove = Routes.FirstOrDefault(x => x.AircraftId == obj.AircraftId);
+
+            if (routePointsToRemove.Any()) {
+                foreach (RoutePoint routePoint in routePointsToRemove) {
+                    RoutePoints.Remove(routePoint);
+                }
+            }
+
+            if (routeToRemove != null) {
+                Routes.Remove(routeToRemove);
+            }
         }
 
         private void OnAircraftsLoaded(AircraftsLoadedEvent obj) {

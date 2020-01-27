@@ -31,7 +31,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private readonly ISettingsService _settingsService;
         private readonly ShowRemoveConfirmationDialogCommand _showRemoveConfirmationDialogCommand;
         private DelegateCommand _editSelectedAircraftRoute;
-        private bool _isActive;
         private bool _isFilteredToMapBoundaries;
         private bool _isMarkingSelectedAfterSelectedInList;
 
@@ -116,7 +115,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             if (!_settingsService.IsHavingRequiredDirectories(
                 Properties.Settings.Default.XPlaneRootPath,
                 Properties.Settings.Default.DataPath,
-                out IList<string> errors)) {
+                out IList<string> _)) {
                 _settingsNavigationCommand.Execute();
             }
         }

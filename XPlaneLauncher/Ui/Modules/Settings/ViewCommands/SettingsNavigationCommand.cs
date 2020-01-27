@@ -1,7 +1,5 @@
 ﻿using System;
 using Prism.Regions;
-using XPlaneLauncher.Ui.Modules.Settings.ViewModels;
-using XPlaneLauncher.Ui.Modules.Settings.ViewModels.Runtime;
 using XPlaneLauncher.Ui.Modules.Settings.Views;
 using XPlaneLauncher.Ui.Shell;
 

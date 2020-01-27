@@ -33,7 +33,7 @@
         </StackPanel>
 
         <ListBox ItemsSource="{Binding Path=Aircraft.Route}"
-                 SelectedItem="{Binding Path=SelectedRoutePoint}" Grid.Row="2"
+                 SelectedItem="{Binding Path=SelectedRoutePoint}" Grid.Row="1"
                  Margin="0"
                  HorizontalContentAlignment="Stretch"
                  Name="RoutePoints"

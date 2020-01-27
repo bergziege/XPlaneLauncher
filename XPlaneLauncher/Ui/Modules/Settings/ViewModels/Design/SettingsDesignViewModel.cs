@@ -1,5 +1,4 @@
-﻿using System;
-using Prism.Commands;
+﻿using Prism.Commands;
 
 namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Design {
     public class SettingsDesignViewModel : ISettingsViewModel {

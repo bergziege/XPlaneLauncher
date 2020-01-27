@@ -1,14 +1,11 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using XPlaneLauncher.Model;
+﻿using System.Windows.Controls;
 using XPlaneLauncher.Ui.Modules.AircraftList.ViewModels;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.Views {
     /// <summary>
-    /// Interaktionslogik für AircraftListView.xaml
+    ///     Interaktionslogik für AircraftListView.xaml
     /// </summary>
-    public partial class AircraftListView : UserControl {
+    public partial class AircraftListView {
         public AircraftListView() {
             InitializeComponent();
         }

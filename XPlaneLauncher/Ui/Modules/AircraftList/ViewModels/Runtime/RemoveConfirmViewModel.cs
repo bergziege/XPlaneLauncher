@@ -1,6 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {

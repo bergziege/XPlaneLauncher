@@ -35,10 +35,7 @@ namespace XPlaneLauncher.Model {
 
         public bool IsVisible {
             get { return _isVisible; }
-            set {
-                SetProperty(ref _isVisible, value, nameof(IsVisible));
-                ;
-            }
+            set { SetProperty(ref _isVisible, value, nameof(IsVisible)); }
         }
 
         public FileInfo LauncherInfoFile {

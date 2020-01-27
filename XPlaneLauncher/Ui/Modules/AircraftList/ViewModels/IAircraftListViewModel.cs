@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Prism.Commands;
 using XPlaneLauncher.Model;
-using XPlaneLauncher.Services.Impl;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels {
     public interface IAircraftListViewModel {

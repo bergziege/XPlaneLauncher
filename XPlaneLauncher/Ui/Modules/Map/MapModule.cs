@@ -2,9 +2,6 @@
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
-using XPlaneLauncher.Ui.Modules.AircraftList.ViewModels;
-using XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime;
-using XPlaneLauncher.Ui.Modules.AircraftList.Views;
 using XPlaneLauncher.Ui.Modules.Map.ViewModels;
 using XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime;
 using XPlaneLauncher.Ui.Modules.Map.Views;
@@ -18,13 +15,13 @@ namespace XPlaneLauncher.Ui.Modules.Map {
             _regionManager = regionManager;
         }
 
+        public void OnInitialized(IContainerProvider containerProvider) {
+            _regionManager.RegisterViewWithRegion(RegionNames.MapRegion, typeof(MapView));
+        }
+
         public void RegisterTypes(IContainerRegistry containerRegistry) {
             containerRegistry.Register<IMapViewModel, MapViewModel>();
             ViewModelLocationProvider.Register<MapView, IMapViewModel>();
-        }
-
-        public void OnInitialized(IContainerProvider containerProvider) {
-            _regionManager.RegisterViewWithRegion(RegionNames.MapRegion, typeof(MapView));
         }
     }
 }
