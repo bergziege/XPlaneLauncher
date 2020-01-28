@@ -76,11 +76,11 @@ namespace XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels.Runtime {
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext) {
-            if (!navigationContext.Parameters.ContainsKey(RouteEditorNavigationCommand.RouteEditorNavParamKey)) {
+            if (!navigationContext.Parameters.ContainsKey(RouteEditorNavigationCommand.ROUTE_EDITOR_NAV_PARAM_KEY)) {
                 return;
             }
 
-            if (navigationContext.Parameters[RouteEditorNavigationCommand.RouteEditorNavParamKey] is RouteEditorNavigationParameters navParams) {
+            if (navigationContext.Parameters[RouteEditorNavigationCommand.ROUTE_EDITOR_NAV_PARAM_KEY] is RouteEditorNavigationParameters navParams) {
                 Aircraft = navParams.Aircraft;
                 foreach (RoutePoint routePoint in Aircraft.Route) {
                     PropertyChangedEventManager.AddListener(routePoint, this, nameof(RoutePoint.IsSelected));
@@ -130,6 +130,10 @@ namespace XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels.Runtime {
                 SelectedRoutePoint = (RoutePoint)sender;
             }
             return true;
+        }
+
+        protected virtual void OnIsActiveChanged() {
+            IsActiveChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

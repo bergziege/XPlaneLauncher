@@ -12,5 +12,11 @@ namespace XPlaneLauncher.Persistence.Impl {
             FileInfo sitFile = new FileInfo($@"{sitFilePath.FullName}{Path.DirectorySeparatorChar}{aircraftInformation.File.NameWithoutExtension()}.sit");
             return new Situation(sitFile.Exists, sitFile);
         }
+
+        public void Delete(FileInfo aircraftSituation) {
+            if (aircraftSituation != null && aircraftSituation.Exists) {
+                aircraftSituation.Delete();
+            }
+        }
     }
 }

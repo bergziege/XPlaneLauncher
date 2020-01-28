@@ -6,5 +6,6 @@ namespace XPlaneLauncher.Persistence {
     public interface ILauncherInformationDao {
         Task<AircraftLauncherInformation> FindForAircraftAsync(AircraftInformation aircraftInformation);
         void SaveToFile(FileInfo launcherInfoFile, AircraftLauncherInformation launcherInfo);
+        void Delete(FileInfo aircraftLauncherInfoFile);
     }
 }

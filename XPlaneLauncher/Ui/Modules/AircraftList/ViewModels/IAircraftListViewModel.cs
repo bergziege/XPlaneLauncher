@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Prism.Commands;
 using XPlaneLauncher.Model;
-using XPlaneLauncher.Services.Impl;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels {
     public interface IAircraftListViewModel {
@@ -12,5 +11,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels {
         DelegateCommand ShowSettingsCommand { get; }
         DelegateCommand EditSelectedAircraftRoute { get; }
         bool IsFilteredToMapBoundaries { get; set; }
+        DelegateCommand RemoveSelectedAircraftCommand { get; }
     }
 }

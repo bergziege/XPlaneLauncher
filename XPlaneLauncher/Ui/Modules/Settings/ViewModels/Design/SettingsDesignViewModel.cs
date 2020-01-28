@@ -1,5 +1,4 @@
-﻿using System;
-using Prism.Commands;
+﻿using Prism.Commands;
 
 namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Design {
     public class SettingsDesignViewModel : ISettingsViewModel {
@@ -13,5 +12,6 @@ namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels.Design {
         public DelegateCommand SelectDataPathCommand { get; } = new DelegateCommand(() => { });
         public DelegateCommand SelectRootPathCommand { get; } = new DelegateCommand(() => { });
         public string XPlaneRootPath { get; set; } = @"c:\test\x-plane\";
+        public DelegateCommand BackCommand { get; } = new DelegateCommand(()=>{});
     }
 }

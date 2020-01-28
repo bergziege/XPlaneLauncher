@@ -8,13 +8,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
+using XPlaneLauncher.Ui.Modules.AircraftList.DialogCommands;
 using XPlaneLauncher.Ui.Modules.AircraftList.Events;
 using XPlaneLauncher.Ui.Modules.Map.Dtos;
 using XPlaneLauncher.Ui.Modules.Map.Events;
@@ -22,20 +23,21 @@ using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Settings.ViewCommands;
 
 namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
-    public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener, IActiveAware {
+    public class AircraftListViewModel : BindableBase, IAircraftListViewModel, IWeakEventListener, INavigationAware {
         private readonly IAircraftService _aircraftService;
         private readonly IEventAggregator _eventAggregator;
         private readonly RouteEditorNavigationCommand _routeEditorNavCommand;
         private readonly SettingsNavigationCommand _settingsNavigationCommand;
         private readonly ISettingsService _settingsService;
+        private readonly ShowRemoveConfirmationDialogCommand _showRemoveConfirmationDialogCommand;
         private DelegateCommand _editSelectedAircraftRoute;
-        private bool _isActive;
         private bool _isFilteredToMapBoundaries;
         private bool _isMarkingSelectedAfterSelectedInList;
 
         private bool _isSelectingAircraftAfterSelectionChangedInModel;
         private MapBoundary _lastMapBoundaries;
         private DelegateCommand _reloadCommand;
+        private DelegateCommand _removeSelectedPlaneCommand;
         private Aircraft _selectedAircraft;
         private DelegateCommand _showSettingsCommand;
         private DelegateCommand _startSimCommand;
@@ -44,12 +46,14 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand,
             RouteEditorNavigationCommand routeEditorNavCommand,
             IEventAggregator eventAggregator,
-            ISettingsService settingsService) {
+            ISettingsService settingsService,
+            ShowRemoveConfirmationDialogCommand showRemoveConfirmationDialogCommand) {
             _aircraftService = aircraftService;
             _settingsNavigationCommand = settingsNavigationCommand;
             _routeEditorNavCommand = routeEditorNavCommand;
             _eventAggregator = eventAggregator;
             _settingsService = settingsService;
+            _showRemoveConfirmationDialogCommand = showRemoveConfirmationDialogCommand;
             Aircrafts = aircraftModelProvider.Aircrafts;
             CollectionChangedEventManager.AddListener(Aircrafts, this);
             _eventAggregator.GetEvent<PubSubEvent<MapBoundariesChangedEvent>>().Subscribe(OnMapBoundariesChanged);
@@ -61,18 +65,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get {
                 return _editSelectedAircraftRoute ?? (_editSelectedAircraftRoute = new DelegateCommand(
                            OnEditSelectedAircraftRoute));
-            }
-        }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether the object is active.
-        /// </summary>
-        /// <value><see langword="true" /> if the object is active; otherwise <see langword="false" />.</value>
-        public bool IsActive {
-            get { return _isActive; }
-            set {
-                _isActive = value;
-                CheckSettings();
             }
         }
 
@@ -90,6 +82,10 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         public DelegateCommand ReloadCommand {
             get { return _reloadCommand ?? (_reloadCommand = new DelegateCommand(Reload, CanReload)); }
+        }
+
+        public DelegateCommand RemoveSelectedAircraftCommand {
+            get { return _removeSelectedPlaneCommand ?? (_removeSelectedPlaneCommand = new DelegateCommand(RemoveSelectedAircraft)); }
         }
 
         public Aircraft SelectedAircraft {
@@ -115,10 +111,38 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             get { return _startSimCommand ?? (_startSimCommand = new DelegateCommand(StartSim, CanStartSim)); }
         }
 
+        public void CheckSettings() {
+            if (!_settingsService.IsHavingRequiredDirectories(
+                Properties.Settings.Default.XPlaneRootPath,
+                Properties.Settings.Default.DataPath,
+                out IList<string> _)) {
+                _settingsNavigationCommand.Execute();
+            }
+        }
+
         /// <summary>
-        ///     Notifies that the value for <see cref="P:Prism.IActiveAware.IsActive" /> property has changed.
+        ///     Called to determine if this instance can handle the navigation request.
         /// </summary>
-        public event EventHandler IsActiveChanged;
+        /// <param name="navigationContext">The navigation context.</param>
+        /// <returns>
+        ///     <see langword="true" /> if this instance accepts the navigation request; otherwise, <see langword="false" />.
+        /// </returns>
+        public bool IsNavigationTarget(NavigationContext navigationContext) {
+            return true;
+        }
+
+        /// <summary>
+        ///     Called when the implementer is being navigated away from.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        public void OnNavigatedFrom(NavigationContext navigationContext) {
+        }
+
+        /// <summary>Called when the implementer has been navigated to.</summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        public void OnNavigatedTo(NavigationContext navigationContext) {
+            CheckSettings();
+        }
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(CollectionChangedEventManager)) {
@@ -140,15 +164,6 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         private bool CanStartSim() {
             return SelectedAircraft != null && SelectedAircraft.Situation.HasSit;
-        }
-
-        private void CheckSettings() {
-            if (!_settingsService.IsHavingRequiredDirectories(
-                Properties.Settings.Default.XPlaneRootPath,
-                Properties.Settings.Default.DataPath,
-                out IList<string> errors)) {
-                _settingsNavigationCommand.Execute();
-            }
         }
 
         private void FilterByMapBoundary(MapBoundary mapBoundaries) {
@@ -200,6 +215,15 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private async void Reload() {
             await _aircraftService.ReloadAsync();
             _eventAggregator.GetEvent<PubSubEvent<AircraftsLoadedEvent>>().Publish(new AircraftsLoadedEvent());
+        }
+
+        private async void RemoveSelectedAircraft() {
+            if (await _showRemoveConfirmationDialogCommand.Execute(SelectedAircraft)) {
+                Aircraft aircraftToDelete = SelectedAircraft;
+                SelectedAircraft = null;
+                _aircraftService.RemoveAircraft(aircraftToDelete);
+                _eventAggregator.GetEvent<PubSubEvent<AircraftRemovedEvent>>().Publish(new AircraftRemovedEvent(aircraftToDelete.Id));
+            }
         }
 
         private void StartSim() {

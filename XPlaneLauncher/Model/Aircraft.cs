@@ -35,14 +35,11 @@ namespace XPlaneLauncher.Model {
 
         public bool IsVisible {
             get { return _isVisible; }
-            set {
-                SetProperty(ref _isVisible, value, nameof(IsVisible));
-                ;
-            }
+            set { SetProperty(ref _isVisible, value, nameof(IsVisible)); }
         }
 
         public FileInfo LauncherInfoFile {
-            get { return _launcherInfo.LauncherInfoFile; }
+            get { return _launcherInfo?.LauncherInfoFile; }
         }
 
         public string Livery {
@@ -88,7 +85,7 @@ namespace XPlaneLauncher.Model {
                         additionalInformation = _launcherInfo.LocationInformations[location];
                     }
 
-                    RoutePoint routePoint = new RoutePoint(location);
+                    RoutePoint routePoint = new RoutePoint(location, Id);
                     if (additionalInformation != null) {
                         routePoint.Update(additionalInformation.Name, additionalInformation.Comment);
                     }

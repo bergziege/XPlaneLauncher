@@ -12,7 +12,7 @@ namespace XPlaneLauncher.Persistence.Impl {
                 return new Thumbnail(true, thumbnail);
             }
 
-            return new Thumbnail(false, null); ;
+            return new Thumbnail(false, null);
         }
     }
 }

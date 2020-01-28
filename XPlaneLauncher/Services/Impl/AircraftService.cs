@@ -27,7 +27,7 @@ namespace XPlaneLauncher.Services.Impl {
         }
 
         public RoutePoint AddRoutePointToAircraft(Aircraft aircraft, Location location) {
-            RoutePoint routePoint = new RoutePoint(location);
+            RoutePoint routePoint = new RoutePoint(location, aircraft.Id);
             aircraft.Route.Add(routePoint);
             aircraft.Update(_routeService.GetRouteLenght(aircraft));
             return routePoint;
@@ -45,6 +45,14 @@ namespace XPlaneLauncher.Services.Impl {
                 aircraft.Update(_routeService.GetRouteLenght(aircraft));
                 _aircraftModelProvider.Aircrafts.Add(aircraft);
             }
+        }
+
+        public void RemoveAircraft(Aircraft aircraft) {
+            _sitFileDao.Delete(aircraft.Situation?.SitFile);
+            _launcherInformationDao.Delete(aircraft.LauncherInfoFile);
+            _aircraftInformationDao.Delete(aircraft.AircraftInformation.File);
+
+            _aircraftModelProvider.Aircrafts.Remove(aircraft);
         }
 
         public void RemoveRoutePointFromAircraft(Aircraft aircraft, RoutePoint routePoint) {

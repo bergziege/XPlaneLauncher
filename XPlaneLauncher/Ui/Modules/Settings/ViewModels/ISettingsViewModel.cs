@@ -1,22 +1,19 @@
-﻿using System;
-using Prism.Commands;
+﻿using Prism.Commands;
 
 namespace XPlaneLauncher.Ui.Modules.Settings.ViewModels {
     public interface ISettingsViewModel {
-        string XPlaneRootPath { get; set; }
-
-        string DataPath { get; set; }
-
-        DelegateCommand FinishCommand { get; }
-
-        DelegateCommand CancelCommand { get; }
-
-        DelegateCommand SelectRootPathCommand { get; }
-
-        DelegateCommand SelectDataPathCommand { get; }
+        DelegateCommand BackCommand { get; }
 
         DelegateCommand CreateLuaScriptCommand { get; }
 
+        string DataPath { get; set; }
+
         string ErrorMessage { get; }
+
+        DelegateCommand SelectDataPathCommand { get; }
+
+        DelegateCommand SelectRootPathCommand { get; }
+
+        string XPlaneRootPath { get; set; }
     }
 }

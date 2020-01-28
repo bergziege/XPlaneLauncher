@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XPlaneLauncher.Ui.Shell"
         xmlns:regions="http://prismlibrary.com/"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="X-Plane Launcher" Height="600" Width="1280">
     <Grid>
@@ -13,7 +14,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        
         <ContentControl regions:RegionManager.RegionName="{x:Static local:RegionNames.AppRegion}" Grid.Column="0" />
         <ContentControl regions:RegionManager.RegionName="{x:Static local:RegionNames.MapRegion}" Grid.Column="1" />
+        <materialDesign:DialogHost Grid.ColumnSpan="2" Grid.Column="0"></materialDesign:DialogHost>
     </Grid>
 </Window>

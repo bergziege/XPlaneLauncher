@@ -30,5 +30,11 @@ namespace XPlaneLauncher.Persistence.Impl {
 
             return aircraftDtos;
         }
+
+        public void Delete(FileInfo aircraftInformationFile) {
+            if (aircraftInformationFile != null && aircraftInformationFile.Exists) {
+                aircraftInformationFile.Delete();
+            }
+        }
     }
 }
