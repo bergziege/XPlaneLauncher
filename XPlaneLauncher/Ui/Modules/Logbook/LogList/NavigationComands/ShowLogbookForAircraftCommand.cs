@@ -6,6 +6,7 @@ using XPlaneLauncher.Ui.Shell;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands {
     public class ShowLogbookForAircraftCommand {
+        public const string PARAM_KEY = "LogbookNavigationCommandNavParams";
         private readonly IRegionManager _regionManager;
 
         /// <summary>
@@ -16,7 +17,9 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands {
         }
 
         public void Execute(Aircraft aircraft) {
-            _regionManager.RequestNavigate(RegionNames.AppRegion, new Uri(nameof(LogListView), UriKind.Relative));
+            NavigationParameters parameters = new NavigationParameters();
+            parameters.Add(PARAM_KEY, aircraft);
+            _regionManager.RequestNavigate(RegionNames.AppRegion, new Uri(nameof(LogListView), UriKind.Relative), parameters);
         }
     }
 }
