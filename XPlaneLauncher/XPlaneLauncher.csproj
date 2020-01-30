@@ -122,6 +122,14 @@
     <Compile Include="Ui\Modules\AircraftList\Views\RemoveConfirmView.xaml.cs">
       <DependentUpon>RemoveConfirmView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Modules\Logbook\LogbookModule.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\NavigationComands\ShowLogbookForAircraftCommand.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\ViewModels\Design\LogListDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\ViewModels\ILogListViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\ViewModels\Runtime\LogListViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\Views\LogListView.xaml.cs">
+      <DependentUpon>LogListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ui\Modules\Map\Dtos\MapBoundary.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\Runtime\AircraftRouteViewModel.cs" />
     <Compile Include="Extensions\FileInfoExtension.cs" />
@@ -191,6 +199,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Ui\Modules\Logbook\LogList\Views\LogListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Ui\Modules\Map\Views\MapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -248,6 +260,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dtos\" />
+    <Folder Include="Ui\Modules\Logbook\Auto\" />
+    <Folder Include="Ui\Modules\Logbook\Manual\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

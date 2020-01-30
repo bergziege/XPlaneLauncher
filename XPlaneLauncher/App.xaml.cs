@@ -9,6 +9,7 @@ using XPlaneLauncher.Services;
 using XPlaneLauncher.Services.Impl;
 using XPlaneLauncher.Ui.Common.Commands;
 using XPlaneLauncher.Ui.Modules.AircraftList;
+using XPlaneLauncher.Ui.Modules.Logbook;
 using XPlaneLauncher.Ui.Modules.Map;
 using XPlaneLauncher.Ui.Modules.RouteEditor;
 using XPlaneLauncher.Ui.Modules.Settings;
@@ -25,6 +26,7 @@ namespace XPlaneLauncher {
             moduleCatalog.AddModule<AircraftListModule>();
             moduleCatalog.AddModule<MapModule>();
             moduleCatalog.AddModule<RouteEditorModule>();
+            moduleCatalog.AddModule<LogbookModule>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry) {

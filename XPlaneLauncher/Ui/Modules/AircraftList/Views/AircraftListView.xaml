@@ -212,6 +212,14 @@
                                                 <TextBlock Text="Route" VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </Button>
+                                        <Separator Width="5" Visibility="Hidden" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=ShowLogbookForSelectedAircraftCommand}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="BookOpen" VerticalAlignment="Center"/>
+                                                <Separator Width="5" Visibility="Hidden" />
+                                                <TextBlock Text="Logbook" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
