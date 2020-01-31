@@ -15,5 +15,13 @@
         <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left">
             <materialDesign:PackIcon Kind="ArrowBack"/>
         </Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Command="{Binding Path=AddManualEntryCommand}" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Add" VerticalAlignment="Center"/>
+                    <TextBlock Text="Manual" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

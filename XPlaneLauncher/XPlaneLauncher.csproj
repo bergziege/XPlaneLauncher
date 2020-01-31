@@ -130,6 +130,13 @@
     <Compile Include="Ui\Modules\Logbook\LogList\Views\LogListView.xaml.cs">
       <DependentUpon>LogListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Modules\Logbook\Manual\NavigationCommands\ShowManualEntryCommand.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\ViewModels\Design\ManualEntryDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\ViewModels\IManualEntryViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\ViewModels\Runtime\ManualEntryViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\Views\ManualLogEntryView.xaml.cs">
+      <DependentUpon>ManualLogEntryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ui\Modules\Map\Dtos\MapBoundary.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\Runtime\AircraftRouteViewModel.cs" />
     <Compile Include="Extensions\FileInfoExtension.cs" />
@@ -203,6 +210,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Ui\Modules\Logbook\Manual\Views\ManualLogEntryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Ui\Modules\Map\Views\MapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -261,7 +272,6 @@
   <ItemGroup>
     <Folder Include="Dtos\" />
     <Folder Include="Ui\Modules\Logbook\Auto\" />
-    <Folder Include="Ui\Modules\Logbook\Manual\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

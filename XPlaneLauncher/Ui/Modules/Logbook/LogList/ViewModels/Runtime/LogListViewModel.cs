@@ -3,18 +3,26 @@ using Prism.Regions;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Ui.Common.Commands;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands;
+using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
     public class LogListViewModel : ILogListViewModel, INavigationAware {
         private readonly NavigateBackCommand _navigateBackCommand;
+        private readonly ShowManualEntryCommand _showManualEntryCommand;
+        private DelegateCommand _addManualEntryCommand;
         private Aircraft _aircraft;
         private DelegateCommand _backCommand;
 
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
-        public LogListViewModel(NavigateBackCommand navigateBackCommand) {
+        public LogListViewModel(NavigateBackCommand navigateBackCommand, ShowManualEntryCommand showManualEntryCommand) {
             _navigateBackCommand = navigateBackCommand;
+            _showManualEntryCommand = showManualEntryCommand;
+        }
+
+        public DelegateCommand AddManualEntryCommand {
+            get { return _addManualEntryCommand ?? (_addManualEntryCommand = new DelegateCommand(OnAddManualEntry)); }
         }
 
         public DelegateCommand BackCommand {
@@ -51,6 +59,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
 
         private void GoBack() {
             _navigateBackCommand.Execute();
+        }
+
+        private void OnAddManualEntry() {
+            _showManualEntryCommand.Execute();
         }
     }
 }

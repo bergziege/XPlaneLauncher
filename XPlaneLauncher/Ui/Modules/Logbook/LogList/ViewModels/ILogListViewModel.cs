@@ -3,5 +3,6 @@
 namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels {
     public interface ILogListViewModel {
         DelegateCommand BackCommand { get; }
+        DelegateCommand AddManualEntryCommand { get; }
     }
 }

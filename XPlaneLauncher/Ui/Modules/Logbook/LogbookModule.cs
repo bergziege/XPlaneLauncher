@@ -5,6 +5,10 @@ using XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.Views;
+using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
+using XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels;
+using XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime;
+using XPlaneLauncher.Ui.Modules.Logbook.Manual.Views;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook {
     public class LogbookModule : IModule {
@@ -20,6 +24,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook {
             containerRegistry.RegisterForNavigation<LogListView>();
             containerRegistry.Register<ILogListViewModel, LogListViewModel>();
             ViewModelLocationProvider.Register<LogListView, ILogListViewModel>();
+
+            containerRegistry.Register<ShowManualEntryCommand>();
+            containerRegistry.RegisterForNavigation<ManualLogEntryView>();
+            containerRegistry.Register<IManualEntryViewModel, ManualEntryViewModel>();
+            ViewModelLocationProvider.Register<ManualLogEntryView, IManualEntryViewModel>();
         }
     }
 }
