@@ -6,8 +6,9 @@
              xmlns:design="clr-namespace:XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Design"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignWidth="600"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type design:ManualEntryDesignViewModel}, IsDesignTimeCreatable=True}"
              IsTabStop="False">
@@ -28,21 +29,48 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <DatePicker materialDesign:HintAssist.Hint="Start date"
-                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                            SelectedDate="{Binding StartDateTime}"/>
                 <materialDesign:TimePicker Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
                                            materialDesign:HintAssist.Hint="Start time (UTC)" Grid.Row="0"
                                            Grid.Column="2"
-                                           Is24Hours="True" />
+                                           Is24Hours="True" SelectedTime="{Binding StartDateTime}"/>
+                <Border Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" Background="{StaticResource PrimaryHueLightBrush}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsInStartSelectionMode}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
                 <TextBox materialDesign:HintAssist.Hint="Start Lat"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="0"
-                         materialDesign:HintAssist.HelperText="Click map icon and double click on map" />
+                         materialDesign:HintAssist.HelperText="Click map icon and double click on map" 
+                         Text="{Binding StartLocation.Latitude}"/>
                 <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Map" HorizontalAlignment="Right"
                                          Margin="0,18,0,0" Foreground="#666666"
-                                         Background="White" />
+                                         Background="Transparent">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseUp">
+                            <b:InvokeCommandAction Command="{Binding SelectStartLocationCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </materialDesign:PackIcon>
                 <TextBox materialDesign:HintAssist.Hint="Start Lon"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="2" />
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="2" 
+                         Text="{Binding StartLocation.Longitude}"/>
                 <materialDesign:PackIcon Grid.Row="2" Grid.Column="2" Kind="Map" HorizontalAlignment="Right"
-                                         Margin="0,18,0,0" Foreground="#666666" Background="White" />
+                                         Margin="0,18,0,0" Foreground="#666666" Background="Transparent">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseUp">
+                            <b:InvokeCommandAction Command="{Binding SelectStartLocationCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </materialDesign:PackIcon>
             </Grid>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
@@ -62,22 +90,51 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <DatePicker materialDesign:HintAssist.Hint="End date"
-                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                            SelectedDate="{Binding EndDateTime}"/>
                 <materialDesign:TimePicker Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
                                            materialDesign:HintAssist.Hint="End time (UTC)"
                                            Is24Hours="True"
-                                           Grid.Row="0" Grid.Column="2" />
+                                           Grid.Row="0" Grid.Column="2" 
+                                           SelectedTime="{Binding EndDateTime}"/>
+                <Border Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" Background="{StaticResource PrimaryHueLightBrush}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsInEndSelectionMode}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
                 <TextBox materialDesign:HintAssist.Hint="End Lat"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Grid.Row="2" Grid.Column="0"
-                         materialDesign:HintAssist.HelperText="Click map icon and double click on map" />
+                         materialDesign:HintAssist.HelperText="Click map icon and double click on map" 
+                         Text="{Binding EndLocation.Latitude}"/>
                 <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Map" HorizontalAlignment="Right"
-                                         Margin="0,18,0,0" Foreground="#666666" Background="White" />
+                                         Margin="0,18,0,0" Foreground="#666666" Background="Transparent">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseUp">
+                            <b:InvokeCommandAction Command="{Binding SelectEndLocationCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </materialDesign:PackIcon>
                 <TextBox materialDesign:HintAssist.Hint="End Lon"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Grid.Row="2" Grid.Column="2" />
+                         Grid.Row="2" Grid.Column="2" 
+                         Text="{Binding EndLocation.Longitude}"/>
                 <materialDesign:PackIcon Grid.Row="2" Grid.Column="2" Kind="Map" HorizontalAlignment="Right"
-                                         Margin="0,18,0,0" Foreground="#666666" Background="White" />
+                                         Margin="0,18,0,0" Foreground="#666666" Background="Transparent">
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseUp">
+                            <b:InvokeCommandAction Command="{Binding SelectStartLocationCommand}" />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                </materialDesign:PackIcon>
+                
             </Grid>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
@@ -88,7 +145,8 @@
             <TextBox materialDesign:HintAssist.Hint="Duration"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:TextFieldAssist.SuffixText="h"
-                     materialDesign:HintAssist.HelperText="auto calculated by start/end date and time" />
+                     materialDesign:HintAssist.HelperText="auto calculated by start/end date and time" 
+                     Text="{Binding Duration}"/>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
         <HeaderedContentControl IsTabStop="False">
@@ -98,7 +156,8 @@
             <TextBox materialDesign:HintAssist.Hint="Distance"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:TextFieldAssist.SuffixText="nm"
-                     materialDesign:HintAssist.HelperText="auto calculated by start/end lat and lon" />
+                     materialDesign:HintAssist.HelperText="auto calculated by start/end lat and lon" 
+                     Text="{Binding Distance}"/>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
         <HeaderedContentControl IsTabStop="False">
@@ -110,11 +169,12 @@
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="Note"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                Text="{Binding Note}"/>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Command="{Binding Path=BackCommand}"
+            <Button Command="{Binding Path=SaveCommand}"
                     HorizontalAlignment="Left" Content="Save" />
             <Separator Width="5" Visibility="Hidden" />
             <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}"
