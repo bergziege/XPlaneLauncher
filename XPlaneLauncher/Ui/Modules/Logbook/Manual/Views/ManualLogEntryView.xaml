@@ -24,6 +24,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
+                    <RowDefinition Height="10"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <DatePicker materialDesign:HintAssist.Hint="Start date"
@@ -33,10 +34,15 @@
                                            Grid.Column="2"
                                            Is24Hours="True" />
                 <TextBox materialDesign:HintAssist.Hint="Start Lat"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="1" Grid.Column="0"
-                         materialDesign:HintAssist.HelperText="Double click on map to auto enter lat/lon" />
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="0"
+                         materialDesign:HintAssist.HelperText="Click map icon and double click on map" />
+                <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Map" HorizontalAlignment="Right"
+                                         Margin="0,18,0,0" Foreground="#666666"
+                                         Background="White" />
                 <TextBox materialDesign:HintAssist.Hint="Start Lon"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="1" Grid.Column="2" />
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="2" />
+                <materialDesign:PackIcon Grid.Row="2" Grid.Column="2" Kind="Map" HorizontalAlignment="Right"
+                                         Margin="0,18,0,0" Foreground="#666666" Background="White" />
             </Grid>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
@@ -47,6 +53,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
+                    <RowDefinition Height="10"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -62,11 +69,15 @@
                                            Grid.Row="0" Grid.Column="2" />
                 <TextBox materialDesign:HintAssist.Hint="End Lat"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Grid.Row="1" Grid.Column="0"
-                         materialDesign:HintAssist.HelperText="Double click on map to auto enter lat/lon" />
+                         Grid.Row="2" Grid.Column="0"
+                         materialDesign:HintAssist.HelperText="Click map icon and double click on map" />
+                <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Map" HorizontalAlignment="Right"
+                                         Margin="0,18,0,0" Foreground="#666666" Background="White" />
                 <TextBox materialDesign:HintAssist.Hint="End Lon"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Grid.Row="1" Grid.Column="2" />
+                         Grid.Row="2" Grid.Column="2" />
+                <materialDesign:PackIcon Grid.Row="2" Grid.Column="2" Kind="Map" HorizontalAlignment="Right"
+                                         Margin="0,18,0,0" Foreground="#666666" Background="White" />
             </Grid>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
