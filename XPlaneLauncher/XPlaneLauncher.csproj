@@ -95,6 +95,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UnitsNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f8601875a1f041da, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnitsNet.4.44.0\lib\net40\UnitsNet.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Abstractions, Version=5.11.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Abstractions.5.11.3\lib\net47\Unity.Abstractions.dll</HintPath>
     </Reference>

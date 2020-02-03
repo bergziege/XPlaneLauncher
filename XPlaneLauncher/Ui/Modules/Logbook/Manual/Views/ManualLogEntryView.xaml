@@ -50,7 +50,8 @@
                 <TextBox materialDesign:HintAssist.Hint="Start Lat"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="0"
                          materialDesign:HintAssist.HelperText="Click map icon and double click on map" 
-                         Text="{Binding StartLocation.Latitude}"/>
+                         Text="{Binding StartLocation.Latitude}"
+                         IsEnabled="False"/>
                 <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Map" HorizontalAlignment="Right"
                                          Margin="0,18,0,0" Foreground="#666666"
                                          Background="Transparent">
@@ -62,7 +63,8 @@
                 </materialDesign:PackIcon>
                 <TextBox materialDesign:HintAssist.Hint="Start Lon"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="2" 
-                         Text="{Binding StartLocation.Longitude}"/>
+                         Text="{Binding StartLocation.Longitude}"
+                         IsEnabled="False"/>
                 <materialDesign:PackIcon Grid.Row="2" Grid.Column="2" Kind="Map" HorizontalAlignment="Right"
                                          Margin="0,18,0,0" Foreground="#666666" Background="Transparent">
                     <b:Interaction.Triggers>
@@ -113,7 +115,8 @@
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Grid.Row="2" Grid.Column="0"
                          materialDesign:HintAssist.HelperText="Click map icon and double click on map" 
-                         Text="{Binding EndLocation.Latitude}"/>
+                         Text="{Binding EndLocation.Latitude}"
+                         IsEnabled="False"/>
                 <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Map" HorizontalAlignment="Right"
                                          Margin="0,18,0,0" Foreground="#666666" Background="Transparent">
                     <b:Interaction.Triggers>
@@ -125,12 +128,13 @@
                 <TextBox materialDesign:HintAssist.Hint="End Lon"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Grid.Row="2" Grid.Column="2" 
-                         Text="{Binding EndLocation.Longitude}"/>
+                         Text="{Binding EndLocation.Longitude}"
+                         IsEnabled="False"/>
                 <materialDesign:PackIcon Grid.Row="2" Grid.Column="2" Kind="Map" HorizontalAlignment="Right"
                                          Margin="0,18,0,0" Foreground="#666666" Background="Transparent">
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="MouseUp">
-                            <b:InvokeCommandAction Command="{Binding SelectStartLocationCommand}" />
+                            <b:InvokeCommandAction Command="{Binding SelectEndLocationCommand}" />
                         </b:EventTrigger>
                     </b:Interaction.Triggers>
                 </materialDesign:PackIcon>
