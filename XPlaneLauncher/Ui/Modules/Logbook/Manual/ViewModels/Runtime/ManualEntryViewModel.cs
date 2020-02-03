@@ -3,12 +3,13 @@ using MapControl;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
 using UnitsNet;
 using XPlaneLauncher.Ui.Common.Commands;
 using XPlaneLauncher.Ui.Modules.Map.Events;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
-    public class ManualEntryViewModel : BindableBase, IManualEntryViewModel {
+    public class ManualEntryViewModel : BindableBase, IManualEntryViewModel, IRegionMemberLifetime {
         private readonly IEventAggregator _eventAggregator;
         private readonly NavigateBackCommand _navigateBackCommand;
         private DelegateCommand _backCommand;
@@ -78,6 +79,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             get { return _isInStartSelectionMode; }
             private set { SetProperty(ref _isInStartSelectionMode, value, nameof(IsInStartSelectionMode)); }
         }
+
+        /// <summary>
+        ///     Gets a value indicating whether this instance should be kept-alive upon deactivation.
+        /// </summary>
+        public bool KeepAlive { get; } = false;
 
         public string Note {
             get { return _note; }
