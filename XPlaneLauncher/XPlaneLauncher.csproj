@@ -117,6 +117,10 @@
     <Compile Include="Domain\AircraftInformation.cs" />
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
     <Compile Include="Domain\LocationInformation.cs" />
+    <Compile Include="Domain\LogbookEntry.cs" />
+    <Compile Include="Domain\LogbookEntryType.cs" />
+    <Compile Include="Services\ILogbookService.cs" />
+    <Compile Include="Services\Impl\LogbookService.cs" />
     <Compile Include="Services\Impl\SettingsService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Ui\Modules\AircraftList\DialogCommands\ShowRemoveConfirmationDialogCommand.cs" />
