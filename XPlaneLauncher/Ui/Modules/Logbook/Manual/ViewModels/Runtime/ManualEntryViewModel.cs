@@ -56,6 +56,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             set {
                 SetProperty(ref _endDateTime, value, nameof(EndDateTime));
                 SaveCommand.RaiseCanExecuteChanged();
+                CalculateDuration();
             }
         }
 
@@ -100,6 +101,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             set {
                 SetProperty(ref _startDateTime, value, nameof(StartDateTime));
                 SaveCommand.RaiseCanExecuteChanged();
+                CalculateDuration();
             }
         }
 
@@ -120,6 +122,14 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             }
         }
 
+        private void CalculateDuration() {
+            if (!StartDateTime.HasValue || !EndDateTime.HasValue) {
+                Duration = null;
+            } else {
+                Duration = EndDateTime.Value.Subtract(StartDateTime.Value).TotalHours;
+            }
+        }
+
         private bool CanSave() {
             return StartDateTime.HasValue && StartLocation != null && EndDateTime.HasValue && EndLocation != null && Distance.HasValue &&
                    Duration.HasValue;
@@ -133,7 +143,9 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             if (IsInStartSelectionMode) {
                 StartLocation = obj.Location;
                 IsInStartSelectionMode = false;
-            } else if (IsInEndSelectionMode) {
+            }
+
+            if (IsInEndSelectionMode) {
                 EndLocation = obj.Location;
                 IsInEndSelectionMode = false;
             }
