@@ -39,6 +39,9 @@ namespace XPlaneLauncher {
             containerRegistry.Register<IAircraftService, AircraftService>();
             containerRegistry.Register<IRouteService, RouteService>();
             containerRegistry.Register<ISettingsService, SettingsService>();
+            containerRegistry.Register<ILogbookEntryDao, LogbookEntryDao>();
+            containerRegistry.Register<ILogbookEntryTrackDao, LogbookEntryTrackDao>();
+            containerRegistry.Register<ILogbookService, LogbookService>();
         }
 
         protected override Window CreateShell() {

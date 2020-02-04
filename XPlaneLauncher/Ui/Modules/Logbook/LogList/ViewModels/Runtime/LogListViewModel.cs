@@ -62,7 +62,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         }
 
         private void OnAddManualEntry() {
-            _showManualEntryCommand.Execute();
+            _showManualEntryCommand.Execute(_aircraft.Id);
         }
     }
 }

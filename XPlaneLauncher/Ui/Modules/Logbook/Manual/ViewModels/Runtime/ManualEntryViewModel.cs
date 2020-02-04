@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using MapControl;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using UnitsNet;
+using XPlaneLauncher.Services.Impl;
 using XPlaneLauncher.Ui.Common.Commands;
+using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
+using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands.Params;
 using XPlaneLauncher.Ui.Modules.Map.Events;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
-    public class ManualEntryViewModel : BindableBase, IManualEntryViewModel, IRegionMemberLifetime {
+    public class ManualEntryViewModel : BindableBase, IManualEntryViewModel, IRegionMemberLifetime, INavigationAware {
         private readonly IEventAggregator _eventAggregator;
+        private readonly LogbookService _logbookService;
         private readonly NavigateBackCommand _navigateBackCommand;
         private DelegateCommand _backCommand;
         private double? _distance;
@@ -25,10 +30,14 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         private DelegateCommand _selectStartLocationCommand;
         private DateTime? _startDateTime;
         private Location _startLocation;
+        private ManualEntryParameters _parameters;
 
-        public ManualEntryViewModel(NavigateBackCommand navigateBackCommand, IEventAggregator eventAggregator) {
+        public ManualEntryViewModel(
+            NavigateBackCommand navigateBackCommand, IEventAggregator eventAggregator,
+            LogbookService logbookService) {
             _navigateBackCommand = navigateBackCommand;
             _eventAggregator = eventAggregator;
+            _logbookService = logbookService;
             _eventAggregator.GetEvent<PubSubEvent<LocationSelectedEvent>>().Subscribe(OnMapLocationChanged);
         }
 
@@ -120,6 +129,33 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             }
         }
 
+        /// <summary>
+        ///     Called to determine if this instance can handle the navigation request.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        /// <returns>
+        ///     <see langword="true" /> if this instance accepts the navigation request; otherwise, <see langword="false" />.
+        /// </returns>
+        public bool IsNavigationTarget(NavigationContext navigationContext) {
+            return true;
+        }
+
+        /// <summary>
+        ///     Called when the implementer is being navigated away from.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        public void OnNavigatedFrom(NavigationContext navigationContext) {
+        }
+
+        /// <summary>Called when the implementer has been navigated to.</summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        public void OnNavigatedTo(NavigationContext navigationContext) {
+            if (navigationContext.Parameters.ContainsKey(ShowManualEntryCommand.NAV_PARAM_KEY)) {
+                _parameters = navigationContext.Parameters[ShowManualEntryCommand.NAV_PARAM_KEY] as ManualEntryParameters;
+                
+            }
+        }
+
         private void CalculateDistanceInNauticalMiles() {
             if (StartLocation == null || EndLocation == null) {
                 Distance = null;
@@ -158,6 +194,16 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         }
 
         private void OnSave() {
+            _logbookService.CreateManualEntry(
+                _parameters.AircraftId,
+                StartDateTime.Value,
+                EndDateTime.Value,
+                TimeSpan.FromHours(Duration.Value),
+                new List<Location> {
+                    StartLocation, EndLocation
+                },
+                Distance.Value,
+                Note);
             _backCommand.Execute();
         }
 

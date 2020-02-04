@@ -43,6 +43,9 @@
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.4.2.1\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="GeoJSON.Net, Version=1.2.0.0, Culture=neutral, PublicKeyToken=42c00ea87f5f14d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeoJSON.Net.1.2.14\lib\net45\GeoJSON.Net.dll</HintPath>
+    </Reference>
     <Reference Include="MapControl.WPF, Version=4.16.0.0, Culture=neutral, PublicKeyToken=f26fcf0059638459, processorArchitecture=MSIL">
       <HintPath>..\packages\XAML.MapControl.4.16.0\lib\net462\MapControl.WPF.dll</HintPath>
     </Reference>
@@ -119,6 +122,10 @@
     <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Domain\LogbookEntry.cs" />
     <Compile Include="Domain\LogbookEntryType.cs" />
+    <Compile Include="Persistence\ILogbookEntryDao.cs" />
+    <Compile Include="Persistence\ILogbookEntryTrackDao.cs" />
+    <Compile Include="Persistence\Impl\LogbookEntryDao.cs" />
+    <Compile Include="Persistence\Impl\LogbookEntryTrackDao.cs" />
     <Compile Include="Services\ILogbookService.cs" />
     <Compile Include="Services\Impl\LogbookService.cs" />
     <Compile Include="Services\Impl\SettingsService.cs" />
@@ -139,6 +146,7 @@
     <Compile Include="Ui\Modules\Logbook\LogList\Views\LogListView.xaml.cs">
       <DependentUpon>LogListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Modules\Logbook\Manual\NavigationCommands\Params\ManualEntryParameters.cs" />
     <Compile Include="Ui\Modules\Logbook\Manual\NavigationCommands\ShowManualEntryCommand.cs" />
     <Compile Include="Ui\Modules\Logbook\Manual\ViewModels\Design\ManualEntryDesignViewModel.cs" />
     <Compile Include="Ui\Modules\Logbook\Manual\ViewModels\IManualEntryViewModel.cs" />
