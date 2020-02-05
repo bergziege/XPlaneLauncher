@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 
 namespace XPlaneLauncher.Domain {
     public class LogbookEntry {
+        [JsonProperty("Notes")]
+        private string _notes;
+
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
@@ -25,7 +28,11 @@ namespace XPlaneLauncher.Domain {
 
         public DateTime EndDateTime { get; }
 
-        public string Notes { get; private set; }
+        [JsonIgnore]
+        public string Notes {
+            get { return _notes; }
+            private set { _notes = value; }
+        }
 
         public DateTime StartDateTime { get; }
 
