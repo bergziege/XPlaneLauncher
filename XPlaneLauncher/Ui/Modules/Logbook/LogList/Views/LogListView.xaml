@@ -1,30 +1,33 @@
 ﻿<UserControl x:Class="XPlaneLauncher.Ui.Modules.Logbook.LogList.Views.LogListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:XPlaneLauncher.Ui.Modules.Logbook.LogList.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:design="clr-namespace:XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design"
              xmlns:domain="clr-namespace:XPlaneLauncher.Domain"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="450"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type design:LogListDesignViewModel}, IsDesignTimeCreatable=True}">
+    
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left">
-            <materialDesign:PackIcon Kind="ArrowBack"/>
+        <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}"
+                HorizontalAlignment="Left">
+            <materialDesign:PackIcon Kind="ArrowBack" />
         </Button>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Command="{Binding Path=AddManualEntryCommand}" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left">
+            <Button Command="{Binding Path=AddManualEntryCommand}" Style="{StaticResource MaterialDesignFlatButton}"
+                    HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Add" VerticalAlignment="Center"/>
-                    <TextBlock Text="Manual" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Add" VerticalAlignment="Center" />
+                    <TextBlock Text="Manual" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -32,15 +35,38 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="domain:LogbookEntry">
-                    <materialDesign:Card>
+                    <materialDesign:Card Padding="5" Grid.IsSharedSizeScope="True">
                         <StackPanel>
-                            <TextBlock Text="{Binding Path=StartDateTime}"></TextBlock>
-                            <TextBlock Text="{Binding Path=EndDateTime}"></TextBlock>
-                            <TextBlock Text="{Binding Path=Type}"></TextBlock>
-                            <TextBlock Text="{Binding Path=DistanceNauticalMiles}"></TextBlock>
-                            <TextBlock Text="{Binding Path=Duration}"></TextBlock>
-                            <TextBlock Text="{Binding Path=Notes}" TextWrapping="Wrap"></TextBlock>
-                        </StackPanel></materialDesign:Card>
+                            <UniformGrid Columns="3">
+                                <HeaderedContentControl Header="Start:">
+                                    <TextBlock
+                                        Text="{Binding Path=StartDateTime, StringFormat=dd.MM.yyyy hh:mm, Mode=OneWay}" />
+                                </HeaderedContentControl>
+                                <HeaderedContentControl Header="End:">
+                                    <TextBlock
+                                        Text="{Binding Path=EndDateTime, StringFormat=dd.MM.yyyy hh:mm, Mode=OneWay}" />
+                                </HeaderedContentControl>
+                                <TextBlock Text="{Binding Path=Type}" HorizontalAlignment="Right" />
+                                <HeaderedContentControl Header="Dist.:">
+                                    <TextBlock>
+                                        <Run Text="{Binding Path=DistanceNauticalMiles, StringFormat=f0, Mode=OneWay}" />
+                                        <Run Text="nm" />
+                                    </TextBlock>
+                                </HeaderedContentControl>
+                                <HeaderedContentControl Header="Dur.:">
+                                    <TextBlock>
+                                        <Run Text="{Binding Path=Duration.TotalHours, StringFormat=f1, Mode=OneWay}" />
+                                        <Run Text="h" />
+                                    </TextBlock>
+                                </HeaderedContentControl>
+
+                            </UniformGrid>
+                            <HeaderedContentControl Header="Note:">
+                                <TextBlock TextWrapping="Wrap" Text="{Binding Path=Notes, Mode=OneWay}" />
+                            </HeaderedContentControl>
+
+                        </StackPanel>
+                    </materialDesign:Card>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
