@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using MapControl;
 using XPlaneLauncher.Domain;
+using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Persistence;
 
@@ -30,7 +32,7 @@ namespace XPlaneLauncher.Services.Impl {
             LogbookEntry newEntry = new LogbookEntry(LogbookEntryType.Manual, startDateTime, endDateTime, duration, track, distanceNauticalMiles);
             newEntry.Update(notes);
 
-            FileInfo logbookEntryFile = GetLogbookEntryFile(aircraftId, startDateTime, "");
+            FileInfo logbookEntryFile = GetLogbookEntryFile(aircraftId, startDateTime, "log");
             FileInfo logbookEntryTrackFile = GetLogbookEntryFile(aircraftId, startDateTime, "track");
             /* Persist entry to json*/
             _logbookEntryDao.SaveWithoutTrack(logbookEntryFile, newEntry);
@@ -39,12 +41,12 @@ namespace XPlaneLauncher.Services.Impl {
             _logbookEntryTrackDao.Save(logbookEntryTrackFile, newEntry.Track);
         }
 
-        private string GetLogbookBaseFileName(DateTime startDateTime) {
-            return startDateTime.ToString("yyyy-MM-dd-hh-mm-ss");
+        public async Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft) {
+            DirectoryInfo logbookDirectory = GetLogbookDirectoryByLauncherInfoFile(aircraft.LauncherInfoFile);
+            return await _logbookEntryDao.GetEntriesAsync(logbookDirectory);
         }
 
-        private DirectoryInfo GetLogbookDirectory(Guid aircraftId) {
-            FileInfo launcherInfoFile = _aircraftModelProvider.Aircrafts.Single(x => x.Id == aircraftId).LauncherInfoFile;
+        private static DirectoryInfo GetLogbookDirectoryByLauncherInfoFile(FileInfo launcherInfoFile) {
             DirectoryInfo logbookDir = new DirectoryInfo(
                 Path.Combine(launcherInfoFile.DirectoryName, launcherInfoFile.Name.Replace(launcherInfoFile.Extension, "")));
             if (!logbookDir.Exists) {
@@ -54,8 +56,17 @@ namespace XPlaneLauncher.Services.Impl {
             return logbookDir;
         }
 
+        private string GetLogbookBaseFileName(DateTime startDateTime) {
+            return startDateTime.ToString("yyyy-MM-dd-hh-mm-ss");
+        }
+
+        private DirectoryInfo GetLogbookDirectoryByAircraftId(Guid aircraftId) {
+            FileInfo launcherInfoFile = _aircraftModelProvider.Aircrafts.Single(x => x.Id == aircraftId).LauncherInfoFile;
+            return GetLogbookDirectoryByLauncherInfoFile(launcherInfoFile);
+        }
+
         private FileInfo GetLogbookEntryFile(Guid aircraftId, DateTime startDateTime, string discriminator) {
-            DirectoryInfo logbookDir = GetLogbookDirectory(aircraftId);
+            DirectoryInfo logbookDir = GetLogbookDirectoryByAircraftId(aircraftId);
             string fileName = $"{GetLogbookBaseFileName(startDateTime)}.{discriminator}.json";
             return new FileInfo(Path.Combine(logbookDir.FullName, fileName));
         }
