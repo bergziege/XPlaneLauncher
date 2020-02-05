@@ -24,6 +24,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
             LogEntries.Add(logbookEntry);
             LogEntries.Add(logbookEntry);
             LogEntries.Add(logbookEntry);
+            SelectedEntry = LogEntries[1];
         }
 
         public DelegateCommand AddManualEntryCommand { get; } = new DelegateCommand(() => { });
@@ -31,5 +32,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
         public DelegateCommand BackCommand { get; } = new DelegateCommand(() => { });
 
         public ObservableCollection<LogbookEntry> LogEntries { get; }
+
+        public LogbookEntry SelectedEntry { get; set; }
     }
 }

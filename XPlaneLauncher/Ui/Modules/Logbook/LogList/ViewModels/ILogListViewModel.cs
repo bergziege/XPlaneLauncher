@@ -4,8 +4,9 @@ using XPlaneLauncher.Domain;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels {
     public interface ILogListViewModel {
-        DelegateCommand BackCommand { get; }
         DelegateCommand AddManualEntryCommand { get; }
+        DelegateCommand BackCommand { get; }
         ObservableCollection<LogbookEntry> LogEntries { get; }
+        LogbookEntry SelectedEntry { get; set; }
     }
 }

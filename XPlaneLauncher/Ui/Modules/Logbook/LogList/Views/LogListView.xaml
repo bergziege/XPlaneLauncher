@@ -32,55 +32,86 @@
             </Button>
         </StackPanel>
         <ListView ItemsSource="{Binding Path=LogEntries}" Grid.Row="1" HorizontalContentAlignment="Stretch"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  SelectedItem="{Binding Path=SelectedEntry}">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="domain:LogbookEntry">
-                    <materialDesign:Card Padding="5" Grid.IsSharedSizeScope="True">
-                        <StackPanel>
+
+                    <StackPanel>
+                        
+                        <materialDesign:Card Padding="5" Grid.IsSharedSizeScope="True">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="2" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="2.5*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="PlaneTakeoff" Margin="3" />
+
+                                    <TextBlock VerticalAlignment="Center"
+                                               Grid.Row="0" Grid.Column="1"
+                                               Text="{Binding Path=StartDateTime, StringFormat=dd.MM.yyyy hh:mm, Mode=OneWay}" />
+
+                                    <materialDesign:PackIcon Grid.Row="0" Grid.Column="2" Kind="ClockFast" Margin="3" />
+
+                                    <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+                                        <Run Text="{Binding Path=Duration.TotalHours, StringFormat=f1, Mode=OneWay}" />
+                                        <Run Text="h" />
+                                    </TextBlock>
+                                    <materialDesign:PackIcon Grid.Row="0" Grid.Column="4" Kind="MapMarkerDistance"
+                                                             Margin="3" />
+
+                                    <TextBlock Grid.Row="0" Grid.Column="5" VerticalAlignment="Center">
+                                        <Run Text="{Binding Path=DistanceNauticalMiles, StringFormat=f0, Mode=OneWay}" />
+                                        <Run Text="nm" />
+                                    </TextBlock>
+
+                                    <materialDesign:PackIcon Kind="FileDocumentOutline" Grid.Row="2" Grid.Column="0"
+                                                             Margin="3" />
+
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" TextWrapping="Wrap"
+                                               Text="{Binding Path=Notes, Mode=OneWay}" Margin="0,3,0,0" FontSize="11" />
+
+                                </Grid>
+
+
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Margin="0,5,0,0">
+                            <materialDesign:Card.Style>
+                                
+                                <Style TargetType="materialDesign:Card">
+                                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding
+                            RelativeSource={RelativeSource
+                                Mode=FindAncestor,
+                                AncestorType={x:Type ListBoxItem}},
+                                Path=IsSelected}"
+                                            Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </materialDesign:Card.Style>
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition Height="2" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="2.5*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Kind="PlaneTakeoff" Margin="3"/>
-
-                                <TextBlock VerticalAlignment="Center"
-                                    Grid.Row="0" Grid.Column="1"
-                                    Text="{Binding Path=StartDateTime, StringFormat=dd.MM.yyyy hh:mm, Mode=OneWay}" />
-
-                                <materialDesign:PackIcon Grid.Row="0" Grid.Column="2" Kind="ClockFast" Margin="3"/>
-
-                                <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
-                                    <Run Text="{Binding Path=Duration.TotalHours, StringFormat=f1, Mode=OneWay}" />
-                                    <Run Text="h" />
-                                </TextBlock>
-                                <materialDesign:PackIcon Grid.Row="0" Grid.Column="4" Kind="MapMarkerDistance" Margin="3"/>
-
-                                <TextBlock Grid.Row="0" Grid.Column="5" VerticalAlignment="Center">
-                                    <Run Text="{Binding Path=DistanceNauticalMiles, StringFormat=f0, Mode=OneWay}" />
-                                    <Run Text="nm" />
-                                </TextBlock>
-
-                                <materialDesign:PackIcon Kind="FileDocumentOutline" Grid.Row="2" Grid.Column="0" 
-                                                         Margin="3"/>
-
-                                <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" TextWrapping="Wrap"
-                                           Text="{Binding Path=Notes, Mode=OneWay}" Margin="0,3,0,0" FontSize="11"/>
-
-                            </Grid>
-
-
-                        </StackPanel>
-                    </materialDesign:Card>
+                                <StackPanel HorizontalAlignment="Right">
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="Red">
+                                        <materialDesign:PackIcon Kind="Trash"></materialDesign:PackIcon>
+                                    </Button>
+                                </StackPanel></Grid>
+                        </materialDesign:Card>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
