@@ -7,5 +7,6 @@ namespace XPlaneLauncher.Persistence {
     public interface ILogbookEntryDao {
         void SaveWithoutTrack(FileInfo logbookFile, LogbookEntry entry);
         Task<IList<LogbookEntry>> GetEntriesAsync(DirectoryInfo logbookDirectory);
+        void Delete(FileInfo logFile);
     }
 }

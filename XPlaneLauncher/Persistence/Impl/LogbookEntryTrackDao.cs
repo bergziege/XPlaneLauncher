@@ -7,8 +7,13 @@ using Newtonsoft.Json;
 
 namespace XPlaneLauncher.Persistence.Impl {
     public class LogbookEntryTrackDao : ILogbookEntryTrackDao {
-        public void Save(FileInfo trackFile, IList<Location> track) {
+        public void Delete(FileInfo trackFile) {
+            if (trackFile.Exists) {
+                trackFile.Delete();
+            }
+        }
 
+        public void Save(FileInfo trackFile, IList<Location> track) {
             /* Using Feature and FeatureCollection to be able to ad additional information to each location like altitude, heading, airspeed, ... */
             FeatureCollection features = new FeatureCollection();
             foreach (Location location in track) {

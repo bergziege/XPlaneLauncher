@@ -19,6 +19,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         private Aircraft _aircraft;
         private DelegateCommand _backCommand;
         private LogbookEntry _selectedEntry;
+        private DelegateCommand _deleteSelectedEntryCommand;
 
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
@@ -36,6 +37,16 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
 
         public DelegateCommand BackCommand {
             get { return _backCommand ?? (_backCommand = new DelegateCommand(GoBack)); }
+        }
+
+        public DelegateCommand DeleteSelectedEntryCommand {
+            get { return _deleteSelectedEntryCommand ?? (_deleteSelectedEntryCommand = new DelegateCommand(OnDeleteSelectedEntry)); }
+        }
+
+        private void OnDeleteSelectedEntry() {
+            _logbookService.DeleteEntry(_aircraft.Id, SelectedEntry);
+            LogEntries.Remove(SelectedEntry);
+            SelectedEntry = null;
         }
 
         public ObservableCollection<LogbookEntry> LogEntries { get; } = new ObservableCollection<LogbookEntry>();

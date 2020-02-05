@@ -31,6 +31,8 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
 
         public DelegateCommand BackCommand { get; } = new DelegateCommand(() => { });
 
+        public DelegateCommand DeleteSelectedEntryCommand { get; }
+
         public ObservableCollection<LogbookEntry> LogEntries { get; }
 
         public LogbookEntry SelectedEntry { get; set; }

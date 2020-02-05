@@ -11,7 +11,8 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="450"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
-             d:DataContext="{d:DesignInstance {x:Type design:LogListDesignViewModel}, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance {x:Type design:LogListDesignViewModel}, IsDesignTimeCreatable=True}"
+             x:Name="LogListViewControl">
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
@@ -106,7 +107,8 @@
                             </materialDesign:Card.Style>
                             <Grid>
                                 <StackPanel HorizontalAlignment="Right">
-                                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="Red">
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="Red"
+                                            Command="{Binding ElementName=LogListViewControl, Path=DataContext.DeleteSelectedEntryCommand}">
                                         <materialDesign:PackIcon Kind="Trash"></materialDesign:PackIcon>
                                     </Button>
                                 </StackPanel></Grid>

@@ -7,9 +7,10 @@ using XPlaneLauncher.Domain;
 
 namespace XPlaneLauncher.Persistence.Impl {
     public class LogbookEntryDao : ILogbookEntryDao {
-        public void SaveWithoutTrack(FileInfo logbookFile, LogbookEntry entry) {
-            string content = JsonConvert.SerializeObject(entry);
-            File.WriteAllText(logbookFile.FullName, content);
+        public void Delete(FileInfo logFile) {
+            if (logFile.Exists) {
+                logFile.Delete();
+            }
         }
 
         public async Task<IList<LogbookEntry>> GetEntriesAsync(DirectoryInfo logbookDirectory) {
@@ -20,10 +21,16 @@ namespace XPlaneLauncher.Persistence.Impl {
                 using (StreamReader reader = File.OpenText(fileInfo.FullName)) {
                     logbookEntryContent = await reader.ReadToEndAsync();
                 }
+
                 entries.Add(JsonConvert.DeserializeObject<LogbookEntry>(logbookEntryContent));
             }
 
-            return entries.OrderBy(x=>x.StartDateTime).ToList();
+            return entries.OrderBy(x => x.StartDateTime).ToList();
+        }
+
+        public void SaveWithoutTrack(FileInfo logbookFile, LogbookEntry entry) {
+            string content = JsonConvert.SerializeObject(entry);
+            File.WriteAllText(logbookFile.FullName, content);
         }
     }
 }

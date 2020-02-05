@@ -41,6 +41,20 @@ namespace XPlaneLauncher.Services.Impl {
             _logbookEntryTrackDao.Save(logbookEntryTrackFile, newEntry.Track);
         }
 
+        public void DeleteEntry(Guid aircraftId, LogbookEntry entry) {
+            /* Delete log file */
+            FileInfo logFile = GetLogbookEntryFile(aircraftId, entry.StartDateTime, "log");
+            _logbookEntryDao.Delete(logFile);
+
+            /* Delete track file */
+            FileInfo trackFile = GetLogbookEntryFile(aircraftId, entry.StartDateTime, "track");
+            _logbookEntryTrackDao.Delete(trackFile);
+
+            if (!logFile.Directory.GetFiles().Any()) {
+                logFile.Directory.Delete();
+            }
+        }
+
         public async Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft) {
             DirectoryInfo logbookDirectory = GetLogbookDirectoryByLauncherInfoFile(aircraft.LauncherInfoFile);
             return await _logbookEntryDao.GetEntriesAsync(logbookDirectory);

@@ -11,6 +11,8 @@ namespace XPlaneLauncher.Services {
             Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
             string notes);
 
+        void DeleteEntry(Guid aircraftId, LogbookEntry entry);
+
         Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft);
     }
 }
