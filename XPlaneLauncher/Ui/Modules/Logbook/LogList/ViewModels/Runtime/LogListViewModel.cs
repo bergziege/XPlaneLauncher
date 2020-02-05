@@ -1,6 +1,11 @@
-﻿using Prism.Commands;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Prism.Commands;
 using Prism.Regions;
+using XPlaneLauncher.Domain;
 using XPlaneLauncher.Model;
+using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Common.Commands;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands;
 using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
@@ -9,6 +14,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
     public class LogListViewModel : ILogListViewModel, INavigationAware {
         private readonly NavigateBackCommand _navigateBackCommand;
         private readonly ShowManualEntryCommand _showManualEntryCommand;
+        private readonly ILogbookService _logbookService;
         private DelegateCommand _addManualEntryCommand;
         private Aircraft _aircraft;
         private DelegateCommand _backCommand;
@@ -16,9 +22,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
-        public LogListViewModel(NavigateBackCommand navigateBackCommand, ShowManualEntryCommand showManualEntryCommand) {
+        public LogListViewModel(NavigateBackCommand navigateBackCommand, ShowManualEntryCommand showManualEntryCommand, ILogbookService logbookService) {
             _navigateBackCommand = navigateBackCommand;
             _showManualEntryCommand = showManualEntryCommand;
+            _logbookService = logbookService;
         }
 
         public DelegateCommand AddManualEntryCommand {
@@ -28,6 +35,8 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         public DelegateCommand BackCommand {
             get { return _backCommand ?? (_backCommand = new DelegateCommand(GoBack)); }
         }
+
+        public ObservableCollection<LogbookEntry> LogEntries { get; } = new ObservableCollection<LogbookEntry>();
 
         /// <summary>
         ///     Called to determine if this instance can handle the navigation request.
@@ -55,6 +64,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
                     _aircraft = aircraft;
                 }
             }
+
+            if (_aircraft != null) {
+                RefreshData();
+            }
         }
 
         private void GoBack() {
@@ -63,6 +76,14 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
 
         private void OnAddManualEntry() {
             _showManualEntryCommand.Execute(_aircraft.Id);
+        }
+
+        private async void RefreshData() {
+            LogEntries.Clear();
+            IList<LogbookEntry> entries = await _logbookService.GetEntriesWithoutTrackAsync(_aircraft);
+            foreach (LogbookEntry logbookEntry in entries) {
+                LogEntries.Add(logbookEntry);
+            }
         }
     }
 }

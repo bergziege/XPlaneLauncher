@@ -7,11 +7,16 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mvvm="http://prismlibrary.com/"
              xmlns:design="clr-namespace:XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design"
+             xmlns:domain="clr-namespace:XPlaneLauncher.Domain"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="450" d:DesignWidth="450"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type design:LogListDesignViewModel}, IsDesignTimeCreatable=True}">
-    <Grid Margin="5" VerticalAlignment="Top">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
         <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Left">
             <materialDesign:PackIcon Kind="ArrowBack"/>
         </Button>
@@ -23,5 +28,21 @@
                 </StackPanel>
             </Button>
         </StackPanel>
+        <ListView ItemsSource="{Binding Path=LogEntries}" Grid.Row="1" HorizontalContentAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="domain:LogbookEntry">
+                    <materialDesign:Card>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=StartDateTime}"></TextBlock>
+                            <TextBlock Text="{Binding Path=EndDateTime}"></TextBlock>
+                            <TextBlock Text="{Binding Path=Type}"></TextBlock>
+                            <TextBlock Text="{Binding Path=DistanceNauticalMiles}"></TextBlock>
+                            <TextBlock Text="{Binding Path=Duration}"></TextBlock>
+                            <TextBlock Text="{Binding Path=Notes}" TextWrapping="Wrap"></TextBlock>
+                        </StackPanel></materialDesign:Card>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>
