@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using XPlaneLauncher.Domain;
@@ -22,7 +23,7 @@ namespace XPlaneLauncher.Persistence.Impl {
                 entries.Add(JsonConvert.DeserializeObject<LogbookEntry>(logbookEntryContent));
             }
 
-            return entries;
+            return entries.OrderBy(x=>x.StartDateTime).ToList();
         }
     }
 }
