@@ -37,18 +37,8 @@
                  SelectionChanged="RoutePoints_OnSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="model:RoutePoint">
-                    <Border Margin="-8" Padding="8" PreviewMouseDown="UIElement_OnPreviewMouseDown">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <materialDesign:Card>
+                    
+                        <materialDesign:Card PreviewMouseDown="UIElement_OnPreviewMouseDown">
                             <StackPanel Margin="5">
                                 <StackPanel>
                                     <TextBox
@@ -95,7 +85,7 @@
                                                 DataContext="{Binding ElementName=RouteEditorViewControl, Path=DataContext}"
                                                 VerticalAlignment="Center">
                                                 <Button Command="{Binding Path=DeleteSelectedRoutePointCommand}"
-                                                        Foreground="#D90000"
+                                                        Foreground="{StaticResource BrushDarkRed}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         VerticalAlignment="Center">
                                                     <materialDesign:PackIcon Kind="Delete"
@@ -107,7 +97,6 @@
                                     </StackPanel></Grid>
                             </StackPanel>
                         </materialDesign:Card>
-                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

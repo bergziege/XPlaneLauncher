@@ -31,6 +31,11 @@
                 </Setter>
             </Style>
 
+            <Color x:Key="DarkRed">#D90000</Color>
+            <SolidColorBrush Color="{StaticResource DarkRed}" x:Key="BrushDarkRed"></SolidColorBrush>
+
+            <Color x:Key="LightRed">#FFA1A1</Color>
+            <SolidColorBrush Color="{StaticResource LightRed}" x:Key="BrushLightRed"></SolidColorBrush>
         </ResourceDictionary>
     </Application.Resources>
 </unity:PrismApplication>

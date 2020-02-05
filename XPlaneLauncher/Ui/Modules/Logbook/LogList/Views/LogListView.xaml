@@ -13,17 +13,18 @@
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type design:LogListDesignViewModel}, IsDesignTimeCreatable=True}"
              x:Name="LogListViewControl">
-
-    <Grid Margin="5">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="3"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}"
-                HorizontalAlignment="Left">
+                HorizontalAlignment="Left"
+                Margin="5,0,0,0">
             <materialDesign:PackIcon Kind="ArrowBack" />
         </Button>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0">
             <Button Command="{Binding Path=AddManualEntryCommand}" Style="{StaticResource MaterialDesignFlatButton}"
                     HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
@@ -32,10 +33,10 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <ListView ItemsSource="{Binding Path=LogEntries}" Grid.Row="1" HorizontalContentAlignment="Stretch"
+        <ListBox ItemsSource="{Binding Path=LogEntries}" Grid.Row="2" HorizontalContentAlignment="Stretch"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  SelectedItem="{Binding Path=SelectedEntry}">
-            <ListView.ItemTemplate>
+                  SelectedItem="{Binding Path=SelectedEntry}" Margin="0">
+            <ListBox.ItemTemplate>
                 <DataTemplate DataType="domain:LogbookEntry">
 
                     <StackPanel>
@@ -87,7 +88,7 @@
 
                             </StackPanel>
                         </materialDesign:Card>
-                        <materialDesign:Card Margin="0,5,0,0">
+                        <materialDesign:Card Margin="0,5,0,0" Padding="3">
                             <materialDesign:Card.Style>
                                 
                                 <Style TargetType="materialDesign:Card">
@@ -107,7 +108,7 @@
                             </materialDesign:Card.Style>
                             <Grid>
                                 <StackPanel HorizontalAlignment="Right">
-                                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="Red"
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{StaticResource BrushDarkRed}"
                                             Command="{Binding ElementName=LogListViewControl, Path=DataContext.DeleteSelectedEntryCommand}">
                                         <materialDesign:PackIcon Kind="Trash"></materialDesign:PackIcon>
                                     </Button>
@@ -115,7 +116,7 @@
                         </materialDesign:Card>
                     </StackPanel>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>
