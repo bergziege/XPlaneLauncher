@@ -12,7 +12,7 @@
              d:DesignHeight="450" d:DesignWidth="450"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              d:DataContext="{d:DesignInstance {x:Type design:LogListDesignViewModel}, IsDesignTimeCreatable=True}">
-    
+
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -37,33 +37,47 @@
                 <DataTemplate DataType="domain:LogbookEntry">
                     <materialDesign:Card Padding="5" Grid.IsSharedSizeScope="True">
                         <StackPanel>
-                            <UniformGrid Columns="3">
-                                <HeaderedContentControl Header="Start:">
-                                    <TextBlock
-                                        Text="{Binding Path=StartDateTime, StringFormat=dd.MM.yyyy hh:mm, Mode=OneWay}" />
-                                </HeaderedContentControl>
-                                <HeaderedContentControl Header="End:">
-                                    <TextBlock
-                                        Text="{Binding Path=EndDateTime, StringFormat=dd.MM.yyyy hh:mm, Mode=OneWay}" />
-                                </HeaderedContentControl>
-                                <TextBlock Text="{Binding Path=Type}" HorizontalAlignment="Right" />
-                                <HeaderedContentControl Header="Dist.:">
-                                    <TextBlock>
-                                        <Run Text="{Binding Path=DistanceNauticalMiles, StringFormat=f0, Mode=OneWay}" />
-                                        <Run Text="nm" />
-                                    </TextBlock>
-                                </HeaderedContentControl>
-                                <HeaderedContentControl Header="Dur.:">
-                                    <TextBlock>
-                                        <Run Text="{Binding Path=Duration.TotalHours, StringFormat=f1, Mode=OneWay}" />
-                                        <Run Text="h" />
-                                    </TextBlock>
-                                </HeaderedContentControl>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="2" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="2.5*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="PlaneTakeoff" Margin="3"/>
 
-                            </UniformGrid>
-                            <HeaderedContentControl Header="Note:">
-                                <TextBlock TextWrapping="Wrap" Text="{Binding Path=Notes, Mode=OneWay}" />
-                            </HeaderedContentControl>
+                                <TextBlock VerticalAlignment="Center"
+                                    Grid.Row="0" Grid.Column="1"
+                                    Text="{Binding Path=StartDateTime, StringFormat=dd.MM.yyyy hh:mm, Mode=OneWay}" />
+
+                                <materialDesign:PackIcon Grid.Row="0" Grid.Column="2" Kind="ClockFast" Margin="3"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+                                    <Run Text="{Binding Path=Duration.TotalHours, StringFormat=f1, Mode=OneWay}" />
+                                    <Run Text="h" />
+                                </TextBlock>
+                                <materialDesign:PackIcon Grid.Row="0" Grid.Column="4" Kind="MapMarkerDistance" Margin="3"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="5" VerticalAlignment="Center">
+                                    <Run Text="{Binding Path=DistanceNauticalMiles, StringFormat=f0, Mode=OneWay}" />
+                                    <Run Text="nm" />
+                                </TextBlock>
+
+                                <materialDesign:PackIcon Kind="FileDocumentOutline" Grid.Row="2" Grid.Column="0" 
+                                                         Margin="3"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" TextWrapping="Wrap"
+                                           Text="{Binding Path=Notes, Mode=OneWay}" Margin="0,3,0,0" FontSize="11"/>
+
+                            </Grid>
+
 
                         </StackPanel>
                     </materialDesign:Card>
