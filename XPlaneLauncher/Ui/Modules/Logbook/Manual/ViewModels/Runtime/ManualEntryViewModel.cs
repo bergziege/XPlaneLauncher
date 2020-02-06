@@ -9,6 +9,7 @@ using Prism.Regions;
 using UnitsNet;
 using XPlaneLauncher.Services.Impl;
 using XPlaneLauncher.Ui.Common.Commands;
+using XPlaneLauncher.Ui.Modules.Logbook.Events;
 using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands.Params;
 using XPlaneLauncher.Ui.Modules.Map.Events;
@@ -79,6 +80,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
                 SetProperty(ref _endLocation, value, nameof(EndLocation));
                 SaveCommand.RaiseCanExecuteChanged();
                 CalculateDistanceInNauticalMiles();
+                VisualizeTrack();
             }
         }
 
@@ -134,6 +136,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
                 SetProperty(ref _startLocation, value, nameof(StartLocation));
                 SaveCommand.RaiseCanExecuteChanged();
                 CalculateDistanceInNauticalMiles();
+                VisualizeTrack();
             }
         }
 
@@ -171,6 +174,12 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             }
         }
 
+        private DateTime AddTime(DateTime startDate, DateTime startTime) {
+            startDate = startDate.Date.AddHours(startTime.Hour);
+            startDate = startDate.AddMinutes(startTime.Minute);
+            return startDate;
+        }
+
         private void CalculateDistanceInNauticalMiles() {
             if (StartLocation == null || EndLocation == null) {
                 Distance = null;
@@ -191,12 +200,6 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             DateTime startDateTime = AddTime(StartDate.Value, StartTime.Value);
             DateTime endDateTime = AddTime(EndDate.Value, EndTime.Value);
             return endDateTime.Subtract(startDateTime).TotalHours;
-        }
-
-        private DateTime AddTime(DateTime startDate, DateTime startTime) {
-            startDate = startDate.Date.AddHours(startTime.Hour);
-            startDate = startDate.AddMinutes(startTime.Minute);
-            return startDate;
         }
 
         private bool CanSave() {
@@ -268,6 +271,13 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             Distance = _parameters.LogbookEntry.DistanceNauticalMiles;
             Duration = _parameters.LogbookEntry.Duration.TotalHours;
             Note = _parameters.LogbookEntry.Notes;
+        }
+
+        private void VisualizeTrack() {
+            if (StartLocation != null && EndLocation != null) {
+                _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>()
+                    .Publish(new VisualizeTrackEvent(new List<Location> { StartLocation, EndLocation }));
+            }
         }
     }
 }
