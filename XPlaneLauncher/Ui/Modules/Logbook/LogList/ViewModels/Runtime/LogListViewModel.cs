@@ -9,6 +9,7 @@ using XPlaneLauncher.Domain;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Common.Commands;
+using XPlaneLauncher.Ui.Modules.AircraftList.Views;
 using XPlaneLauncher.Ui.Modules.Logbook.Events;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands;
 using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
@@ -80,6 +81,9 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         /// </summary>
         /// <param name="navigationContext">The navigation context.</param>
         public void OnNavigatedFrom(NavigationContext navigationContext) {
+            if (navigationContext.Uri.OriginalString == nameof(AircraftListView)) {
+                _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>().Publish(new VisualizeTrackEvent(null));
+            }
         }
 
         /// <summary>Called when the implementer has been navigated to.</summary>
@@ -99,6 +103,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         }
 
         private void OnAddManualEntry() {
+            _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>().Publish(new VisualizeTrackEvent(null));
             _showManualEntryCommand.Execute(_aircraft.Id, null);
         }
 
