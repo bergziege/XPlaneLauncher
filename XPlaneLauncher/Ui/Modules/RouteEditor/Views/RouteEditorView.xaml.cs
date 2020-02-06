@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using MaterialDesignThemes.Wpf;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Ui.Modules.RouteEditor.ViewModels;
 
@@ -19,7 +20,7 @@ namespace XPlaneLauncher.Ui.Modules.RouteEditor.Views {
         }
 
         private void UIElement_OnPreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (sender is Border ctl && ctl.DataContext is RoutePoint rtp) {
+            if (sender is Card ctl && ctl.DataContext is RoutePoint rtp) {
                 rtp.IsSelected = true;
             }
 

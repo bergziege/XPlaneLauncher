@@ -69,7 +69,7 @@
                  SelectionChanged="Aircrafts_OnSelectionChanged"
                  Margin="0">
             <ListBox.ItemContainerStyle>
-                <Style TargetType="ContentControl" BasedOn="{StaticResource {x:Type ContentControl}}">
+                <Style BasedOn="{StaticResource MaterialDesignListBoxItem}" TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Visibility" Value="Visible" />
                     <Style.Triggers>
                         <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
@@ -81,18 +81,7 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="model:Aircraft">
-                    <Border Margin="0" Padding="8,8,8,8">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <StackPanel>
+                    <StackPanel>
                             <materialDesign:Card>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -130,7 +119,7 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
 
-                                        <materialDesign:Chip Background="#FFA1A1" ToolTip="Missing situation file">
+                                        <materialDesign:Chip Background="{StaticResource BrushLightRed}" ToolTip="Missing situation file">
                                             <materialDesign:Chip.Style>
                                                 <Style TargetType="materialDesign:Chip">
                                                     <Setter Property="Visibility" Value="Visible" />
@@ -212,10 +201,18 @@
                                                 <TextBlock Text="Route" VerticalAlignment="Center"/>
                                             </StackPanel>
                                         </Button>
+                                        <Separator Width="5" Visibility="Hidden" />
+                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=ShowLogbookForSelectedAircraftCommand}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="BookOpen" VerticalAlignment="Center"/>
+                                                <Separator Width="5" Visibility="Hidden" />
+                                                <TextBlock Text="Logbook" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Button>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                         <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                Foreground="#D90000"
+                                                Foreground="{StaticResource BrushDarkRed}"
                                                 Command="{Binding Path=RemoveSelectedAircraftCommand}">
                                             
                                                 <materialDesign:PackIcon Kind="Trash" />
@@ -227,7 +224,6 @@
 
                             </materialDesign:Card>
                         </StackPanel>
-                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

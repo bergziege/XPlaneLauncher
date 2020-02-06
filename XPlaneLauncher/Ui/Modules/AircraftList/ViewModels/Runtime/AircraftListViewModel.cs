@@ -17,6 +17,7 @@ using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Modules.AircraftList.DialogCommands;
 using XPlaneLauncher.Ui.Modules.AircraftList.Events;
+using XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands;
 using XPlaneLauncher.Ui.Modules.Map.Dtos;
 using XPlaneLauncher.Ui.Modules.Map.Events;
 using XPlaneLauncher.Ui.Modules.RouteEditor.NavigationCommands;
@@ -30,6 +31,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private readonly SettingsNavigationCommand _settingsNavigationCommand;
         private readonly ISettingsService _settingsService;
         private readonly ShowRemoveConfirmationDialogCommand _showRemoveConfirmationDialogCommand;
+        private readonly ShowLogbookForAircraftCommand _showLogbookForAircraftCommand;
         private DelegateCommand _editSelectedAircraftRoute;
         private bool _isFilteredToMapBoundaries;
         private bool _isMarkingSelectedAfterSelectedInList;
@@ -41,19 +43,22 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
         private Aircraft _selectedAircraft;
         private DelegateCommand _showSettingsCommand;
         private DelegateCommand _startSimCommand;
+        private DelegateCommand _showLogbookForSelectedAircraftCommand;
 
         public AircraftListViewModel(
             IAircraftService aircraftService, IAircraftModelProvider aircraftModelProvider, SettingsNavigationCommand settingsNavigationCommand,
             RouteEditorNavigationCommand routeEditorNavCommand,
             IEventAggregator eventAggregator,
             ISettingsService settingsService,
-            ShowRemoveConfirmationDialogCommand showRemoveConfirmationDialogCommand) {
+            ShowRemoveConfirmationDialogCommand showRemoveConfirmationDialogCommand,
+            ShowLogbookForAircraftCommand showLogbookForAircraftCommand) {
             _aircraftService = aircraftService;
             _settingsNavigationCommand = settingsNavigationCommand;
             _routeEditorNavCommand = routeEditorNavCommand;
             _eventAggregator = eventAggregator;
             _settingsService = settingsService;
             _showRemoveConfirmationDialogCommand = showRemoveConfirmationDialogCommand;
+            _showLogbookForAircraftCommand = showLogbookForAircraftCommand;
             Aircrafts = aircraftModelProvider.Aircrafts;
             CollectionChangedEventManager.AddListener(Aircrafts, this);
             _eventAggregator.GetEvent<PubSubEvent<MapBoundariesChangedEvent>>().Subscribe(OnMapBoundariesChanged);
@@ -86,6 +91,14 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
 
         public DelegateCommand RemoveSelectedAircraftCommand {
             get { return _removeSelectedPlaneCommand ?? (_removeSelectedPlaneCommand = new DelegateCommand(RemoveSelectedAircraft)); }
+        }
+
+        public DelegateCommand ShowLogbookForSelectedAircraftCommand {
+            get { return _showLogbookForSelectedAircraftCommand ??(_showLogbookForSelectedAircraftCommand = new DelegateCommand(ShowLogbookForSelectedAircraft)); }
+        }
+
+        private void ShowLogbookForSelectedAircraft() {
+            _showLogbookForAircraftCommand.Execute(SelectedAircraft);
         }
 
         public Aircraft SelectedAircraft {
