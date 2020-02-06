@@ -19,7 +19,8 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
                 TimeSpan.FromHours(2.5),
                 new List<Location>(),
                 42.21);
-            logbookEntry.Update($"Some multiline{Environment.NewLine}Notes with some more text in it to fill the line and see if its wraps automatically.");
+            logbookEntry.Update(
+                $"Some multiline{Environment.NewLine}Notes with some more text in it to fill the line and see if its wraps automatically.");
             LogEntries.Add(logbookEntry);
             LogEntries.Add(logbookEntry);
             LogEntries.Add(logbookEntry);
@@ -31,7 +32,9 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
 
         public DelegateCommand BackCommand { get; } = new DelegateCommand(() => { });
 
-        public DelegateCommand DeleteSelectedEntryCommand { get; }
+        public DelegateCommand DeleteSelectedEntryCommand { get; } = new DelegateCommand(() => { });
+
+        public DelegateCommand EditSelectedEntryCommand { get; } = new DelegateCommand(() => { });
 
         public ObservableCollection<LogbookEntry> LogEntries { get; }
 

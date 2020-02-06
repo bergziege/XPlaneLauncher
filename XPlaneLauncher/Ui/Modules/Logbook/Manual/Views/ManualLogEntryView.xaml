@@ -30,11 +30,11 @@
                 </Grid.RowDefinitions>
                 <DatePicker materialDesign:HintAssist.Hint="Start date"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                            SelectedDate="{Binding StartDateTime}"/>
+                            SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}"/>
                 <materialDesign:TimePicker Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
                                            materialDesign:HintAssist.Hint="Start time (UTC)" Grid.Row="0"
                                            Grid.Column="2"
-                                           Is24Hours="True" SelectedTime="{Binding StartDateTime}"/>
+                                           Is24Hours="True" SelectedTime="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"/>
                 <Border Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" Background="{StaticResource PrimaryHueLightBrush}">
                     <Border.Style>
                         <Style TargetType="Border">
@@ -93,12 +93,12 @@
                 </Grid.ColumnDefinitions>
                 <DatePicker materialDesign:HintAssist.Hint="End date"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                            SelectedDate="{Binding EndDateTime}"/>
+                            SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}"/>
                 <materialDesign:TimePicker Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
                                            materialDesign:HintAssist.Hint="End time (UTC)"
                                            Is24Hours="True"
                                            Grid.Row="0" Grid.Column="2" 
-                                           SelectedTime="{Binding EndDateTime}"/>
+                                           SelectedTime="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}"/>
                 <Border Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="0" Background="{StaticResource PrimaryHueLightBrush}">
                     <Border.Style>
                         <Style TargetType="Border">
@@ -150,7 +150,7 @@
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:TextFieldAssist.SuffixText="h"
                      materialDesign:HintAssist.HelperText="auto calculated by start/end date and time" 
-                     Text="{Binding Duration}"/>
+                     Text="{Binding Duration, StringFormat=f2}"/>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
         <HeaderedContentControl IsTabStop="False">
@@ -161,12 +161,12 @@
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:TextFieldAssist.SuffixText="nm"
                      materialDesign:HintAssist.HelperText="auto calculated by start/end lat and lon" 
-                     Text="{Binding Distance}"/>
+                     Text="{Binding Distance, StringFormat=f0}"/>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
         <HeaderedContentControl IsTabStop="False">
             <HeaderedContentControl.Header>
-                <materialDesign:PackIcon Kind="Note" Margin="5,17,10,5" />
+                <materialDesign:PackIcon Kind="FileDocumentOutline" Margin="5,17,10,5" />
             </HeaderedContentControl.Header>
             <TextBox
                 AcceptsReturn="True"

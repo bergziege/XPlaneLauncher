@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MapControl;
 using Prism.Commands;
 using Prism.Events;
@@ -22,15 +23,17 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         private double? _duration;
         private DateTime? _endDateTime;
         private Location _endLocation;
+        private DateTime? _endTime;
         private bool _isInEndSelectionMode;
         private bool _isInStartSelectionMode;
         private string _note;
+        private ManualEntryParameters _parameters;
         private DelegateCommand _saveCommand;
         private DelegateCommand _selectEndLocationCommand;
         private DelegateCommand _selectStartLocationCommand;
         private DateTime? _startDateTime;
         private Location _startLocation;
-        private ManualEntryParameters _parameters;
+        private DateTime? _startTime;
 
         public ManualEntryViewModel(
             NavigateBackCommand navigateBackCommand, IEventAggregator eventAggregator,
@@ -61,10 +64,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             }
         }
 
-        public DateTime? EndDateTime {
+        public DateTime? EndDate {
             get { return _endDateTime; }
             set {
-                SetProperty(ref _endDateTime, value, nameof(EndDateTime));
+                SetProperty(ref _endDateTime, value, nameof(EndDate));
                 SaveCommand.RaiseCanExecuteChanged();
                 CalculateDuration();
             }
@@ -77,6 +80,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
                 SaveCommand.RaiseCanExecuteChanged();
                 CalculateDistanceInNauticalMiles();
             }
+        }
+
+        public DateTime? EndTime {
+            get { return _endTime; }
+            set { SetProperty(ref _endTime, value, nameof(EndTime)); }
         }
 
         public bool IsInEndSelectionMode {
@@ -111,10 +119,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             get { return _selectStartLocationCommand ?? (_selectStartLocationCommand = new DelegateCommand(OnSelectStartLocation)); }
         }
 
-        public DateTime? StartDateTime {
+        public DateTime? StartDate {
             get { return _startDateTime; }
             set {
-                SetProperty(ref _startDateTime, value, nameof(StartDateTime));
+                SetProperty(ref _startDateTime, value, nameof(StartDate));
                 SaveCommand.RaiseCanExecuteChanged();
                 CalculateDuration();
             }
@@ -127,6 +135,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
                 SaveCommand.RaiseCanExecuteChanged();
                 CalculateDistanceInNauticalMiles();
             }
+        }
+
+        public DateTime? StartTime {
+            get { return _startTime; }
+            set { SetProperty(ref _startTime, value, nameof(StartTime)); }
         }
 
         /// <summary>
@@ -152,7 +165,9 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         public void OnNavigatedTo(NavigationContext navigationContext) {
             if (navigationContext.Parameters.ContainsKey(ShowManualEntryCommand.NAV_PARAM_KEY)) {
                 _parameters = navigationContext.Parameters[ShowManualEntryCommand.NAV_PARAM_KEY] as ManualEntryParameters;
-                
+                if (_parameters?.LogbookEntry != null) {
+                    UpdateData();
+                }
             }
         }
 
@@ -165,15 +180,28 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         }
 
         private void CalculateDuration() {
-            if (!StartDateTime.HasValue || !EndDateTime.HasValue) {
+            if (!StartDate.HasValue || !StartTime.HasValue || !EndDate.HasValue || !EndTime.HasValue) {
                 Duration = null;
             } else {
-                Duration = EndDateTime.Value.Subtract(StartDateTime.Value).TotalHours;
+                Duration = CalculateDurationFromStartAndEnd();
             }
         }
 
+        private double CalculateDurationFromStartAndEnd() {
+            DateTime startDateTime = AddTime(StartDate.Value, StartTime.Value);
+            DateTime endDateTime = AddTime(EndDate.Value, EndTime.Value);
+            return endDateTime.Subtract(startDateTime).TotalHours;
+        }
+
+        private DateTime AddTime(DateTime startDate, DateTime startTime) {
+            startDate = startDate.Date.AddHours(startTime.Hour);
+            startDate = startDate.AddMinutes(startTime.Minute);
+            return startDate;
+        }
+
         private bool CanSave() {
-            return StartDateTime.HasValue && StartLocation != null && EndDateTime.HasValue && EndLocation != null && Distance.HasValue &&
+            return StartDate.HasValue && StartTime.HasValue && StartLocation != null && EndDate.HasValue && EndTime.HasValue && EndLocation != null &&
+                   Distance.HasValue &&
                    Duration.HasValue;
         }
 
@@ -194,16 +222,31 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         }
 
         private void OnSave() {
-            _logbookService.CreateManualEntry(
-                _parameters.AircraftId,
-                StartDateTime.Value,
-                EndDateTime.Value,
-                TimeSpan.FromHours(Duration.Value),
-                new List<Location> {
-                    StartLocation, EndLocation
-                },
-                Distance.Value,
-                Note);
+            if (_parameters.LogbookEntry == null) {
+                _logbookService.CreateManualEntry(
+                    _parameters.AircraftId,
+                    AddTime(StartDate.Value, StartTime.Value),
+                    AddTime(EndDate.Value, EndTime.Value),
+                    TimeSpan.FromHours(Duration.Value),
+                    new List<Location> {
+                        StartLocation, EndLocation
+                    },
+                    Distance.Value,
+                    Note);
+            } else {
+                _logbookService.UpdateManualEntry(
+                    _parameters.LogbookEntry,
+                    _parameters.AircraftId,
+                    AddTime(StartDate.Value, StartTime.Value),
+                    AddTime(EndDate.Value, EndTime.Value),
+                    TimeSpan.FromHours(Duration.Value),
+                    new List<Location> {
+                        StartLocation, EndLocation
+                    },
+                    Distance.Value,
+                    Note);
+            }
+
             _backCommand.Execute();
         }
 
@@ -213,6 +256,18 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
 
         private void OnSelectStartLocation() {
             IsInStartSelectionMode = true;
+        }
+
+        private void UpdateData() {
+            StartDate = _parameters.LogbookEntry.StartDateTime;
+            StartTime = _parameters.LogbookEntry.StartDateTime;
+            EndDate = _parameters.LogbookEntry.EndDateTime;
+            EndTime = _parameters.LogbookEntry.EndDateTime;
+            StartLocation = _parameters.LogbookEntry.Track.First();
+            EndLocation = _parameters.LogbookEntry.Track.Last();
+            Distance = _parameters.LogbookEntry.DistanceNauticalMiles;
+            Duration = _parameters.LogbookEntry.Duration.TotalHours;
+            Note = _parameters.LogbookEntry.Notes;
         }
     }
 }

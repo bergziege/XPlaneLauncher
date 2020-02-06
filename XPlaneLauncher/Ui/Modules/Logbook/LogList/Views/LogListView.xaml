@@ -107,12 +107,19 @@
                                 </Style>
                             </materialDesign:Card.Style>
                             <Grid>
+                                <StackPanel HorizontalAlignment="Left">
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            Command="{Binding ElementName=LogListViewControl, Path=DataContext.EditSelectedEntryCommand}">
+                                        <materialDesign:PackIcon Kind="Edit"></materialDesign:PackIcon>
+                                    </Button>
+                                </StackPanel>
                                 <StackPanel HorizontalAlignment="Right">
                                     <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{StaticResource BrushDarkRed}"
                                             Command="{Binding ElementName=LogListViewControl, Path=DataContext.DeleteSelectedEntryCommand}">
                                         <materialDesign:PackIcon Kind="Trash"></materialDesign:PackIcon>
                                     </Button>
-                                </StackPanel></Grid>
+                                </StackPanel>
+                            </Grid>
                         </materialDesign:Card>
                     </StackPanel>
                 </DataTemplate>

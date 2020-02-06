@@ -18,8 +18,9 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         private DelegateCommand _addManualEntryCommand;
         private Aircraft _aircraft;
         private DelegateCommand _backCommand;
-        private LogbookEntry _selectedEntry;
         private DelegateCommand _deleteSelectedEntryCommand;
+        private DelegateCommand _editSelectedEntryCommand;
+        private LogbookEntry _selectedEntry;
 
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
@@ -43,10 +44,8 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
             get { return _deleteSelectedEntryCommand ?? (_deleteSelectedEntryCommand = new DelegateCommand(OnDeleteSelectedEntry)); }
         }
 
-        private void OnDeleteSelectedEntry() {
-            _logbookService.DeleteEntry(_aircraft.Id, SelectedEntry);
-            LogEntries.Remove(SelectedEntry);
-            SelectedEntry = null;
+        public DelegateCommand EditSelectedEntryCommand {
+            get { return _editSelectedEntryCommand ?? (_editSelectedEntryCommand = new DelegateCommand(OnEditSelectedEntry)); }
         }
 
         public ObservableCollection<LogbookEntry> LogEntries { get; } = new ObservableCollection<LogbookEntry>();
@@ -83,9 +82,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
                 }
             }
 
-            if (_aircraft != null) {
-                RefreshData();
-            }
+            RefreshData();
         }
 
         private void GoBack() {
@@ -93,7 +90,20 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         }
 
         private void OnAddManualEntry() {
-            _showManualEntryCommand.Execute(_aircraft.Id);
+            _showManualEntryCommand.Execute(_aircraft.Id, null);
+        }
+
+        private void OnDeleteSelectedEntry() {
+            _logbookService.DeleteEntry(_aircraft.Id, SelectedEntry);
+            LogEntries.Remove(SelectedEntry);
+            SelectedEntry = null;
+        }
+
+        private void OnEditSelectedEntry() {
+            if (SelectedEntry.Type == LogbookEntryType.Manual) {
+                _logbookService.ExpandTrack(_aircraft.Id, SelectedEntry);
+                _showManualEntryCommand.Execute(_aircraft.Id, SelectedEntry);
+            }
         }
 
         private async void RefreshData() {

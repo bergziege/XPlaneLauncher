@@ -55,9 +55,22 @@ namespace XPlaneLauncher.Services.Impl {
             }
         }
 
+        public LogbookEntry ExpandTrack(Guid aircraftId, LogbookEntry logbookEntry) {
+            IList<Location> track = _logbookEntryTrackDao.GetTrack(GetLogbookEntryFile(aircraftId, logbookEntry.StartDateTime, "track"));
+            logbookEntry.Update(track);
+            return logbookEntry;
+        }
+
         public async Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft) {
             DirectoryInfo logbookDirectory = GetLogbookDirectoryByLauncherInfoFile(aircraft.LauncherInfoFile);
             return await _logbookEntryDao.GetEntriesAsync(logbookDirectory);
+        }
+
+        public void UpdateManualEntry(
+            LogbookEntry oldEntry, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
+            double distanceNauticalMiles, string notes) {
+            DeleteEntry(aircraftId, oldEntry);
+            CreateManualEntry(aircraftId, startDateTime, endDateTime, duration, track, distanceNauticalMiles, notes);
         }
 
         private static DirectoryInfo GetLogbookDirectoryByLauncherInfoFile(FileInfo launcherInfoFile) {

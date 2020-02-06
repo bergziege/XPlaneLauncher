@@ -7,6 +7,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels {
         DelegateCommand AddManualEntryCommand { get; }
         DelegateCommand BackCommand { get; }
         DelegateCommand DeleteSelectedEntryCommand { get; }
+        DelegateCommand EditSelectedEntryCommand { get; }
         ObservableCollection<LogbookEntry> LogEntries { get; }
         LogbookEntry SelectedEntry { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using GeoJSON.Net.Feature;
 using GeoJSON.Net.Geometry;
 using MapControl;
@@ -11,6 +12,17 @@ namespace XPlaneLauncher.Persistence.Impl {
             if (trackFile.Exists) {
                 trackFile.Delete();
             }
+        }
+
+        public IList<Location> GetTrack(FileInfo trackFile) {
+            string trackFileContent = File.ReadAllText(trackFile.FullName);
+            FeatureCollection points = JsonConvert.DeserializeObject<FeatureCollection>(trackFileContent);
+            IList<Location> track = new List<Location>();
+            foreach (Point point in points.Features.Select(x => x.Geometry as Point)) {
+                track.Add(new Location(point.Coordinates.Latitude, point.Coordinates.Longitude));
+            }
+
+            return track;
         }
 
         public void Save(FileInfo trackFile, IList<Location> track) {

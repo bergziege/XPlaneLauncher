@@ -7,15 +7,17 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels {
         DelegateCommand BackCommand { get; }
         double? Distance { get; set; }
         double? Duration { get; set; }
-        DateTime? EndDateTime { get; set; }
+        DateTime? EndDate { get; set; }
         Location EndLocation { get; set; }
+        DateTime? EndTime { get; set; }
         bool IsInEndSelectionMode { get; }
         bool IsInStartSelectionMode { get; }
         string Note { get; set; }
         DelegateCommand SaveCommand { get; }
         DelegateCommand SelectEndLocationCommand { get; }
         DelegateCommand SelectStartLocationCommand { get; }
-        DateTime? StartDateTime { get; set; }
+        DateTime? StartDate { get; set; }
         Location StartLocation { get; set; }
+        DateTime? StartTime { get; set; }
     }
 }

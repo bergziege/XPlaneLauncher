@@ -37,12 +37,16 @@ namespace XPlaneLauncher.Domain {
         public DateTime StartDateTime { get; }
 
         [JsonIgnore]
-        public IList<Location> Track { get; }
+        public IList<Location> Track { get; private set; }
 
         public LogbookEntryType Type { get; }
 
         public void Update(string notes) {
             Notes = notes;
+        }
+
+        public void Update(IList<Location> track) {
+            Track = track;
         }
     }
 }
