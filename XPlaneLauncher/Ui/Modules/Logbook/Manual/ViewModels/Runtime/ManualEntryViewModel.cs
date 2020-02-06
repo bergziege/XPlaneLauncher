@@ -86,7 +86,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
 
         public DateTime? EndTime {
             get { return _endTime; }
-            set { SetProperty(ref _endTime, value, nameof(EndTime)); }
+            set {
+                SetProperty(ref _endTime, value, nameof(EndTime));
+                SaveCommand.RaiseCanExecuteChanged();
+                CalculateDuration();
+            }
         }
 
         public bool IsInEndSelectionMode {
@@ -142,7 +146,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
 
         public DateTime? StartTime {
             get { return _startTime; }
-            set { SetProperty(ref _startTime, value, nameof(StartTime)); }
+            set {
+                SetProperty(ref _startTime, value, nameof(StartTime));
+                SaveCommand.RaiseCanExecuteChanged();
+                CalculateDuration();
+            }
         }
 
         /// <summary>
