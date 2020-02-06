@@ -12,6 +12,7 @@ using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Modules.AircraftList.Events;
+using XPlaneLauncher.Ui.Modules.Logbook.Events;
 using XPlaneLauncher.Ui.Modules.Map.Dtos;
 using XPlaneLauncher.Ui.Modules.Map.Events;
 using XPlaneLauncher.Ui.Modules.RouteEditor.Events;
@@ -23,6 +24,7 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
         private DelegateCommand<Location> _locationSelectedCommand;
         private DelegateCommand<MapBoundary> _mapBoundariesChangedCommand;
         private Location _mapCenter;
+        private ObservableCollection<LocationCollection> _tracks = new ObservableCollection<LocationCollection>();
 
         public MapViewModel(
             IAircraftModelProvider modelProvider, IRouteService routeService,
@@ -35,6 +37,7 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             eventAggregator.GetEvent<PubSubEvent<RoutePointAddedEvent>>().Subscribe(OnRoutePointAdded);
             eventAggregator.GetEvent<PubSubEvent<SelectionChangedEvent>>().Subscribe(OnAircraftListSelectioChanged);
             eventAggregator.GetEvent<PubSubEvent<AircraftRemovedEvent>>().Subscribe(OnAircraftRemoved);
+            eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>().Subscribe(OnVisualizeTrack);
         }
 
         public ObservableCollection<Aircraft> Aircrafts { get; }
@@ -55,6 +58,11 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
         public ObservableCollection<RoutePoint> RoutePoints { get; } = new ObservableCollection<RoutePoint>();
 
         public ObservableCollection<AircraftRouteViewModel> Routes { get; } = new ObservableCollection<AircraftRouteViewModel>();
+
+        public ObservableCollection<LocationCollection> Tracks {
+            get { return _tracks; }
+            private set { SetProperty(ref _tracks, value, nameof(Tracks)); }
+        }
 
         public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e) {
             if (managerType == typeof(PropertyChangedEventManager) && e is PropertyChangedEventArgs args &&
@@ -153,6 +161,17 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
                 route.IsSelected = true;
                 Routes.Add(route);
             }
+        }
+
+        private void OnVisualizeTrack(VisualizeTrackEvent obj) {
+            Tracks.Clear();
+            if (obj.Track != null && obj.Track.Any()) {
+                if (obj.Track.Count == 2) {
+                    Tracks.Add(obj.Track.First().CalculateGreatCircleLocations(obj.Track.Last()));
+                }
+            }
+
+            RaisePropertyChanged(nameof(Tracks));
         }
 
         private void RefreshRoutePointsAndRoutes() {

@@ -1,17 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using XPlaneLauncher.Domain;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Common.Commands;
+using XPlaneLauncher.Ui.Modules.Logbook.Events;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands;
 using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
     public class LogListViewModel : BindableBase, ILogListViewModel, INavigationAware {
+        private readonly IEventAggregator _eventAggregator;
         private readonly ILogbookService _logbookService;
         private readonly NavigateBackCommand _navigateBackCommand;
         private readonly ShowManualEntryCommand _showManualEntryCommand;
@@ -26,10 +30,12 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
         public LogListViewModel(
-            NavigateBackCommand navigateBackCommand, ShowManualEntryCommand showManualEntryCommand, ILogbookService logbookService) {
+            NavigateBackCommand navigateBackCommand, ShowManualEntryCommand showManualEntryCommand, ILogbookService logbookService,
+            IEventAggregator eventAggregator) {
             _navigateBackCommand = navigateBackCommand;
             _showManualEntryCommand = showManualEntryCommand;
             _logbookService = logbookService;
+            _eventAggregator = eventAggregator;
         }
 
         public DelegateCommand AddManualEntryCommand {
@@ -52,7 +58,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
 
         public LogbookEntry SelectedEntry {
             get { return _selectedEntry; }
-            set { SetProperty(ref _selectedEntry, value, nameof(SelectedEntry)); }
+            set {
+                SetProperty(ref _selectedEntry, value, nameof(SelectedEntry));
+                VisualizeTrack();
+            }
         }
 
         /// <summary>
@@ -111,6 +120,18 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
             IList<LogbookEntry> entries = await _logbookService.GetEntriesWithoutTrackAsync(_aircraft);
             foreach (LogbookEntry logbookEntry in entries) {
                 LogEntries.Add(logbookEntry);
+            }
+        }
+
+        private void VisualizeTrack() {
+            if (SelectedEntry == null) {
+                _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>().Publish(new VisualizeTrackEvent(null));
+            } else {
+                if (SelectedEntry.Track == null || !SelectedEntry.Track.Any()) {
+                    _logbookService.ExpandTrack(_aircraft.Id, SelectedEntry);
+                }
+
+                _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>().Publish(new VisualizeTrackEvent(SelectedEntry.Track));
             }
         }
     }

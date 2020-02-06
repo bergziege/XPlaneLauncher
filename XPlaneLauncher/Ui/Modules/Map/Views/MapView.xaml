@@ -163,6 +163,17 @@
                 </mapControl:MapPolyline.Style>
             </mapControl:MapPolyline>
         </DataTemplate>
+        <DataTemplate x:Key="TrackItemTemplate">
+            <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+            <mapControl:MapPolyline Locations="{Binding}">
+                <mapControl:MapPolyline.Style>
+                    <Style TargetType="mapControl:MapPolyline">
+                        <Setter Property="Stroke" Value="Red" />
+                        <Setter Property="StrokeThickness" Value="4" />
+                    </Style>
+                </mapControl:MapPolyline.Style>
+            </mapControl:MapPolyline>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <mapControl:Map MapLayer="{x:Static mapControl:MapTileLayer.OpenStreetMapTileLayer}"
@@ -178,6 +189,8 @@
                                         ItemTemplate="{StaticResource PolylineItemTemplate}" />
             <mapControl:MapItemsControl ItemsSource="{Binding RoutePoints}"
                                         ItemContainerStyle="{StaticResource PathPointItemStyle}" />
+            <mapControl:MapItemsControl ItemsSource="{Binding Tracks}"
+                                        ItemTemplate="{StaticResource TrackItemTemplate}" />
         </mapControl:Map>
     </Grid>
 </UserControl>

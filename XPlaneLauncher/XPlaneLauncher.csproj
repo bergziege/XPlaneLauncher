@@ -138,6 +138,7 @@
     <Compile Include="Ui\Modules\AircraftList\Views\RemoveConfirmView.xaml.cs">
       <DependentUpon>RemoveConfirmView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ui\Modules\Logbook\Events\VisualizeTrackEvent.cs" />
     <Compile Include="Ui\Modules\Logbook\LogbookModule.cs" />
     <Compile Include="Ui\Modules\Logbook\LogList\NavigationComands\ShowLogbookForAircraftCommand.cs" />
     <Compile Include="Ui\Modules\Logbook\LogList\ViewModels\Design\LogListDesignViewModel.cs" />
