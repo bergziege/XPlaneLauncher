@@ -14,5 +14,6 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels {
         ObservableCollection<RoutePoint> RoutePoints { get; }
         ObservableCollection<AircraftRouteViewModel> Routes { get; }
         ObservableCollection<LocationCollection> Tracks { get; }
+        BoundingBox BoundingBox { get; set; }
     }
 }

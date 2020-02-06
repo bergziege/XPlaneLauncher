@@ -180,7 +180,7 @@
                         Center="{Binding Path=MapCenter}"
                         MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"
                         x:Name="Map"
-                        ViewportChanged="Map_OnViewportChanged" >
+                        ViewportChanged="Map_OnViewportChanged">
             <mapControl:MapItemsControl ItemsSource="{Binding Path=Aircrafts}"
                                         ItemContainerStyle="{StaticResource PointItemStyle}"
                                         SelectionMode="Single"
