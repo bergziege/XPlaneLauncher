@@ -24,9 +24,10 @@
             </Button>
             <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center" Margin="5" />
             <TextBlock
-                Text="{Binding Path=Aircraft.RouteLength, StringFormat=0.00 km}"
+                Text="{Binding Path=Aircraft.RouteLength, StringFormat=f0}"
                 Foreground="Black"
                 VerticalAlignment="Center" />
+            <TextBlock Text="nm" />
         </StackPanel>
 
         <ListBox ItemsSource="{Binding Path=Aircraft.Route}"
