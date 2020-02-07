@@ -170,6 +170,7 @@
                                                 <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center"/>
                                                 <Separator Width="3" Visibility="Hidden" />
                                                 <TextBlock Text="{Binding Path=SummaryDistanceNauticalMiles, StringFormat=f0}" VerticalAlignment="Center"/>
+                                                <TextBlock Text="nm" />
                                             </StackPanel>
                                         </materialDesign:Chip>
                                         <materialDesign:Chip Margin="0,0,5,0">
@@ -188,7 +189,8 @@
                                                 <materialDesign:PackIcon Kind="ClockFast" VerticalAlignment="Center"/>
                                                 <Separator Width="3" Visibility="Hidden" />
                                                 <TextBlock Text="{Binding Path=SummaryHours, StringFormat=f0}" VerticalAlignment="Center"/>
-                                            </StackPanel>
+                                                <TextBlock Text="h" />
+                                        </StackPanel>
                                         </materialDesign:Chip>
                                 </StackPanel>
 
