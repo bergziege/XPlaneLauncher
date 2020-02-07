@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MapControl;
+using UnitsNet;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime;
 
@@ -14,7 +15,7 @@ namespace XPlaneLauncher.Services.Impl {
                     segmentStart = segmentEnd;
                 }
 
-                distanceToDestination = distanceToDestination / 1000;
+                distanceToDestination =  Length.FromMeters(distanceToDestination).NauticalMiles;
             }
 
             return distanceToDestination;
