@@ -55,6 +55,11 @@ namespace XPlaneLauncher.Services.Impl {
             _aircraftModelProvider.Aircrafts.Remove(aircraft);
         }
 
+        public void Update(Aircraft aircraft, double summaryDistanceNauticalMiles, double summaryDurationHours) {
+            aircraft.Update(summaryDistanceNauticalMiles, summaryDurationHours);
+            Save(aircraft);
+        }
+
         public void RemoveRoutePointFromAircraft(Aircraft aircraft, RoutePoint routePoint) {
             aircraft.Route.Remove(routePoint);
             aircraft.Update(_routeService.GetRouteLenght(aircraft));
@@ -63,7 +68,9 @@ namespace XPlaneLauncher.Services.Impl {
         public void Save(Aircraft aircraft) {
             AircraftLauncherInformation launcherInfo = new AircraftLauncherInformation {
                 TargetLocation = new List<Location>(),
-                LocationInformations = new Dictionary<Location, LocationInformation>()
+                LocationInformations = new Dictionary<Location, LocationInformation>(),
+                SummaryDistanceNauticalMiles = aircraft.SummaryDistanceNauticalMiles,
+                SummaryHours = aircraft.SummaryHours
             };
             foreach (RoutePoint routePoint in aircraft.Route) {
                 launcherInfo.TargetLocation.Add(routePoint.Location);

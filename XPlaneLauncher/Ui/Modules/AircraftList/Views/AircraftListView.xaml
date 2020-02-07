@@ -111,15 +111,9 @@
                                                        Foreground="Black" />
                                         </StackPanel>
                                     </StackPanel>
-                                    <Grid Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Margin="5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-
-                                        <materialDesign:Chip Background="{StaticResource BrushLightRed}" ToolTip="Missing situation file">
+                                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Margin="5">
+                                        <materialDesign:Chip Background="{StaticResource BrushLightRed}" ToolTip="Missing situation file"
+                                                             Margin="0,0,5,0">
                                             <materialDesign:Chip.Style>
                                                 <Style TargetType="materialDesign:Chip">
                                                     <Setter Property="Visibility" Value="Visible" />
@@ -137,9 +131,7 @@
 
                                         </materialDesign:Chip>
 
-                                        <Separator Width="5" Visibility="Hidden" Grid.Column="1" />
-
-                                        <materialDesign:Chip Grid.Column="2">
+                                        <materialDesign:Chip Margin="0,0,5,0">
                                             <materialDesign:Chip.Style>
                                                 <Style TargetType="materialDesign:Chip">
                                                     <Setter Property="Visibility" Value="Visible" />
@@ -162,7 +154,43 @@
                                                            VerticalAlignment="Center" />
                                             </StackPanel>
                                         </materialDesign:Chip>
-                                    </Grid>
+                                        <materialDesign:Chip Margin="0,0,5,0">
+                                            <materialDesign:Chip.Style>
+                                                <Style TargetType="materialDesign:Chip">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=SummaryDistanceNauticalMiles}"
+                                                                     Value="0">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </materialDesign:Chip.Style>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center"/>
+                                                <Separator Width="3" Visibility="Hidden" />
+                                                <TextBlock Text="{Binding Path=SummaryDistanceNauticalMiles, StringFormat=f0}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </materialDesign:Chip>
+                                        <materialDesign:Chip Margin="0,0,5,0">
+                                            <materialDesign:Chip.Style>
+                                                <Style TargetType="materialDesign:Chip">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=SummaryHours}"
+                                                                     Value="0">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </materialDesign:Chip.Style>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <materialDesign:PackIcon Kind="ClockFast" VerticalAlignment="Center"/>
+                                                <Separator Width="3" Visibility="Hidden" />
+                                                <TextBlock Text="{Binding Path=SummaryHours, StringFormat=f0}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </materialDesign:Chip>
+                                </StackPanel>
 
                                     <Image Source="{Binding Path=Thumbnail.ThumbnailFile.FullName}" Grid.Row="0"
                                            Grid.Column="1"

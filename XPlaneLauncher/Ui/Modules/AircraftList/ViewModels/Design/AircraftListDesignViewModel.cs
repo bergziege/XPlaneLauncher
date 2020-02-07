@@ -20,6 +20,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Design {
                 Livery = "my/test/livery"
             }, new AircraftLauncherInformation());
             aircraft2.Update(new Situation(false, null));
+            aircraft2.Update(100.42356, 42.456789);
             Aircrafts.Add(aircraft);
             Aircrafts.Add(aircraft2);
             SelectedAircraft = aircraft;

@@ -17,6 +17,7 @@ using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
 namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
     public class LogListViewModel : BindableBase, ILogListViewModel, INavigationAware {
         private readonly IEventAggregator _eventAggregator;
+        private readonly IAircraftService _aircraftService;
         private readonly ILogbookService _logbookService;
         private readonly NavigateBackCommand _navigateBackCommand;
         private readonly ShowManualEntryCommand _showManualEntryCommand;
@@ -34,11 +35,12 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         /// </summary>
         public LogListViewModel(
             NavigateBackCommand navigateBackCommand, ShowManualEntryCommand showManualEntryCommand, ILogbookService logbookService,
-            IEventAggregator eventAggregator) {
+            IEventAggregator eventAggregator, IAircraftService aircraftService) {
             _navigateBackCommand = navigateBackCommand;
             _showManualEntryCommand = showManualEntryCommand;
             _logbookService = logbookService;
             _eventAggregator = eventAggregator;
+            _aircraftService = aircraftService;
         }
 
         public DelegateCommand AddManualEntryCommand {
@@ -113,6 +115,8 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         private void CreateSummary() {
             SummaryDistanceNauticalMiles = LogEntries.Sum(x => x.DistanceNauticalMiles);
             SummaryDurationHours = LogEntries.Sum(x => x.Duration.TotalHours);
+
+            _aircraftService.Update(_aircraft, SummaryDistanceNauticalMiles, SummaryDurationHours);
         }
 
         private void GoBack() {

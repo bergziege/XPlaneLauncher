@@ -16,6 +16,8 @@ namespace XPlaneLauncher.Model {
         private string _name;
         private double _routeLength;
         private Situation _situation;
+        private double _summaryDistanceNauticalMiles;
+        private double _summaryHours;
         private Thumbnail _thumbnail;
 
         public Aircraft(AircraftInformation aircraftInformation, AircraftLauncherInformation launcherInfo) {
@@ -69,6 +71,16 @@ namespace XPlaneLauncher.Model {
             private set { SetProperty(ref _situation, value); }
         }
 
+        public double SummaryDistanceNauticalMiles {
+            get { return _summaryDistanceNauticalMiles; }
+            private set { SetProperty(ref _summaryDistanceNauticalMiles, value, nameof(SummaryDistanceNauticalMiles)); }
+        }
+
+        public double SummaryHours {
+            get { return _summaryHours; }
+            private set { SetProperty(ref _summaryHours, value, nameof(SummaryHours)); }
+        }
+
         public Thumbnail Thumbnail {
             get { return _thumbnail; }
             private set { SetProperty(ref _thumbnail, value); }
@@ -79,6 +91,8 @@ namespace XPlaneLauncher.Model {
                 Name = AircraftInformation.AircraftFile.Replace(".acf", "");
                 Livery = GetLastParthOfLiveryPath(AircraftInformation.Livery);
                 Location = new Location(AircraftInformation.Latitude, AircraftInformation.Longitude);
+                SummaryDistanceNauticalMiles = _launcherInfo.SummaryDistanceNauticalMiles;
+                SummaryHours = _launcherInfo.SummaryHours;
                 foreach (Location location in _launcherInfo.TargetLocation) {
                     LocationInformation additionalInformation = null;
                     if (_launcherInfo.LocationInformations != null && _launcherInfo.LocationInformations.ContainsKey(location)) {
@@ -118,6 +132,11 @@ namespace XPlaneLauncher.Model {
             }
 
             return string.Empty;
+        }
+
+        public void Update(double summaryDistanceNauticalMiles, double summaryDurationHours) {
+            SummaryDistanceNauticalMiles = summaryDistanceNauticalMiles;
+            SummaryHours = summaryDurationHours;
         }
     }
 }

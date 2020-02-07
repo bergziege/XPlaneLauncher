@@ -9,5 +9,6 @@ namespace XPlaneLauncher.Services {
         RoutePoint AddRoutePointToAircraft(Aircraft aircraft, Location location);
         void Save(Aircraft aircraft);
         void RemoveAircraft(Aircraft aircraft);
+        void Update(Aircraft aircraft, double summaryDistanceNauticalMiles, double summaryDurationHours);
     }
 }

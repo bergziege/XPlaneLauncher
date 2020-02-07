@@ -13,5 +13,9 @@ namespace XPlaneLauncher.Domain
 
         [JsonIgnore]
         public FileInfo LauncherInfoFile { get; set; }
+
+        public double SummaryDistanceNauticalMiles { get; set; }
+
+        public double SummaryHours { get; set; }
     }
 }
