@@ -27,7 +27,7 @@
                 Text="{Binding Path=Aircraft.RouteLength, StringFormat=f0}"
                 Foreground="Black"
                 VerticalAlignment="Center" />
-            <TextBlock Text="nm" />
+            <TextBlock Text="nm" VerticalAlignment="Center"/>
         </StackPanel>
 
         <ListBox ItemsSource="{Binding Path=Aircraft.Route}"
