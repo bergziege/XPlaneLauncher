@@ -58,12 +58,12 @@
                                                 <Separator Width="5" Visibility="Hidden" />
                                                 <TextBlock>
                                                     <Run Text="Lat.:"></Run>
-                                                    <Run Text="{Binding Path=Location.Latitude}"></Run>
+                                                    <Run Text="{Binding Path=Location.Latitude, StringFormat=f4}"></Run>
                                                 </TextBlock>
                                                 <Separator Width="5" Visibility="Hidden" />
                                                 <TextBlock>
                                                     <Run Text="Lon.:"></Run>
-                                                    <Run Text="{Binding Path=Location.Longitude}"></Run>
+                                                    <Run Text="{Binding Path=Location.Longitude, StringFormat=f4}"></Run>
                                                 </TextBlock>
                                             </StackPanel>
                                         </materialDesign:Chip>
