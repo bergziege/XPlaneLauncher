@@ -82,179 +82,186 @@
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="model:Aircraft">
                     <StackPanel>
-                            <materialDesign:Card>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="300" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
+                        <materialDesign:Card>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="300" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
 
-                                    <StackPanel HorizontalAlignment="Stretch" Margin="5">
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="Plane" />
-                                            <Separator Width="3" Visibility="Hidden" />
-                                            <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap"
-                                                       HorizontalAlignment="Stretch" Margin="0,0,0,3"
-                                                       Foreground="Black"
-                                                       FontWeight="DemiBold" />
-                                        </StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon Kind="Paintbrush" />
-                                            <Separator Width="3" Visibility="Hidden" />
-                                            <TextBlock Text="{Binding Path=Livery}" TextWrapping="Wrap"
-                                                       Margin="0,0,0,3"
-                                                       Foreground="Black" />
-                                        </StackPanel>
+                                <StackPanel HorizontalAlignment="Stretch" Margin="5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Plane" />
+                                        <Separator Width="3" Visibility="Hidden" />
+                                        <TextBlock Text="{Binding Path=Name}" TextWrapping="Wrap"
+                                                   HorizontalAlignment="Stretch" Margin="0,0,0,3"
+                                                   Foreground="Black"
+                                                   FontWeight="DemiBold" />
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Bottom" Margin="5">
-                                        <materialDesign:Chip Background="{StaticResource BrushLightRed}" ToolTip="Missing situation file"
-                                                             Margin="0,0,5,0">
-                                            <materialDesign:Chip.Style>
-                                                <Style TargetType="materialDesign:Chip">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=Situation.HasSit}"
-                                                                     Value="true">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </materialDesign:Chip.Style>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Paintbrush" />
+                                        <Separator Width="3" Visibility="Hidden" />
+                                        <TextBlock Text="{Binding Path=Livery}" TextWrapping="Wrap"
+                                                   Margin="0,0,0,3"
+                                                   Foreground="Black" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0"
+                                            VerticalAlignment="Bottom" Margin="5">
+                                    <materialDesign:Chip Background="{StaticResource BrushLightRed}"
+                                                         ToolTip="Missing situation file"
+                                                         Margin="0,0,5,0">
+                                        <materialDesign:Chip.Style>
+                                            <Style TargetType="materialDesign:Chip">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Situation.HasSit}"
+                                                                 Value="true">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </materialDesign:Chip.Style>
 
-                                            <materialDesign:PackIcon Kind="FileDocumentBoxRemoveOutline"
+                                        <materialDesign:PackIcon Kind="FileDocumentBoxRemoveOutline"
+                                                                 VerticalAlignment="Center" />
+
+                                    </materialDesign:Chip>
+
+                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Planned distance in nuatical miles">
+                                        <materialDesign:Chip.Style>
+                                            <Style TargetType="materialDesign:Chip">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=RouteLength}"
+                                                                 Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </materialDesign:Chip.Style>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="MapMarkerPath"
                                                                      VerticalAlignment="Center" />
 
-                                        </materialDesign:Chip>
+                                            <Separator Width="3" Visibility="Hidden" />
 
-                                        <materialDesign:Chip Margin="0,0,5,0">
-                                            <materialDesign:Chip.Style>
-                                                <Style TargetType="materialDesign:Chip">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=RouteLength}"
-                                                                     Value="0">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </materialDesign:Chip.Style>
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Kind="MapMarkerDistance"
-                                                                         VerticalAlignment="Center" />
-
-                                                <Separator Width="5" Visibility="Hidden" />
-
-                                                <TextBlock Text="{Binding Path=RouteLength, StringFormat=f0}"
-                                                           Foreground="Black"
-                                                           VerticalAlignment="Center" />
-                                                <TextBlock Text="nm"></TextBlock>
-                                            </StackPanel>
-                                        </materialDesign:Chip>
-                                        <materialDesign:Chip Margin="0,0,5,0">
-                                            <materialDesign:Chip.Style>
-                                                <Style TargetType="materialDesign:Chip">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=SummaryDistanceNauticalMiles}"
-                                                                     Value="0">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </materialDesign:Chip.Style>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center"/>
-                                                <Separator Width="3" Visibility="Hidden" />
-                                                <TextBlock Text="{Binding Path=SummaryDistanceNauticalMiles, StringFormat=f0}" VerticalAlignment="Center"/>
-                                                <TextBlock Text="nm" />
-                                            </StackPanel>
-                                        </materialDesign:Chip>
-                                        <materialDesign:Chip Margin="0,0,5,0">
-                                            <materialDesign:Chip.Style>
-                                                <Style TargetType="materialDesign:Chip">
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=SummaryHours}"
-                                                                     Value="0">
-                                                            <Setter Property="Visibility" Value="Collapsed" />
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </materialDesign:Chip.Style>
-                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                <materialDesign:PackIcon Kind="ClockFast" VerticalAlignment="Center"/>
-                                                <Separator Width="3" Visibility="Hidden" />
-                                                <TextBlock Text="{Binding Path=SummaryHours, StringFormat=f0}" VerticalAlignment="Center"/>
-                                                <TextBlock Text="h" />
+                                            <TextBlock Text="{Binding Path=RouteLength, StringFormat=f0}"
+                                                       Foreground="Black"
+                                                       VerticalAlignment="Center" />
+                                            <TextBlock Text="nm" />
                                         </StackPanel>
-                                        </materialDesign:Chip>
+                                    </materialDesign:Chip>
+                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Logged distance in nautical miles">
+                                        <materialDesign:Chip.Style>
+                                            <Style TargetType="materialDesign:Chip">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=SummaryDistanceNauticalMiles}"
+                                                                 Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </materialDesign:Chip.Style>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="MapMarkerDistance"
+                                                                     VerticalAlignment="Center" />
+                                            <Separator Width="3" Visibility="Hidden" />
+                                            <TextBlock
+                                                Text="{Binding Path=SummaryDistanceNauticalMiles, StringFormat=f0}"
+                                                VerticalAlignment="Center" />
+                                            <TextBlock Text="nm" />
+                                        </StackPanel>
+                                    </materialDesign:Chip>
+                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Logged hours">
+                                        <materialDesign:Chip.Style>
+                                            <Style TargetType="materialDesign:Chip">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=SummaryHours}"
+                                                                 Value="0">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </materialDesign:Chip.Style>
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <materialDesign:PackIcon Kind="ClockFast" VerticalAlignment="Center" />
+                                            <Separator Width="3" Visibility="Hidden" />
+                                            <TextBlock Text="{Binding Path=SummaryHours, StringFormat=f0}"
+                                                       VerticalAlignment="Center" />
+                                            <TextBlock Text="h" />
+                                        </StackPanel>
+                                    </materialDesign:Chip>
                                 </StackPanel>
 
-                                    <Image Source="{Binding Path=Thumbnail.ThumbnailFile.FullName}" Grid.Row="0"
-                                           Grid.Column="1"
-                                           Width="200"
-                                           Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                <Image Source="{Binding Path=Thumbnail.ThumbnailFile.FullName}" Grid.Row="0"
+                                       Grid.Column="1"
+                                       Width="200"
+                                       Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       HorizontalAlignment="Right" />
+                                <Rectangle Grid.Row="0" Grid.Column="1" Width="200" Height="100" Fill="#ABABAB"
+                                           Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}"
                                            HorizontalAlignment="Right" />
-                                    <Rectangle Grid.Row="0" Grid.Column="1" Width="200" Height="100" Fill="#ABABAB"
-                                               Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}"
-                                               HorizontalAlignment="Right" />
 
 
-                                </Grid>
-                            </materialDesign:Card>
-                            <materialDesign:Card Background="White" Margin="0,4,0,0" Padding="8">
-                                <materialDesign:Card.Style>
-                                    <Style TargetType="materialDesign:Card">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </materialDesign:Card.Style>
+                            </Grid>
+                        </materialDesign:Card>
+                        <materialDesign:Card Background="White" Margin="0,4,0,0" Padding="8">
+                            <materialDesign:Card.Style>
+                                <Style TargetType="materialDesign:Card">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </materialDesign:Card.Style>
 
-                                <Grid DataContext="{Binding ElementName=AircraftListViewControl, Path=DataContext}">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Button Content="Start" Command="{Binding Path=StartSimCommand}"
-                                                Style="{StaticResource MaterialDesignRaisedButton}" Width="110" />
-                                        <Separator Width="5" Visibility="Hidden" />
-                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                Command="{Binding Path=EditSelectedAircraftRoute}" Width="110">
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center"/>
-                                                <Separator Width="5" Visibility="Hidden" />
-                                                <TextBlock Text="Route" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </Button>
-                                        <Separator Width="5" Visibility="Hidden" />
-                                        <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding Path=ShowLogbookForSelectedAircraftCommand}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <materialDesign:PackIcon Kind="BookOpen" VerticalAlignment="Center"/>
-                                                <Separator Width="5" Visibility="Hidden" />
-                                                <TextBlock Text="Logbook" VerticalAlignment="Center"/>
-                                            </StackPanel>
-                                        </Button>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                        <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                                Foreground="{StaticResource BrushDarkRed}"
-                                                Command="{Binding Path=RemoveSelectedAircraftCommand}">
-                                            
-                                                <materialDesign:PackIcon Kind="Trash" />
-                                            
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
+                            <Grid DataContext="{Binding ElementName=AircraftListViewControl, Path=DataContext}">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Button Content="Start" Command="{Binding Path=StartSimCommand}"
+                                            Style="{StaticResource MaterialDesignRaisedButton}" Width="110" />
+                                    <Separator Width="5" Visibility="Hidden" />
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            Command="{Binding Path=EditSelectedAircraftRoute}" Width="110">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" />
+                                            <Separator Width="5" Visibility="Hidden" />
+                                            <TextBlock Text="Route" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                    <Separator Width="5" Visibility="Hidden" />
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            Command="{Binding Path=ShowLogbookForSelectedAircraftCommand}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="BookOpen" VerticalAlignment="Center" />
+                                            <Separator Width="5" Visibility="Hidden" />
+                                            <TextBlock Text="Logbook" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="{StaticResource BrushDarkRed}"
+                                            Command="{Binding Path=RemoveSelectedAircraftCommand}">
+
+                                        <materialDesign:PackIcon Kind="Trash" />
+
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
 
 
-                            </materialDesign:Card>
-                        </StackPanel>
+                        </materialDesign:Card>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
