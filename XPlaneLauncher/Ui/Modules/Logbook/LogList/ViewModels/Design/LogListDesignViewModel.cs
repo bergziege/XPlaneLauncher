@@ -39,5 +39,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
         public ObservableCollection<LogbookEntry> LogEntries { get; }
 
         public LogbookEntry SelectedEntry { get; set; }
+        public double SummaryDistanceNauticalMiles { get; } = 9842.21;
+        public double SummaryDurationHours { get; } = 242.21;
     }
 }

@@ -26,6 +26,8 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         private DelegateCommand _deleteSelectedEntryCommand;
         private DelegateCommand _editSelectedEntryCommand;
         private LogbookEntry _selectedEntry;
+        private double _summaryDistanceNauticalMiles;
+        private double _summaryDurationHours;
 
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
@@ -65,6 +67,16 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
             }
         }
 
+        public double SummaryDistanceNauticalMiles {
+            get { return _summaryDistanceNauticalMiles; }
+            private set { SetProperty(ref _summaryDistanceNauticalMiles, value, nameof(SummaryDistanceNauticalMiles)); }
+        }
+
+        public double SummaryDurationHours {
+            get { return _summaryDurationHours; }
+            private set { SetProperty(ref _summaryDurationHours, value, nameof(SummaryDurationHours)); }
+        }
+
         /// <summary>
         ///     Called to determine if this instance can handle the navigation request.
         /// </summary>
@@ -98,6 +110,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
             RefreshData();
         }
 
+        private void CreateSummary() {
+            SummaryDistanceNauticalMiles = LogEntries.Sum(x => x.DistanceNauticalMiles);
+            SummaryDurationHours = LogEntries.Sum(x => x.Duration.TotalHours);
+        }
+
         private void GoBack() {
             _navigateBackCommand.Execute();
         }
@@ -126,6 +143,8 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
             foreach (LogbookEntry logbookEntry in entries) {
                 LogEntries.Add(logbookEntry);
             }
+
+            CreateSummary();
         }
 
         private void VisualizeTrack() {

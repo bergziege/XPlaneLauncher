@@ -10,5 +10,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels {
         DelegateCommand EditSelectedEntryCommand { get; }
         ObservableCollection<LogbookEntry> LogEntries { get; }
         LogbookEntry SelectedEntry { get; set; }
+        double SummaryDistanceNauticalMiles { get; }
+        double SummaryDurationHours { get; }
     }
 }

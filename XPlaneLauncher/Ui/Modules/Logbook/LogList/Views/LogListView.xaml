@@ -16,7 +16,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="3"/>
+            <RowDefinition Height="3" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}"
@@ -25,6 +25,16 @@
             <materialDesign:PackIcon Kind="ArrowBack" />
         </Button>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0">
+            <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center"/>
+            <Separator Width="3" Visibility="Hidden" />
+            <TextBlock Text="{Binding Path=SummaryDistanceNauticalMiles, StringFormat=f0}" VerticalAlignment="Center"/>
+            <TextBlock Text="nm" VerticalAlignment="Center"/>
+            <Separator Width="8" Visibility="Hidden" />
+            <materialDesign:PackIcon Kind="ClockFast" VerticalAlignment="Center"/>
+            <Separator Width="3" Visibility="Hidden" />
+            <TextBlock Text="{Binding Path=SummaryDurationHours, StringFormat=f1}" VerticalAlignment="Center"/>
+            <TextBlock Text="h" VerticalAlignment="Center"/>
+            <Separator Width="8" Visibility="Hidden" />
             <Button Command="{Binding Path=AddManualEntryCommand}" Style="{StaticResource MaterialDesignFlatButton}"
                     HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal">
@@ -34,13 +44,13 @@
             </Button>
         </StackPanel>
         <ListBox ItemsSource="{Binding Path=LogEntries}" Grid.Row="2" HorizontalContentAlignment="Stretch"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  SelectedItem="{Binding Path=SelectedEntry}" Margin="0">
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 SelectedItem="{Binding Path=SelectedEntry}" Margin="0">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="domain:LogbookEntry">
 
                     <StackPanel>
-                        
+
                         <materialDesign:Card Padding="5" Grid.IsSharedSizeScope="True">
                             <StackPanel>
                                 <Grid>
@@ -90,9 +100,9 @@
                         </materialDesign:Card>
                         <materialDesign:Card Margin="0,5,0,0" Padding="3">
                             <materialDesign:Card.Style>
-                                
+
                                 <Style TargetType="materialDesign:Card">
-                                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                    <Setter Property="Visibility" Value="Collapsed" />
                                     <Style.Triggers>
                                         <DataTrigger
                                             Binding="{Binding
@@ -110,13 +120,14 @@
                                 <StackPanel HorizontalAlignment="Left">
                                     <Button Style="{StaticResource MaterialDesignFlatButton}"
                                             Command="{Binding ElementName=LogListViewControl, Path=DataContext.EditSelectedEntryCommand}">
-                                        <materialDesign:PackIcon Kind="Edit"></materialDesign:PackIcon>
+                                        <materialDesign:PackIcon Kind="Edit" />
                                     </Button>
                                 </StackPanel>
                                 <StackPanel HorizontalAlignment="Right">
-                                    <Button Style="{StaticResource MaterialDesignFlatButton}" Foreground="{StaticResource BrushDarkRed}"
+                                    <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                            Foreground="{StaticResource BrushDarkRed}"
                                             Command="{Binding ElementName=LogListViewControl, Path=DataContext.DeleteSelectedEntryCommand}">
-                                        <materialDesign:PackIcon Kind="Trash"></materialDesign:PackIcon>
+                                        <materialDesign:PackIcon Kind="Trash" />
                                     </Button>
                                 </StackPanel>
                             </Grid>
