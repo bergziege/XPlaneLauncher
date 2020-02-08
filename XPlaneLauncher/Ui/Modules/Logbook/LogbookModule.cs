@@ -1,6 +1,10 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
+using XPlaneLauncher.Ui.Modules.Logbook.Auto.NavigationCommands;
+using XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels;
+using XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime;
+using XPlaneLauncher.Ui.Modules.Logbook.Auto.Views;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime;
@@ -29,6 +33,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook {
             containerRegistry.RegisterForNavigation<ManualLogEntryView>();
             containerRegistry.Register<IManualEntryViewModel, ManualEntryViewModel>();
             ViewModelLocationProvider.Register<ManualLogEntryView, IManualEntryViewModel>();
+
+            containerRegistry.Register<ShowAutoEntryCommad>();
+            containerRegistry.RegisterForNavigation<AutoLogEntryView>();
+            containerRegistry.Register<IAutoLogEntryViewModel, AutoLogEntryViewModel>();
+            ViewModelLocationProvider.Register<AutoLogEntryView, IAutoLogEntryViewModel>();
         }
     }
 }
