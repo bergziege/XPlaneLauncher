@@ -17,7 +17,7 @@ namespace XPlaneLauncher.Services {
 
         LogbookEntry ExpandTrack(Guid aircraftId, LogbookEntry logbookEntry);
 
-        AcmiDto GetAcmiFileContent(FileInfo acmiFile);
+        LogbookEntry GetEntryFromAcmiFile(FileInfo acmiFile);
 
         Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft);
 

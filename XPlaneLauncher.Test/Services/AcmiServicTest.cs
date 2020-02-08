@@ -119,5 +119,20 @@ namespace XPlaneLauncher.Test.Services {
             // Then: 
             acmiContent.ReferenceTime.Should().Be(new DateTime(2017, 7, 24, 22, 02, 04, DateTimeKind.Utc));
         }
+
+        /// <summary>
+        /// </summary>
+        [Test]
+        public void TestDuration() {
+            // Given: 
+            FileInfo acmiFile = new FileInfo("../../TestData/Tacview-20190924-225048-XPL.txt.acmi");
+            IAcmiService acmiService = new AcmiService();
+
+            // When: 
+            AcmiDto acmiContent = acmiService.ParseFile(acmiFile);
+
+            // Then: 
+            acmiContent.Duration.Should().Be(TimeSpan.FromSeconds(193));
+        }
     }
 }

@@ -54,7 +54,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
             VistaOpenFileDialog ofd = new VistaOpenFileDialog();
             bool? dlgResult = ofd.ShowDialog();
             if (dlgResult.HasValue && dlgResult.Value) {
-                AcmiDto acmiFileContent = _logbookService.GetAcmiFileContent(new FileInfo(ofd.FileName));
+                AcmiDto acmiFileContent = _logbookService.GetEntryFromAcmiFile(new FileInfo(ofd.FileName));
             }
         }
 

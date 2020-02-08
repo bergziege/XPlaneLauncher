@@ -65,7 +65,12 @@ namespace XPlaneLauncher.Services.Impl {
             return logbookEntry;
         }
 
-        public AcmiDto GetAcmiFileContent(FileInfo acmiFile) {
+        public async Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft) {
+            DirectoryInfo logbookDirectory = GetLogbookDirectoryByLauncherInfoFile(aircraft.LauncherInfoFile);
+            return await _logbookEntryDao.GetEntriesAsync(logbookDirectory);
+        }
+
+        public LogbookEntry GetEntryFromAcmiFile(FileInfo acmiFile) {
             /* copy to temp */
             FileInfo tmpFile = acmiFile.CopyTo(Path.GetTempFileName(), true);
 
@@ -81,12 +86,25 @@ namespace XPlaneLauncher.Services.Impl {
             tmpFile.Delete();
             unzippedFile.Directory?.Delete(true);
 
-            return acmiDto;
-        }
+            double trackLength = 0;
+            for (int index = 0; index < acmiDto.Track.Count; index++) {
+                Location location = acmiDto.Track[index];
+                Location nextLocation = acmiDto.Track.ElementAtOrDefault(index + 1);
+                if (nextLocation != null) {
+                    trackLength += location.GreatCircleDistance(nextLocation);
+                }
+            }
 
-        public async Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft) {
-            DirectoryInfo logbookDirectory = GetLogbookDirectoryByLauncherInfoFile(aircraft.LauncherInfoFile);
-            return await _logbookEntryDao.GetEntriesAsync(logbookDirectory);
+            LogbookEntry autoLogEntry = new LogbookEntry(
+                LogbookEntryType.Tacview,
+                acmiDto.RecordingTime,
+                acmiDto.RecordingTime.Add(acmiDto.Duration),
+                acmiDto.Duration,
+                acmiDto.Track,
+                trackLength);
+            autoLogEntry.Update(acmiFile.Name);
+
+            return autoLogEntry;
         }
 
         public void UpdateManualEntry(

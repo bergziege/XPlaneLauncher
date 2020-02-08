@@ -9,6 +9,7 @@ namespace XPlaneLauncher.Services.Impl {
     public class AcmiService : IAcmiService {
         public AcmiDto ParseFile(FileInfo acmiFile) {
             AcmiDto dto = new AcmiDto();
+            string lastTimeOffset = null;
             using (StreamReader reader = File.OpenText(acmiFile.FullName)) {
                 while (!reader.EndOfStream) {
                     string line = reader.ReadLine();
@@ -28,7 +29,9 @@ namespace XPlaneLauncher.Services.Impl {
                                 dto.ReferenceLatitude = double.Parse(lineParts[1]);
                                 break;
                         }
-                    } else if (line != null) {
+                    } else if (line != null && line.StartsWith("#")) {
+                        lastTimeOffset = line;
+                    }else if (line != null) {
                         string[] lineParts = line.Split(',');
                         string transformation = lineParts.FirstOrDefault(x => x.StartsWith("T="));
                         if (transformation != null) {
@@ -38,6 +41,13 @@ namespace XPlaneLauncher.Services.Impl {
                             }
                         }
                     }
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(lastTimeOffset)) {
+                double.TryParse(lastTimeOffset.Replace("#", ""), out double durationInSeconds);
+                if (durationInSeconds > 0) {
+                    dto.Duration = TimeSpan.FromSeconds(durationInSeconds);
                 }
             }
 
