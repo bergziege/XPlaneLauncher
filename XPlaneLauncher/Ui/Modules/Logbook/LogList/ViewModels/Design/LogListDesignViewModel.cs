@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using MapControl;
+using Ookii.Dialogs.Wpf;
 using Prism.Commands;
 using XPlaneLauncher.Domain;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
     public class LogListDesignViewModel : ILogListViewModel {
+        private DelegateCommand _addAcmiEntryCommand;
+
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
@@ -27,6 +30,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
             LogEntries.Add(logbookEntry);
             SelectedEntry = LogEntries[1];
         }
+
+        public DelegateCommand AddAcmiEntryCommand { get; } = new DelegateCommand(()=>{});
+
+        
 
         public DelegateCommand AddManualEntryCommand { get; } = new DelegateCommand(() => { });
 

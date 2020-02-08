@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using MapControl;
 using XPlaneLauncher.Domain;
+using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Persistence;
 
 namespace XPlaneLauncher.Services.Impl {
     public class LogbookService : ILogbookService {
+        private readonly IAcmiService _acmiService;
         private readonly IAircraftModelProvider _aircraftModelProvider;
         private readonly ILogbookEntryDao _logbookEntryDao;
         private readonly ILogbookEntryTrackDao _logbookEntryTrackDao;
@@ -20,10 +23,11 @@ namespace XPlaneLauncher.Services.Impl {
         /// </summary>
         public LogbookService(
             ILogbookEntryDao logbookEntryDao, ILogbookEntryTrackDao logbookEntryTrackDao,
-            IAircraftModelProvider aircraftModelProvider) {
+            IAircraftModelProvider aircraftModelProvider, IAcmiService acmiService) {
             _logbookEntryDao = logbookEntryDao;
             _logbookEntryTrackDao = logbookEntryTrackDao;
             _aircraftModelProvider = aircraftModelProvider;
+            _acmiService = acmiService;
         }
 
         public void CreateManualEntry(
@@ -59,6 +63,25 @@ namespace XPlaneLauncher.Services.Impl {
             IList<Location> track = _logbookEntryTrackDao.GetTrack(GetLogbookEntryFile(aircraftId, logbookEntry.StartDateTime, "track"));
             logbookEntry.Update(track);
             return logbookEntry;
+        }
+
+        public AcmiDto GetAcmiFileContent(FileInfo acmiFile) {
+            /* copy to temp */
+            FileInfo tmpFile = acmiFile.CopyTo(Path.GetTempFileName(), true);
+
+            /* unzip */
+            string unzipDir = Path.Combine(tmpFile.DirectoryName, "XPlaneLauncher", Path.GetRandomFileName());
+            ZipFile.ExtractToDirectory(tmpFile.FullName, unzipDir);
+            FileInfo unzippedFile = new FileInfo(Path.Combine(unzipDir, acmiFile.Name.Replace("zip", "txt")));
+
+            /* parse */
+            AcmiDto acmiDto = _acmiService.ParseFile(unzippedFile);
+
+            /* remove tmp file */
+            tmpFile.Delete();
+            unzippedFile.Directory?.Delete(true);
+
+            return acmiDto;
         }
 
         public async Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft) {

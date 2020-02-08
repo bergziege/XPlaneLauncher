@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using Ookii.Dialogs.Wpf;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using XPlaneLauncher.Domain;
+using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Common.Commands;
@@ -29,6 +32,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         private LogbookEntry _selectedEntry;
         private double _summaryDistanceNauticalMiles;
         private double _summaryDurationHours;
+        private DelegateCommand _addAcmiEntryCommand;
 
         /// <summary>
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
@@ -41,6 +45,17 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
             _logbookService = logbookService;
             _eventAggregator = eventAggregator;
             _aircraftService = aircraftService;
+        }
+
+        public DelegateCommand AddAcmiEntryCommand {
+            get { return _addAcmiEntryCommand ?? (_addAcmiEntryCommand = new DelegateCommand(OnAddAcmiEntry)); }
+        }
+        private void OnAddAcmiEntry() {
+            VistaOpenFileDialog ofd = new VistaOpenFileDialog();
+            bool? dlgResult = ofd.ShowDialog();
+            if (dlgResult.HasValue && dlgResult.Value) {
+                AcmiDto acmiFileContent = _logbookService.GetAcmiFileContent(new FileInfo(ofd.FileName));
+            }
         }
 
         public DelegateCommand AddManualEntryCommand {

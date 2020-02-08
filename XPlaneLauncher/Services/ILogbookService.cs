@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using MapControl;
 using XPlaneLauncher.Domain;
+using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Services {
@@ -14,6 +16,8 @@ namespace XPlaneLauncher.Services {
         void DeleteEntry(Guid aircraftId, LogbookEntry entry);
 
         LogbookEntry ExpandTrack(Guid aircraftId, LogbookEntry logbookEntry);
+
+        AcmiDto GetAcmiFileContent(FileInfo acmiFile);
 
         Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft);
 

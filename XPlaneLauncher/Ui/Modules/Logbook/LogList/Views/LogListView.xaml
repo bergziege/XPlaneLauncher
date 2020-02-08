@@ -42,6 +42,13 @@
                     <TextBlock Text="Manual" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
+            <Button Command="{Binding Path=AddAcmiEntryCommand}" Style="{StaticResource MaterialDesignFlatButton}"
+                    HorizontalAlignment="Left">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="Add" VerticalAlignment="Center" />
+                    <TextBlock Text="acmi" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
         </StackPanel>
         <ListBox ItemsSource="{Binding Path=LogEntries}" Grid.Row="2" HorizontalContentAlignment="Stretch"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"

@@ -42,6 +42,7 @@ namespace XPlaneLauncher {
             containerRegistry.Register<ILogbookEntryDao, LogbookEntryDao>();
             containerRegistry.Register<ILogbookEntryTrackDao, LogbookEntryTrackDao>();
             containerRegistry.Register<ILogbookService, LogbookService>();
+            containerRegistry.Register<IAcmiService, AcmiService>();
         }
 
         protected override Window CreateShell() {
