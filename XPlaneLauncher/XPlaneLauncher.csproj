@@ -122,11 +122,14 @@
     <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Domain\LogbookEntry.cs" />
     <Compile Include="Domain\LogbookEntryType.cs" />
+    <Compile Include="Dtos\AcmiDto.cs" />
     <Compile Include="Persistence\ILogbookEntryDao.cs" />
     <Compile Include="Persistence\ILogbookEntryTrackDao.cs" />
     <Compile Include="Persistence\Impl\LogbookEntryDao.cs" />
     <Compile Include="Persistence\Impl\LogbookEntryTrackDao.cs" />
+    <Compile Include="Services\IAcmiService.cs" />
     <Compile Include="Services\ILogbookService.cs" />
+    <Compile Include="Services\Impl\AcmiService.cs" />
     <Compile Include="Services\Impl\LogbookService.cs" />
     <Compile Include="Services\Impl\SettingsService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
@@ -288,7 +291,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dtos\" />
     <Folder Include="Ui\Modules\Logbook\Auto\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

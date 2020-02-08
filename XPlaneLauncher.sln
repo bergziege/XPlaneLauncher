@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{654DE1AB-4DC
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPlaneLauncher.Test", "XPlaneLauncher.Test\XPlaneLauncher.Test.csproj", "{7495150A-C5B4-4D4D-BD2F-A30F5E3380A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{61F647EA-E30C-4EFA-A4B3-C93AFF329382}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61F647EA-E30C-4EFA-A4B3-C93AFF329382}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61F647EA-E30C-4EFA-A4B3-C93AFF329382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7495150A-C5B4-4D4D-BD2F-A30F5E3380A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7495150A-C5B4-4D4D-BD2F-A30F5E3380A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7495150A-C5B4-4D4D-BD2F-A30F5E3380A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7495150A-C5B4-4D4D-BD2F-A30F5E3380A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
