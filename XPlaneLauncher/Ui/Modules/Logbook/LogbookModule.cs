@@ -33,8 +33,8 @@ namespace XPlaneLauncher.Ui.Modules.Logbook {
             containerRegistry.RegisterForNavigation<ManualLogEntryView>();
             containerRegistry.Register<IManualEntryViewModel, ManualEntryViewModel>();
             ViewModelLocationProvider.Register<ManualLogEntryView, IManualEntryViewModel>();
-
-            containerRegistry.Register<ShowAutoEntryCommad>();
+            
+            containerRegistry.Register<ShowAutoEntryCommand>();
             containerRegistry.RegisterForNavigation<AutoLogEntryView>();
             containerRegistry.Register<IAutoLogEntryViewModel, AutoLogEntryViewModel>();
             ViewModelLocationProvider.Register<AutoLogEntryView, IAutoLogEntryViewModel>();

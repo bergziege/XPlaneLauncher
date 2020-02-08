@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using MapControl;
+using UnitsNet;
 using XPlaneLauncher.Domain;
 using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Model;
@@ -94,6 +95,8 @@ namespace XPlaneLauncher.Services.Impl {
                     trackLength += location.GreatCircleDistance(nextLocation);
                 }
             }
+
+            trackLength = Length.FromMeters(trackLength).NauticalMiles;
 
             LogbookEntry autoLogEntry = new LogbookEntry(
                 LogbookEntryType.Tacview,

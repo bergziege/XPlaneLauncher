@@ -13,6 +13,7 @@ using XPlaneLauncher.Model;
 using XPlaneLauncher.Services;
 using XPlaneLauncher.Ui.Common.Commands;
 using XPlaneLauncher.Ui.Modules.AircraftList.Views;
+using XPlaneLauncher.Ui.Modules.Logbook.Auto.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Logbook.Events;
 using XPlaneLauncher.Ui.Modules.Logbook.LogList.NavigationComands;
 using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
@@ -21,6 +22,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
     public class LogListViewModel : BindableBase, ILogListViewModel, INavigationAware {
         private readonly IEventAggregator _eventAggregator;
         private readonly IAircraftService _aircraftService;
+        private readonly ShowAutoEntryCommand _showAutoEntryCommand;
         private readonly ILogbookService _logbookService;
         private readonly NavigateBackCommand _navigateBackCommand;
         private readonly ShowManualEntryCommand _showManualEntryCommand;
@@ -39,23 +41,21 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
         /// </summary>
         public LogListViewModel(
             NavigateBackCommand navigateBackCommand, ShowManualEntryCommand showManualEntryCommand, ILogbookService logbookService,
-            IEventAggregator eventAggregator, IAircraftService aircraftService) {
+            IEventAggregator eventAggregator, IAircraftService aircraftService,
+            ShowAutoEntryCommand showAutoEntryCommand) {
             _navigateBackCommand = navigateBackCommand;
             _showManualEntryCommand = showManualEntryCommand;
             _logbookService = logbookService;
             _eventAggregator = eventAggregator;
             _aircraftService = aircraftService;
+            _showAutoEntryCommand = showAutoEntryCommand;
         }
 
         public DelegateCommand AddAcmiEntryCommand {
             get { return _addAcmiEntryCommand ?? (_addAcmiEntryCommand = new DelegateCommand(OnAddAcmiEntry)); }
         }
         private void OnAddAcmiEntry() {
-            VistaOpenFileDialog ofd = new VistaOpenFileDialog();
-            bool? dlgResult = ofd.ShowDialog();
-            if (dlgResult.HasValue && dlgResult.Value) {
-                AcmiDto acmiFileContent = _logbookService.GetEntryFromAcmiFile(new FileInfo(ofd.FileName));
-            }
+            _showAutoEntryCommand.Execute(_aircraft.Id,null);
         }
 
         public DelegateCommand AddManualEntryCommand {

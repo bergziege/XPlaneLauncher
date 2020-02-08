@@ -175,8 +175,13 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
             if (obj.Track != null && obj.Track.Any()) {
                 if (obj.Track.Count == 2) {
                     Tracks.Add(obj.Track.First().CalculateGreatCircleLocations(obj.Track.Last()));
+                }else if (obj.Track.Count > 2) {
+                    LocationCollection locations = new LocationCollection();
+                    foreach (Location location in obj.Track) {
+                        locations.Add(location);
+                    }
+                    Tracks.Add(locations);
                 }
-
                 ZoomToTracksBounds();
             }
         }
