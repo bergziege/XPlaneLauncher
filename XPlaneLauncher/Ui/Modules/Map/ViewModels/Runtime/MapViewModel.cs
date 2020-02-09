@@ -176,11 +176,16 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
                 if (obj.Track.Count == 2) {
                     Tracks.Add(obj.Track.First().CalculateGreatCircleLocations(obj.Track.Last()));
                 }else if (obj.Track.Count > 2) {
-                    LocationCollection locations = new LocationCollection();
-                    foreach (Location location in obj.Track) {
-                        locations.Add(location);
+                    int pageSize = 1000;
+                    int pages = (int)Math.Ceiling(obj.Track.Count / (double)pageSize);
+                    for (int i = 0; i < pages * pageSize; i+=pageSize) {
+                        LocationCollection locations = new LocationCollection();
+                        foreach (Location location in obj.Track.Skip(i).Take(pageSize)) {
+                            locations.Add(location);
+                        }
+                        Tracks.Add(locations);
                     }
-                    Tracks.Add(locations);
+                    
                 }
                 ZoomToTracksBounds();
             }
