@@ -103,11 +103,26 @@ namespace XPlaneLauncher.Services.Impl {
                 acmiDto.RecordingTime,
                 acmiDto.RecordingTime.Add(acmiDto.Duration),
                 acmiDto.Duration,
-                acmiDto.Track,
+                GetFilteredTrack(acmiDto.Track, Length.FromMeters(5)),
                 trackLength);
             autoLogEntry.Update(acmiFile.Name);
 
             return autoLogEntry;
+        }
+
+        private IList<Location> GetFilteredTrack(IList<Location> rawTrack, Length minDistanceBetweenLocations) {
+            if (!rawTrack.Any()) {
+                return rawTrack;
+            }
+            IList<Location> filteredTrack = new List<Location>();
+            filteredTrack.Add(rawTrack.First());
+            foreach (Location location in rawTrack) {
+                if (filteredTrack.Last().GreatCircleDistance(location) >= minDistanceBetweenLocations.Meters) {
+                    filteredTrack.Add(location);
+                }
+            }
+            
+            return filteredTrack;
         }
 
         public void UpdateManualEntry(
