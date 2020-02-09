@@ -35,15 +35,6 @@
                                            materialDesign:HintAssist.Hint="Start time (UTC)" Grid.Row="0"
                                            Grid.Column="2"
                                            Is24Hours="True" SelectedTime="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBox materialDesign:HintAssist.Hint="Start Lat"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="0"
-                         materialDesign:HintAssist.HelperText="Click map icon and double click on map" 
-                         Text="{Binding StartLocation.Latitude}"
-                         IsEnabled="False"/>
-                <TextBox materialDesign:HintAssist.Hint="Start Lon"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" Grid.Row="2" Grid.Column="2" 
-                         Text="{Binding StartLocation.Longitude}"
-                         IsEnabled="False"/>
             </Grid>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />
@@ -70,17 +61,6 @@
                                            Is24Hours="True"
                                            Grid.Row="0" Grid.Column="2" 
                                            SelectedTime="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}"/>
-                <TextBox materialDesign:HintAssist.Hint="End Lat"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Grid.Row="2" Grid.Column="0"
-                         materialDesign:HintAssist.HelperText="Click map icon and double click on map" 
-                         Text="{Binding EndLocation.Latitude}"
-                         IsEnabled="False"/>
-                <TextBox materialDesign:HintAssist.Hint="End Lon"
-                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         Grid.Row="2" Grid.Column="2" 
-                         Text="{Binding EndLocation.Longitude}"
-                         IsEnabled="False"/>
             </Grid>
         </HeaderedContentControl>
         <Separator Height="25" Visibility="Hidden" />

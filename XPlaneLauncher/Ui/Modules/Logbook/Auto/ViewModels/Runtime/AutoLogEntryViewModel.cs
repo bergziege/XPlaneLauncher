@@ -29,17 +29,11 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
         private double? _distance;
         private double? _duration;
         private DateTime? _endDateTime;
-        private Location _endLocation;
         private DateTime? _endTime;
-        private bool _isInEndSelectionMode;
-        private bool _isInStartSelectionMode;
         private string _note;
         private ManualEntryParameters _parameters;
         private DelegateCommand _saveCommand;
-        private DelegateCommand _selectEndLocationCommand;
-        private DelegateCommand _selectStartLocationCommand;
         private DateTime? _startDateTime;
-        private Location _startLocation;
         private DateTime? _startTime;
         private LogbookEntry _logEntry;
 
@@ -80,15 +74,6 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
             }
         }
 
-        public Location EndLocation {
-            get { return _endLocation; }
-            set {
-                SetProperty(ref _endLocation, value, nameof(EndLocation));
-                SaveCommand.RaiseCanExecuteChanged();
-                VisualizeTrack();
-            }
-        }
-
         public DateTime? EndTime {
             get { return _endTime; }
             set {
@@ -118,15 +103,6 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
                 SetProperty(ref _startDateTime, value, nameof(StartDate));
                 SaveCommand.RaiseCanExecuteChanged();
                 CalculateDuration();
-            }
-        }
-
-        public Location StartLocation {
-            get { return _startLocation; }
-            set {
-                SetProperty(ref _startLocation, value, nameof(StartLocation));
-                SaveCommand.RaiseCanExecuteChanged();
-                VisualizeTrack();
             }
         }
 
@@ -197,7 +173,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
         }
 
         private bool CanSave() {
-            return StartDate.HasValue && StartTime.HasValue && StartLocation != null && EndDate.HasValue && EndTime.HasValue && EndLocation != null &&
+            return StartDate.HasValue && StartTime.HasValue && EndDate.HasValue && EndTime.HasValue &&
                    Distance.HasValue &&
                    Duration.HasValue;
         }
@@ -216,18 +192,16 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
             StartTime = entry.StartDateTime;
             EndDate = entry.EndDateTime;
             EndTime = entry.EndDateTime;
-            StartLocation = entry.Track.First();
-            EndLocation = entry.Track.Last();
             Distance = entry.DistanceNauticalMiles;
             Duration = entry.Duration.TotalHours;
             Note = entry.Notes;
+
+            VisualizeTrack();
         }
 
         private void VisualizeTrack() {
-            if (StartLocation != null && EndLocation != null) {
-                _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>()
+            _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>()
                     .Publish(new VisualizeTrackEvent(_logEntry.Track));
-            }
         }
     }
 }

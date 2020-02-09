@@ -8,12 +8,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels {
         double? Distance { get; set; }
         double? Duration { get; set; }
         DateTime? EndDate { get; set; }
-        Location EndLocation { get; set; }
         DateTime? EndTime { get; set; }
         string Note { get; set; }
         DelegateCommand SaveCommand { get; }
         DateTime? StartDate { get; set; }
-        Location StartLocation { get; set; }
         DateTime? StartTime { get; set; }
     }
 }
