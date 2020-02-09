@@ -9,6 +9,7 @@ namespace XPlaneLauncher.Services.Impl {
     public class AcmiService : IAcmiService {
         public AcmiDto ParseFile(FileInfo acmiFile) {
             AcmiDto dto = new AcmiDto();
+            string firstTimeOffset = null;
             string lastTimeOffset = null;
             using (StreamReader reader = File.OpenText(acmiFile.FullName)) {
                 while (!reader.EndOfStream) {
@@ -30,6 +31,9 @@ namespace XPlaneLauncher.Services.Impl {
                                 break;
                         }
                     } else if (line != null && line.StartsWith("#")) {
+                        if (firstTimeOffset == null) {
+                            firstTimeOffset = line;
+                        }
                         lastTimeOffset = line;
                     }else if (line != null) {
                         string[] lineParts = line.Split(',');
@@ -44,10 +48,12 @@ namespace XPlaneLauncher.Services.Impl {
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(lastTimeOffset)) {
-                double.TryParse(lastTimeOffset.Replace("#", ""), out double durationInSeconds);
-                if (durationInSeconds > 0) {
-                    dto.Duration = TimeSpan.FromSeconds(durationInSeconds);
+            if (!string.IsNullOrWhiteSpace(firstTimeOffset) && !string.IsNullOrWhiteSpace(lastTimeOffset)) {
+                double.TryParse(firstTimeOffset.Replace("#", ""), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double firstTimeOffsetSeconds);
+                double.TryParse(lastTimeOffset.Replace("#", ""), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double lastTimeOffsetSeconds);
+                double durationSeconds = lastTimeOffsetSeconds - firstTimeOffsetSeconds;
+                if (durationSeconds > 0) {
+                    dto.Duration = TimeSpan.FromSeconds(durationSeconds);
                 }
             }
 
