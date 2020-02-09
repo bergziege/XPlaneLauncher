@@ -132,7 +132,7 @@ namespace XPlaneLauncher.Test.Services {
             AcmiDto acmiContent = acmiService.ParseFile(acmiFile);
 
             // Then: 
-            acmiContent.Duration.Should().Be(TimeSpan.FromSeconds(193));
+            acmiContent.Duration.Should().Be(new TimeSpan(0,0,3,12,180));
         }
     }
 }
