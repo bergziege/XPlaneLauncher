@@ -98,6 +98,14 @@ namespace XPlaneLauncher.Services.Impl {
 
             trackLength = Length.FromMeters(trackLength).NauticalMiles;
 
+            /* Take year from recording time as year for reference time  - currently ignore february 29th problems*/
+            acmiDto.ReferenceTime = new DateTime(acmiDto.RecordingTime.Year,
+                acmiDto.ReferenceTime.Month,
+                acmiDto.ReferenceTime.Day,
+                acmiDto.ReferenceTime.Hour,
+                acmiDto.ReferenceTime.Minute,
+                acmiDto.ReferenceTime.Second);
+
             LogbookEntry autoLogEntry = new LogbookEntry(
                 LogbookEntryType.Tacview,
                 acmiDto.RecordingTime,
