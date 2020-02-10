@@ -176,7 +176,7 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
                 if (obj.Track.Count == 2) {
                     Tracks.Add(obj.Track.First().CalculateGreatCircleLocations(obj.Track.Last()));
                 }else if (obj.Track.Count > 2) {
-                    int pageSize = 1000;
+                    int pageSize = 2000;
                     int pages = (int)Math.Ceiling(obj.Track.Count / (double)pageSize);
                     for (int i = 0; i < pages * pageSize; i+=pageSize) {
                         LocationCollection locations = new LocationCollection();
