@@ -25,6 +25,11 @@ namespace XPlaneLauncher.Services {
 
         LogbookEntry GetEntryFromAcmiFile(FileInfo acmiFile);
 
+        void UpdateAutoEntry(
+            LogbookEntry oldEntry, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
+            double distanceNauticalMiles,
+            string notes);
+
         void UpdateManualEntry(
             LogbookEntry oldEntry, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
             double distanceNauticalMiles,

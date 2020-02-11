@@ -153,6 +153,9 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Runtime {
             if (SelectedEntry.Type == LogbookEntryType.Manual) {
                 _logbookService.ExpandTrack(_aircraft.Id, SelectedEntry);
                 _showManualEntryCommand.Execute(_aircraft.Id, SelectedEntry);
+            }else if (SelectedEntry.Type == LogbookEntryType.AcmiZip) {
+                _logbookService.ExpandTrack(_aircraft.Id, SelectedEntry);
+                _showAutoEntryCommand.Execute(_aircraft.Id, SelectedEntry);
             }
         }
 

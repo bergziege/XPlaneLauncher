@@ -12,18 +12,21 @@ namespace XPlaneLauncher.Services.Impl {
         private readonly IAircraftModelProvider _aircraftModelProvider;
         private readonly ILauncherInformationDao _launcherInformationDao;
         private readonly IRouteService _routeService;
+        private readonly ILogbookService _logbookService;
         private readonly ISitFileDao _sitFileDao;
         private readonly IThumbnailDao _thumbnailDao;
 
         public AircraftService(
             IAircraftInformationDao aircraftInformationDao, ILauncherInformationDao launcherInformationDao,
-            IAircraftModelProvider aircraftModelProvider, ISitFileDao sitFileDao, IThumbnailDao thumbnailDao, IRouteService routeService) {
+            IAircraftModelProvider aircraftModelProvider, ISitFileDao sitFileDao, IThumbnailDao thumbnailDao, IRouteService routeService,
+            ILogbookService logbookService) {
             _aircraftInformationDao = aircraftInformationDao;
             _launcherInformationDao = launcherInformationDao;
             _aircraftModelProvider = aircraftModelProvider;
             _sitFileDao = sitFileDao;
             _thumbnailDao = thumbnailDao;
             _routeService = routeService;
+            _logbookService = logbookService;
         }
 
         public RoutePoint AddRoutePointToAircraft(Aircraft aircraft, Location location) {
@@ -48,6 +51,10 @@ namespace XPlaneLauncher.Services.Impl {
         }
 
         public void RemoveAircraft(Aircraft aircraft) {
+            IList<LogbookEntry> logbookEntries = _logbookService.GetEntriesWithoutTrackAsync(aircraft).GetAwaiter().GetResult();
+            foreach (LogbookEntry logbookEntry in logbookEntries) {
+                _logbookService.DeleteEntry(aircraft.Id, logbookEntry);
+            }
             _sitFileDao.Delete(aircraft.Situation?.SitFile);
             _launcherInformationDao.Delete(aircraft.LauncherInfoFile);
             _aircraftInformationDao.Delete(aircraft.AircraftInformation.File);

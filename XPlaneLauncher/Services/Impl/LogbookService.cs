@@ -32,12 +32,13 @@ namespace XPlaneLauncher.Services.Impl {
         }
 
         public void CreateAcmiZipEntry(
-            FileInfo importFile, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
+            FileInfo importFile, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
+            double distanceNauticalMiles,
             string notes) {
             CreateEntry(LogbookEntryType.AcmiZip, aircraftId, startDateTime, endDateTime, duration, track, distanceNauticalMiles, notes);
             if (importFile.Exists) {
                 DirectoryInfo logbookDir = GetLogbookDirectoryByAircraftId(aircraftId);
-                FileInfo acmiFile = GetLogbookEntryFile(aircraftId, startDateTime, "acmi","zip");
+                FileInfo acmiFile = GetLogbookEntryFile(aircraftId, startDateTime, "acmi", "zip");
                 importFile.MoveTo(acmiFile.FullName);
             }
         }
@@ -45,21 +46,7 @@ namespace XPlaneLauncher.Services.Impl {
         public void CreateManualEntry(
             Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
             string notes) {
-            CreateEntry(LogbookEntryType.Manual, aircraftId,startDateTime,endDateTime,duration,track,distanceNauticalMiles,notes);
-        }
-
-        private void CreateEntry(LogbookEntryType entryType, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
-            string notes) {
-            LogbookEntry newEntry = new LogbookEntry(entryType, startDateTime, endDateTime, duration, track, distanceNauticalMiles);
-            newEntry.Update(notes);
-
-            FileInfo logbookEntryFile = GetLogbookEntryFile(aircraftId, startDateTime, "log");
-            FileInfo logbookEntryTrackFile = GetLogbookEntryFile(aircraftId, startDateTime, "track");
-            /* Persist entry to json*/
-            _logbookEntryDao.SaveWithoutTrack(logbookEntryFile, newEntry);
-
-            /* Persist track as GeoJSON */
-            _logbookEntryTrackDao.Save(logbookEntryTrackFile, newEntry.Track);
+            CreateEntry(LogbookEntryType.Manual, aircraftId, startDateTime, endDateTime, duration, track, distanceNauticalMiles, notes);
         }
 
         public void DeleteEntry(Guid aircraftId, LogbookEntry entry) {
@@ -123,7 +110,8 @@ namespace XPlaneLauncher.Services.Impl {
             trackLength = Length.FromMeters(trackLength).NauticalMiles;
 
             /* Take year from recording time as year for reference time  - currently ignore february 29th problems*/
-            acmiDto.ReferenceTime = new DateTime(acmiDto.RecordingTime.Year,
+            acmiDto.ReferenceTime = new DateTime(
+                acmiDto.RecordingTime.Year,
                 acmiDto.ReferenceTime.Month,
                 acmiDto.ReferenceTime.Day,
                 acmiDto.ReferenceTime.Hour,
@@ -142,19 +130,10 @@ namespace XPlaneLauncher.Services.Impl {
             return autoLogEntry;
         }
 
-        private IList<Location> GetFilteredTrack(IList<Location> rawTrack, Length minDistanceBetweenLocations) {
-            if (!rawTrack.Any()) {
-                return rawTrack;
-            }
-            IList<Location> filteredTrack = new List<Location>();
-            filteredTrack.Add(rawTrack.First());
-            foreach (Location location in rawTrack) {
-                if (filteredTrack.Last().GreatCircleDistance(location) >= minDistanceBetweenLocations.Meters) {
-                    filteredTrack.Add(location);
-                }
-            }
-            
-            return filteredTrack;
+        public void UpdateAutoEntry(
+            LogbookEntry oldEntry, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
+            double distanceNauticalMiles, string notes) {
+            CreateEntry(LogbookEntryType.AcmiZip, aircraftId, startDateTime, endDateTime, duration, track, distanceNauticalMiles, notes);
         }
 
         public void UpdateManualEntry(
@@ -172,6 +151,38 @@ namespace XPlaneLauncher.Services.Impl {
             }
 
             return logbookDir;
+        }
+
+        private void CreateEntry(
+            LogbookEntryType entryType, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
+            double distanceNauticalMiles,
+            string notes) {
+            LogbookEntry newEntry = new LogbookEntry(entryType, startDateTime, endDateTime, duration, track, distanceNauticalMiles);
+            newEntry.Update(notes);
+
+            FileInfo logbookEntryFile = GetLogbookEntryFile(aircraftId, startDateTime, "log");
+            FileInfo logbookEntryTrackFile = GetLogbookEntryFile(aircraftId, startDateTime, "track");
+            /* Persist entry to json*/
+            _logbookEntryDao.SaveWithoutTrack(logbookEntryFile, newEntry);
+
+            /* Persist track as GeoJSON */
+            _logbookEntryTrackDao.Save(logbookEntryTrackFile, newEntry.Track);
+        }
+
+        private IList<Location> GetFilteredTrack(IList<Location> rawTrack, Length minDistanceBetweenLocations) {
+            if (!rawTrack.Any()) {
+                return rawTrack;
+            }
+
+            IList<Location> filteredTrack = new List<Location>();
+            filteredTrack.Add(rawTrack.First());
+            foreach (Location location in rawTrack) {
+                if (filteredTrack.Last().GreatCircleDistance(location) >= minDistanceBetweenLocations.Meters) {
+                    filteredTrack.Add(location);
+                }
+            }
+
+            return filteredTrack;
         }
 
         private string GetLogbookBaseFileName(DateTime startDateTime) {

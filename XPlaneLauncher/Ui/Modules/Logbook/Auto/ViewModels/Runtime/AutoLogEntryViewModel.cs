@@ -177,15 +177,28 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
         }
 
         private void OnSave() {
-            _logbookService.CreateAcmiZipEntry(
-                new FileInfo(_importFile),
-                _parameters.AircraftId,
-                StartTime.Value,
-                EndTime.Value,
-                TimeSpan.FromHours(Duration.Value),
-                _logEntry.Track,
-                Distance.Value,
-                Note);
+            if (_parameters.LogbookEntry == null) {
+                _logbookService.CreateAcmiZipEntry(
+                    new FileInfo(_importFile),
+                    _parameters.AircraftId,
+                    StartTime.Value,
+                    EndTime.Value,
+                    TimeSpan.FromHours(Duration.Value),
+                    _logEntry.Track,
+                    Distance.Value,
+                    Note);
+            } else {
+                _logbookService.UpdateAutoEntry(
+                    _logEntry,
+                    _parameters.AircraftId,
+                    StartTime.Value,
+                    EndTime.Value,
+                    TimeSpan.FromHours(Duration.Value),
+                    _logEntry.Track,
+                    Distance.Value,
+                    Note);
+            }
+
             _backCommand.Execute();
         }
 
