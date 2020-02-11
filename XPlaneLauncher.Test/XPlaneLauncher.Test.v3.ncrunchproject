@@ -1,0 +1,11 @@
+﻿<ProjectConfiguration>
+  <Settings>
+    <AdditionalFilesToIncludeForProject>
+      <Value>TestData\Tacview-20190924-225048-XPL.txt.acmi</Value>
+    </AdditionalFilesToIncludeForProject>
+    <CopyReferencedAssembliesToWorkspace>True</CopyReferencedAssembliesToWorkspace>
+    <HiddenComponentWarnings>
+      <Value>CopyReferencedAssembliesToWorkspaceIsOn</Value>
+    </HiddenComponentWarnings>
+  </Settings>
+</ProjectConfiguration>

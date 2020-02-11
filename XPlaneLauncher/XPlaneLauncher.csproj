@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,23 +37,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
+    <Reference Include="CommonServiceLocator, Version=2.0.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.5\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
+    <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.4.2.1\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="MapControl.WPF, Version=4.12.1.0, Culture=neutral, PublicKeyToken=f26fcf0059638459, processorArchitecture=MSIL">
-      <HintPath>..\packages\XAML.MapControl.4.12.1\lib\net472\MapControl.WPF.dll</HintPath>
+    <Reference Include="GeoJSON.Net, Version=1.2.0.0, Culture=neutral, PublicKeyToken=42c00ea87f5f14d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\GeoJSON.Net.1.2.14\lib\net45\GeoJSON.Net.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignColors, Version=1.2.0.325, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.1.2.0\lib\net45\MaterialDesignColors.dll</HintPath>
+    <Reference Include="MapControl.WPF, Version=4.16.0.0, Culture=neutral, PublicKeyToken=f26fcf0059638459, processorArchitecture=MSIL">
+      <HintPath>..\packages\XAML.MapControl.4.16.0\lib\net462\MapControl.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignColors, Version=1.2.2.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=3.0.1.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.3.0.1\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ookii.Dialogs.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.Wpf.1.1.0\lib\net45\Ookii.Dialogs.Wpf.dll</HintPath>
@@ -70,19 +78,17 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.2\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.3\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.2.0.1422\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -93,11 +99,14 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Abstractions.5.11.1\lib\net47\Unity.Abstractions.dll</HintPath>
+    <Reference Include="UnitsNet, Version=4.0.0.0, Culture=neutral, PublicKeyToken=f8601875a1f041da, processorArchitecture=MSIL">
+      <HintPath>..\packages\UnitsNet.4.44.0\lib\net40\UnitsNet.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Container.5.11.1\lib\net47\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=5.11.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Abstractions.5.11.3\lib\net47\Unity.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Container, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Container.5.11.5\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -112,6 +121,17 @@
     <Compile Include="Domain\AircraftInformation.cs" />
     <Compile Include="Domain\AircraftLauncherInformation.cs" />
     <Compile Include="Domain\LocationInformation.cs" />
+    <Compile Include="Domain\LogbookEntry.cs" />
+    <Compile Include="Domain\LogbookEntryType.cs" />
+    <Compile Include="Dtos\AcmiDto.cs" />
+    <Compile Include="Persistence\ILogbookEntryDao.cs" />
+    <Compile Include="Persistence\ILogbookEntryTrackDao.cs" />
+    <Compile Include="Persistence\Impl\LogbookEntryDao.cs" />
+    <Compile Include="Persistence\Impl\LogbookEntryTrackDao.cs" />
+    <Compile Include="Services\IAcmiService.cs" />
+    <Compile Include="Services\ILogbookService.cs" />
+    <Compile Include="Services\Impl\AcmiService.cs" />
+    <Compile Include="Services\Impl\LogbookService.cs" />
     <Compile Include="Services\Impl\SettingsService.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Ui\Modules\AircraftList\DialogCommands\ShowRemoveConfirmationDialogCommand.cs" />
@@ -121,6 +141,31 @@
     <Compile Include="Ui\Modules\AircraftList\ViewModels\Runtime\RemoveConfirmViewModel.cs" />
     <Compile Include="Ui\Modules\AircraftList\Views\RemoveConfirmView.xaml.cs">
       <DependentUpon>RemoveConfirmView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\Modules\Logbook\Auto\NavigationCommands\Params\AutoEntryParameters.cs" />
+    <Compile Include="Ui\Modules\Logbook\Auto\NavigationCommands\ShowAutoEntryCommand.cs" />
+    <Compile Include="Ui\Modules\Logbook\Auto\ViewModels\Design\AutoLogEntryDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Auto\ViewModels\IAutoLogEntryViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Auto\ViewModels\Runtime\AutoLogEntryViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Auto\Views\AutoLogEntryView.xaml.cs">
+      <DependentUpon>AutoLogEntryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\Modules\Logbook\Events\VisualizeTrackEvent.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogbookModule.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\NavigationComands\ShowLogbookForAircraftCommand.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\ViewModels\Design\LogListDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\ViewModels\ILogListViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\ViewModels\Runtime\LogListViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\LogList\Views\LogListView.xaml.cs">
+      <DependentUpon>LogListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ui\Modules\Logbook\Manual\NavigationCommands\Params\ManualEntryParameters.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\NavigationCommands\ShowManualEntryCommand.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\ViewModels\Design\ManualEntryDesignViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\ViewModels\IManualEntryViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\ViewModels\Runtime\ManualEntryViewModel.cs" />
+    <Compile Include="Ui\Modules\Logbook\Manual\Views\ManualLogEntryView.xaml.cs">
+      <DependentUpon>ManualLogEntryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ui\Modules\Map\Dtos\MapBoundary.cs" />
     <Compile Include="Ui\Modules\Map\ViewModels\Runtime\AircraftRouteViewModel.cs" />
@@ -191,6 +236,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Ui\Modules\Logbook\Auto\Views\AutoLogEntryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\Modules\Logbook\LogList\Views\LogListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Ui\Modules\Logbook\Manual\Views\ManualLogEntryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Ui\Modules\Map\Views\MapView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -246,8 +303,13 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dtos\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Dieses Projekt verweist auf mindestens ein NuGet-Paket, das auf diesem Computer fehlt. Verwenden Sie die Wiederherstellung von NuGet-Paketen, um die fehlenden Dateien herunterzuladen. Weitere Informationen finden Sie unter "http://go.microsoft.com/fwlink/?LinkID=322105". Die fehlende Datei ist "{0}".</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.3.0.1\build\MaterialDesignThemes.targets'))" />
+  </Target>
 </Project>

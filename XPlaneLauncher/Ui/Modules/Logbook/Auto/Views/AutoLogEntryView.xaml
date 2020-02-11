@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="XPlaneLauncher.Ui.Modules.Logbook.Auto.Views.AutoLogEntryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:XPlaneLauncher.Ui.Modules.Logbook.Auto.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:design="clr-namespace:XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Design"
+             xmlns:mvvm="http://prismlibrary.com/"
+             mc:Ignorable="d" 
+             d:DesignWidth="600"
+             mvvm:ViewModelLocator.AutoWireViewModel="True"
+             d:DataContext="{d:DesignInstance {x:Type design:AutoLogEntryDesignViewModel}, IsDesignTimeCreatable=True}">
+    <StackPanel Margin="5" VerticalAlignment="Top" Grid.IsSharedSizeScope="True">
+        <HeaderedContentControl IsTabStop="False">
+            <HeaderedContentControl.Header>
+                <materialDesign:PackIcon Kind="PlaneTakeoff" Margin="5,17,10,5" />
+            </HeaderedContentControl.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="10"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <DatePicker materialDesign:HintAssist.Hint="Start date"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                            SelectedDate="{Binding StartDate, UpdateSourceTrigger=PropertyChanged}"/>
+                <materialDesign:TimePicker Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                           materialDesign:HintAssist.Hint="Start time (UTC)" Grid.Row="0"
+                                           Grid.Column="2"
+                                           Is24Hours="True" SelectedTime="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </HeaderedContentControl>
+        <Separator Height="25" Visibility="Hidden" />
+        <HeaderedContentControl IsTabStop="false">
+            <HeaderedContentControl.Header>
+                <materialDesign:PackIcon Kind="PlaneLanding" Margin="5,17,10,5" />
+            </HeaderedContentControl.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="10"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <DatePicker materialDesign:HintAssist.Hint="End date"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                            SelectedDate="{Binding EndDate, UpdateSourceTrigger=PropertyChanged}"/>
+                <materialDesign:TimePicker Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                           materialDesign:HintAssist.Hint="End time (UTC)"
+                                           Is24Hours="True"
+                                           Grid.Row="0" Grid.Column="2" 
+                                           SelectedTime="{Binding EndTime, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </HeaderedContentControl>
+        <Separator Height="25" Visibility="Hidden" />
+        <HeaderedContentControl IsTabStop="False">
+            <HeaderedContentControl.Header>
+                <materialDesign:PackIcon Kind="ClockFast" Margin="5,17,10,5" />
+            </HeaderedContentControl.Header>
+            <TextBox materialDesign:HintAssist.Hint="Duration"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     materialDesign:TextFieldAssist.SuffixText="h"
+                     materialDesign:HintAssist.HelperText="auto calculated by start/end date and time" 
+                     Text="{Binding Duration, StringFormat=f2}"/>
+        </HeaderedContentControl>
+        <Separator Height="25" Visibility="Hidden" />
+        <HeaderedContentControl IsTabStop="False">
+            <HeaderedContentControl.Header>
+                <materialDesign:PackIcon Kind="MapMarkerDistance" Margin="5,17,10,5" />
+            </HeaderedContentControl.Header>
+            <TextBox materialDesign:HintAssist.Hint="Distance"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     materialDesign:TextFieldAssist.SuffixText="nm"
+                     materialDesign:HintAssist.HelperText="auto calculated by start/end lat and lon" 
+                     Text="{Binding Distance, StringFormat=f0}"/>
+        </HeaderedContentControl>
+        <Separator Height="25" Visibility="Hidden" />
+        <HeaderedContentControl IsTabStop="False">
+            <HeaderedContentControl.Header>
+                <materialDesign:PackIcon Kind="FileDocumentOutline" Margin="5,17,10,5" />
+            </HeaderedContentControl.Header>
+            <TextBox
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto"
+                materialDesign:HintAssist.Hint="Note"
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                Text="{Binding Note}"/>
+        </HeaderedContentControl>
+        <Separator Height="25" Visibility="Hidden" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Command="{Binding Path=SaveCommand}"
+                    HorizontalAlignment="Left" Content="Save" />
+            <Separator Width="5" Visibility="Hidden" />
+            <Button Command="{Binding Path=BackCommand}" Style="{StaticResource MaterialDesignFlatButton}"
+                    HorizontalAlignment="Left" Content="Cancel" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

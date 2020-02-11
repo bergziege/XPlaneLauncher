@@ -24,9 +24,10 @@
             </Button>
             <materialDesign:PackIcon Kind="MapMarkerDistance" VerticalAlignment="Center" Margin="5" />
             <TextBlock
-                Text="{Binding Path=Aircraft.RouteLength, StringFormat=0.00 km}"
+                Text="{Binding Path=Aircraft.RouteLength, StringFormat=f0}"
                 Foreground="Black"
                 VerticalAlignment="Center" />
+            <TextBlock Text="nm" VerticalAlignment="Center"/>
         </StackPanel>
 
         <ListBox ItemsSource="{Binding Path=Aircraft.Route}"
@@ -37,18 +38,8 @@
                  SelectionChanged="RoutePoints_OnSelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="model:RoutePoint">
-                    <Border Margin="-8" Padding="8" PreviewMouseDown="UIElement_OnPreviewMouseDown">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                                        <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        <materialDesign:Card>
+                    
+                        <materialDesign:Card PreviewMouseDown="UIElement_OnPreviewMouseDown">
                             <StackPanel Margin="5">
                                 <StackPanel>
                                     <TextBox
@@ -67,12 +58,12 @@
                                                 <Separator Width="5" Visibility="Hidden" />
                                                 <TextBlock>
                                                     <Run Text="Lat.:"></Run>
-                                                    <Run Text="{Binding Path=Location.Latitude}"></Run>
+                                                    <Run Text="{Binding Path=Location.Latitude, StringFormat=f4}"></Run>
                                                 </TextBlock>
                                                 <Separator Width="5" Visibility="Hidden" />
                                                 <TextBlock>
                                                     <Run Text="Lon.:"></Run>
-                                                    <Run Text="{Binding Path=Location.Longitude}"></Run>
+                                                    <Run Text="{Binding Path=Location.Longitude, StringFormat=f4}"></Run>
                                                 </TextBlock>
                                             </StackPanel>
                                         </materialDesign:Chip>
@@ -95,7 +86,7 @@
                                                 DataContext="{Binding ElementName=RouteEditorViewControl, Path=DataContext}"
                                                 VerticalAlignment="Center">
                                                 <Button Command="{Binding Path=DeleteSelectedRoutePointCommand}"
-                                                        Foreground="#D90000"
+                                                        Foreground="{StaticResource BrushDarkRed}"
                                                         Style="{StaticResource MaterialDesignFlatButton}"
                                                         VerticalAlignment="Center">
                                                     <materialDesign:PackIcon Kind="Delete"
@@ -107,7 +98,6 @@
                                     </StackPanel></Grid>
                             </StackPanel>
                         </materialDesign:Card>
-                    </Border>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

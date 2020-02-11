@@ -12,18 +12,21 @@ namespace XPlaneLauncher.Services.Impl {
         private readonly IAircraftModelProvider _aircraftModelProvider;
         private readonly ILauncherInformationDao _launcherInformationDao;
         private readonly IRouteService _routeService;
+        private readonly ILogbookService _logbookService;
         private readonly ISitFileDao _sitFileDao;
         private readonly IThumbnailDao _thumbnailDao;
 
         public AircraftService(
             IAircraftInformationDao aircraftInformationDao, ILauncherInformationDao launcherInformationDao,
-            IAircraftModelProvider aircraftModelProvider, ISitFileDao sitFileDao, IThumbnailDao thumbnailDao, IRouteService routeService) {
+            IAircraftModelProvider aircraftModelProvider, ISitFileDao sitFileDao, IThumbnailDao thumbnailDao, IRouteService routeService,
+            ILogbookService logbookService) {
             _aircraftInformationDao = aircraftInformationDao;
             _launcherInformationDao = launcherInformationDao;
             _aircraftModelProvider = aircraftModelProvider;
             _sitFileDao = sitFileDao;
             _thumbnailDao = thumbnailDao;
             _routeService = routeService;
+            _logbookService = logbookService;
         }
 
         public RoutePoint AddRoutePointToAircraft(Aircraft aircraft, Location location) {
@@ -47,12 +50,21 @@ namespace XPlaneLauncher.Services.Impl {
             }
         }
 
-        public void RemoveAircraft(Aircraft aircraft) {
+        public async Task RemoveAircraftAsync(Aircraft aircraft) {
+            IList<LogbookEntry> logbookEntries = await _logbookService.GetEntriesWithoutTrackAsync(aircraft);
+            foreach (LogbookEntry logbookEntry in logbookEntries) {
+                _logbookService.DeleteEntry(aircraft.Id, logbookEntry);
+            }
             _sitFileDao.Delete(aircraft.Situation?.SitFile);
             _launcherInformationDao.Delete(aircraft.LauncherInfoFile);
             _aircraftInformationDao.Delete(aircraft.AircraftInformation.File);
 
             _aircraftModelProvider.Aircrafts.Remove(aircraft);
+        }
+
+        public void Update(Aircraft aircraft, double summaryDistanceNauticalMiles, double summaryDurationHours) {
+            aircraft.Update(summaryDistanceNauticalMiles, summaryDurationHours);
+            Save(aircraft);
         }
 
         public void RemoveRoutePointFromAircraft(Aircraft aircraft, RoutePoint routePoint) {
@@ -63,7 +75,9 @@ namespace XPlaneLauncher.Services.Impl {
         public void Save(Aircraft aircraft) {
             AircraftLauncherInformation launcherInfo = new AircraftLauncherInformation {
                 TargetLocation = new List<Location>(),
-                LocationInformations = new Dictionary<Location, LocationInformation>()
+                LocationInformations = new Dictionary<Location, LocationInformation>(),
+                SummaryDistanceNauticalMiles = aircraft.SummaryDistanceNauticalMiles,
+                SummaryHours = aircraft.SummaryHours
             };
             foreach (RoutePoint routePoint in aircraft.Route) {
                 launcherInfo.TargetLocation.Add(routePoint.Location);
