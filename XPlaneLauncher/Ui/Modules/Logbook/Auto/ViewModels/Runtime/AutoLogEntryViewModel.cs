@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using MapControl;
 using Ookii.Dialogs.Wpf;
-using Prism;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using UnitsNet;
 using XPlaneLauncher.Domain;
-using XPlaneLauncher.Dtos;
 using XPlaneLauncher.Services.Impl;
 using XPlaneLauncher.Ui.Common.Commands;
 using XPlaneLauncher.Ui.Modules.Logbook.Auto.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Logbook.Events;
-using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands;
 using XPlaneLauncher.Ui.Modules.Logbook.Manual.NavigationCommands.Params;
-using XPlaneLauncher.Ui.Modules.Map.Events;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
     public class AutoLogEntryViewModel : BindableBase, IAutoLogEntryViewModel, IRegionMemberLifetime, INavigationAware {
@@ -30,12 +22,13 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
         private double? _duration;
         private DateTime? _endDateTime;
         private DateTime? _endTime;
+        private string _importFile;
+        private LogbookEntry _logEntry;
         private string _note;
         private ManualEntryParameters _parameters;
         private DelegateCommand _saveCommand;
         private DateTime? _startDateTime;
         private DateTime? _startTime;
-        private LogbookEntry _logEntry;
 
         public AutoLogEntryViewModel(
             NavigateBackCommand navigateBackCommand, IEventAggregator eventAggregator,
@@ -146,6 +139,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
                     bool? dlgResult = ofd.ShowDialog();
                     if (dlgResult.HasValue && dlgResult.Value) {
                         _logEntry = _logbookService.GetEntryFromAcmiFile(new FileInfo(ofd.FileName));
+                        _importFile = ofd.FileName;
                         UpdateData(_logEntry);
                     }
                 }
@@ -183,7 +177,15 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
         }
 
         private void OnSave() {
-            
+            _logbookService.CreateAcmiZipEntry(
+                new FileInfo(_importFile),
+                _parameters.AircraftId,
+                StartTime.Value,
+                EndTime.Value,
+                TimeSpan.FromHours(Duration.Value),
+                _logEntry.Track,
+                Distance.Value,
+                Note);
             _backCommand.Execute();
         }
 
@@ -201,7 +203,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Auto.ViewModels.Runtime {
 
         private void VisualizeTrack() {
             _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>()
-                    .Publish(new VisualizeTrackEvent(_logEntry.Track));
+                .Publish(new VisualizeTrackEvent(_logEntry.Track));
         }
     }
 }

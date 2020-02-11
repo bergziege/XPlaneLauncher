@@ -31,10 +31,26 @@ namespace XPlaneLauncher.Services.Impl {
             _acmiService = acmiService;
         }
 
+        public void CreateAcmiZipEntry(
+            FileInfo importFile, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
+            string notes) {
+            CreateEntry(LogbookEntryType.AcmiZip, aircraftId, startDateTime, endDateTime, duration, track, distanceNauticalMiles, notes);
+            if (importFile.Exists) {
+                DirectoryInfo logbookDir = GetLogbookDirectoryByAircraftId(aircraftId);
+                FileInfo acmiFile = GetLogbookEntryFile(aircraftId, startDateTime, "acmi","zip");
+                importFile.MoveTo(acmiFile.FullName);
+            }
+        }
+
         public void CreateManualEntry(
             Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
             string notes) {
-            LogbookEntry newEntry = new LogbookEntry(LogbookEntryType.Manual, startDateTime, endDateTime, duration, track, distanceNauticalMiles);
+            CreateEntry(LogbookEntryType.Manual, aircraftId,startDateTime,endDateTime,duration,track,distanceNauticalMiles,notes);
+        }
+
+        private void CreateEntry(LogbookEntryType entryType, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
+            string notes) {
+            LogbookEntry newEntry = new LogbookEntry(entryType, startDateTime, endDateTime, duration, track, distanceNauticalMiles);
             newEntry.Update(notes);
 
             FileInfo logbookEntryFile = GetLogbookEntryFile(aircraftId, startDateTime, "log");
@@ -54,6 +70,14 @@ namespace XPlaneLauncher.Services.Impl {
             /* Delete track file */
             FileInfo trackFile = GetLogbookEntryFile(aircraftId, entry.StartDateTime, "track");
             _logbookEntryTrackDao.Delete(trackFile);
+
+            if (entry.Type == LogbookEntryType.AcmiZip) {
+                /* Delete imported file */
+                FileInfo acmiFile = GetLogbookEntryFile(aircraftId, entry.StartDateTime, "acmi", "zip");
+                if (acmiFile.Exists) {
+                    acmiFile.Delete();
+                }
+            }
 
             if (!logFile.Directory.GetFiles().Any()) {
                 logFile.Directory.Delete();
@@ -107,7 +131,7 @@ namespace XPlaneLauncher.Services.Impl {
                 acmiDto.ReferenceTime.Second);
 
             LogbookEntry autoLogEntry = new LogbookEntry(
-                LogbookEntryType.Tacview,
+                LogbookEntryType.AcmiZip,
                 acmiDto.RecordingTime,
                 acmiDto.RecordingTime.Add(acmiDto.Duration),
                 acmiDto.Duration,
@@ -159,9 +183,9 @@ namespace XPlaneLauncher.Services.Impl {
             return GetLogbookDirectoryByLauncherInfoFile(launcherInfoFile);
         }
 
-        private FileInfo GetLogbookEntryFile(Guid aircraftId, DateTime startDateTime, string discriminator) {
+        private FileInfo GetLogbookEntryFile(Guid aircraftId, DateTime startDateTime, string discriminator, string extension = "json") {
             DirectoryInfo logbookDir = GetLogbookDirectoryByAircraftId(aircraftId);
-            string fileName = $"{GetLogbookBaseFileName(startDateTime)}.{discriminator}.json";
+            string fileName = $"{GetLogbookBaseFileName(startDateTime)}.{discriminator}.{extension}";
             return new FileInfo(Path.Combine(logbookDir.FullName, fileName));
         }
     }
