@@ -50,8 +50,8 @@ namespace XPlaneLauncher.Services.Impl {
             }
         }
 
-        public void RemoveAircraft(Aircraft aircraft) {
-            IList<LogbookEntry> logbookEntries = _logbookService.GetEntriesWithoutTrackAsync(aircraft).GetAwaiter().GetResult();
+        public async Task RemoveAircraftAsync(Aircraft aircraft) {
+            IList<LogbookEntry> logbookEntries = await _logbookService.GetEntriesWithoutTrackAsync(aircraft);
             foreach (LogbookEntry logbookEntry in logbookEntries) {
                 _logbookService.DeleteEntry(aircraft.Id, logbookEntry);
             }

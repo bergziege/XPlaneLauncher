@@ -234,7 +234,7 @@ namespace XPlaneLauncher.Ui.Modules.AircraftList.ViewModels.Runtime {
             if (await _showRemoveConfirmationDialogCommand.Execute(SelectedAircraft)) {
                 Aircraft aircraftToDelete = SelectedAircraft;
                 SelectedAircraft = null;
-                _aircraftService.RemoveAircraft(aircraftToDelete);
+                await _aircraftService.RemoveAircraftAsync(aircraftToDelete);
                 _eventAggregator.GetEvent<PubSubEvent<AircraftRemovedEvent>>().Publish(new AircraftRemovedEvent(aircraftToDelete.Id));
             }
         }
