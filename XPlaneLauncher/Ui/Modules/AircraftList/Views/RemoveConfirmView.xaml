@@ -11,7 +11,7 @@
              d:DataContext="{d:DesignInstance {x:Type design:RemoveConfirmDesignViewModel}, IsDesignTimeCreatable=True}">
     <StackPanel Margin="10">
         <TextBlock Text="Remove aircraft?" TextWrapping="Wrap" 
-                   Style="{StaticResource MaterialDesignDisplay1TextBlock}"/>
+                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
         <Separator Height="5" Visibility="Hidden" />
         <TextBlock Text="{Binding Path=AircraftName}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
         <TextBlock Text="{Binding Path=AircraftLivery}" Style="{StaticResource MaterialDesignBody2TextBlock}"/>
