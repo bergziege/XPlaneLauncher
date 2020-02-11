@@ -25,7 +25,7 @@ namespace XPlaneLauncher.Persistence.Impl {
                 entries.Add(JsonConvert.DeserializeObject<LogbookEntry>(logbookEntryContent));
             }
 
-            return entries.OrderBy(x => x.StartDateTime).ToList();
+            return entries.OrderByDescending(x => x.StartDateTime).ToList();
         }
 
         public void SaveWithoutTrack(FileInfo logbookFile, LogbookEntry entry) {
