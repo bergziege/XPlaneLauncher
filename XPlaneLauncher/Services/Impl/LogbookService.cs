@@ -73,7 +73,7 @@ namespace XPlaneLauncher.Services.Impl {
         }
 
         public LogbookEntry ExpandTrack(Guid aircraftId, LogbookEntry logbookEntry) {
-            IList<LogbookLocation> track = ExtractLocations(
+            IList<LogbookLocation> track = ToLogbookLocations(
                 _logbookEntryTrackDao.GetTrack(GetLogbookEntryFile(aircraftId, logbookEntry.StartDateTime, "track", "csv")));
             logbookEntry.Update(track);
             return logbookEntry;
@@ -91,7 +91,7 @@ namespace XPlaneLauncher.Services.Impl {
             /* unzip */
             string unzipDir = Path.Combine(tmpFile.DirectoryName, "XPlaneLauncher", Path.GetRandomFileName());
             ZipFile.ExtractToDirectory(tmpFile.FullName, unzipDir);
-            FileInfo unzippedFile = new FileInfo(Path.Combine(unzipDir, acmiFile.Name.Replace("zip", "txt")));
+            FileInfo unzippedFile = new DirectoryInfo(unzipDir).GetFiles().First();
 
             /* parse */
             AcmiDto acmiDto = _acmiService.ParseFile(unzippedFile);
@@ -171,8 +171,8 @@ namespace XPlaneLauncher.Services.Impl {
             _logbookEntryTrackDao.Save(logbookEntryTrackFile, LocationsToEntries(newEntry.Track));
         }
 
-        private IList<LogbookLocation> ExtractLocations(IList<LogbookTrackItem> trackItems) {
-            return trackItems.Select(x => new LogbookLocation(x.Timestamp, x.Lat, x.Lon) {
+        private IList<LogbookLocation> ToLogbookLocations(IList<LogbookTrackItem> trackItems) {
+            return trackItems.Select(x => new LogbookLocation(x.Time, x.Lat, x.Lon) {
                 Alt = x.Alt,
                 Hdg = x.Hdg,
                 Ias = x.Ias
@@ -212,7 +212,8 @@ namespace XPlaneLauncher.Services.Impl {
 
         private IList<LogbookTrackItem> LocationsToEntries(IList<LogbookLocation> trackLocations) {
             return trackLocations.Select(
-                x => new LogbookTrackItem(x.DateTime) {
+                x => new LogbookTrackItem() {
+                    Time = x.DateTime,
                     Lat = x.Latitude,
                     Lon = x.Longitude,
                     Alt = x.Alt,
