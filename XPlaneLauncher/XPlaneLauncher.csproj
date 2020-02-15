@@ -123,6 +123,7 @@
     <Compile Include="Domain\LocationInformation.cs" />
     <Compile Include="Domain\LogbookEntry.cs" />
     <Compile Include="Domain\LogbookEntryType.cs" />
+    <Compile Include="Domain\LogbookTrackItem.cs" />
     <Compile Include="Dtos\AcmiDto.cs" />
     <Compile Include="Persistence\ILogbookEntryDao.cs" />
     <Compile Include="Persistence\ILogbookEntryTrackDao.cs" />
