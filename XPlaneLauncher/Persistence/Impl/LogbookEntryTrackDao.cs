@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using CsvHelper;
-using MapControl;
 using XPlaneLauncher.Domain;
 
 namespace XPlaneLauncher.Persistence.Impl {
@@ -14,7 +14,10 @@ namespace XPlaneLauncher.Persistence.Impl {
         }
 
         public IList<LogbookTrackItem> GetTrack(FileInfo trackFile) {
-            return new List<LogbookTrackItem>();
+            using (StreamReader reader = new StreamReader(trackFile.FullName))
+            using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture)) {
+                return csv.GetRecords<LogbookTrackItem>().ToList();
+            }
         }
 
         public void Save(FileInfo trackFile, IList<LogbookTrackItem> track) {
