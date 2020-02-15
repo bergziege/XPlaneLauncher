@@ -179,22 +179,6 @@ namespace XPlaneLauncher.Services.Impl {
             }).ToList();
         }
 
-        //private IList<LogbookLocation> GetFilteredTrack(IList<LogbookLocation> rawTrack, Length minDistanceBetweenLocations) {
-        //    if (!rawTrack.Any()) {
-        //        return rawTrack;
-        //    }
-
-        //    IList<LogbookLocation> filteredTrack = new List<LogbookLocation>();
-        //    filteredTrack.Add(rawTrack.First());
-        //    foreach (Location location in rawTrack) {
-        //        if (filteredTrack.Last().GreatCircleDistance(location) >= minDistanceBetweenLocations.Meters) {
-        //            filteredTrack.Add(location);
-        //        }
-        //    }
-
-        //    return filteredTrack;
-        //}
-
         private string GetLogbookBaseFileName(DateTime startDateTime) {
             return startDateTime.ToString("yyyy-MM-dd-hh-mm-ss");
         }
