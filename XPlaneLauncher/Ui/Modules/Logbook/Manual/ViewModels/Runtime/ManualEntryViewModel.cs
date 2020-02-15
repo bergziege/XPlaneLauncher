@@ -7,6 +7,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using UnitsNet;
+using XPlaneLauncher.Model;
 using XPlaneLauncher.Services.Impl;
 using XPlaneLauncher.Ui.Common.Commands;
 using XPlaneLauncher.Ui.Modules.Logbook.Events;
@@ -23,7 +24,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         private double? _distance;
         private double? _duration;
         private DateTime? _endDateTime;
-        private Location _endLocation;
+        private LogbookLocation _endLocation;
         private DateTime? _endTime;
         private bool _isInEndSelectionMode;
         private bool _isInStartSelectionMode;
@@ -33,7 +34,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         private DelegateCommand _selectEndLocationCommand;
         private DelegateCommand _selectStartLocationCommand;
         private DateTime? _startDateTime;
-        private Location _startLocation;
+        private LogbookLocation _startLocation;
         private DateTime? _startTime;
 
         public ManualEntryViewModel(
@@ -74,7 +75,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             }
         }
 
-        public Location EndLocation {
+        public LogbookLocation EndLocation {
             get { return _endLocation; }
             set {
                 SetProperty(ref _endLocation, value, nameof(EndLocation));
@@ -134,7 +135,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
             }
         }
 
-        public Location StartLocation {
+        public LogbookLocation StartLocation {
             get { return _startLocation; }
             set {
                 SetProperty(ref _startLocation, value, nameof(StartLocation));
@@ -222,24 +223,28 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
 
         private void OnMapLocationChanged(LocationSelectedEvent obj) {
             if (IsInStartSelectionMode) {
-                StartLocation = obj.Location;
+                StartLocation = new LogbookLocation(DateTime.MinValue, obj.Location.Latitude, obj.Location.Longitude);
                 IsInStartSelectionMode = false;
             }
 
             if (IsInEndSelectionMode) {
-                EndLocation = obj.Location;
+                EndLocation = new LogbookLocation(DateTime.MaxValue, obj.Location.Latitude, obj.Location.Longitude);
                 IsInEndSelectionMode = false;
             }
         }
 
         private void OnSave() {
+            DateTime start = AddTime(StartDate.Value, StartTime.Value);
+            DateTime end = AddTime(EndDate.Value, EndTime.Value);
+            StartLocation.DateTime = start;
+            EndLocation.DateTime = end;
             if (_parameters.LogbookEntry == null) {
                 _logbookService.CreateManualEntry(
                     _parameters.AircraftId,
-                    AddTime(StartDate.Value, StartTime.Value),
-                    AddTime(EndDate.Value, EndTime.Value),
+                    start,
+                    end,
                     TimeSpan.FromHours(Duration.Value),
-                    new List<Location> {
+                    new List<LogbookLocation> {
                         StartLocation, EndLocation
                     },
                     Distance.Value,
@@ -248,10 +253,10 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
                 _logbookService.UpdateManualEntry(
                     _parameters.LogbookEntry,
                     _parameters.AircraftId,
-                    AddTime(StartDate.Value, StartTime.Value),
-                    AddTime(EndDate.Value, EndTime.Value),
+                    start,
+                    end,
                     TimeSpan.FromHours(Duration.Value),
-                    new List<Location> {
+                    new List<LogbookLocation> {
                         StartLocation, EndLocation
                     },
                     Distance.Value,
@@ -284,7 +289,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.Manual.ViewModels.Runtime {
         private void VisualizeTrack() {
             if (StartLocation != null && EndLocation != null) {
                 _eventAggregator.GetEvent<PubSubEvent<VisualizeTrackEvent>>()
-                    .Publish(new VisualizeTrackEvent(new List<Location> { StartLocation, EndLocation }));
+                    .Publish(new VisualizeTrackEvent(new List<LogbookLocation> { StartLocation, EndLocation }));
             }
         }
     }

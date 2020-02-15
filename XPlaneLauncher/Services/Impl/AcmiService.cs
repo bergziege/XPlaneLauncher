@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using MapControl;
 using XPlaneLauncher.Dtos;
+using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Services.Impl {
     public class AcmiService : IAcmiService {
@@ -34,33 +34,58 @@ namespace XPlaneLauncher.Services.Impl {
                         if (firstTimeOffset == null) {
                             firstTimeOffset = line;
                         }
+
                         lastTimeOffset = line;
-                    }else if (line != null) {
+                    } else if (line != null) {
                         string[] lineParts = line.Split(',');
                         string transformation = lineParts.FirstOrDefault(x => x.StartsWith("T="));
                         if (transformation != null) {
                             string[] transformationParts = transformation.Replace("T=", "").Split('|');
                             if (HasLocation(transformationParts)) {
-                                dto.Track.Add(GetLocation(dto, transformationParts));
+                                TimeSpan? durationToThisLocation = GetDurationOrDefault(firstTimeOffset, lastTimeOffset);
+                                DateTime timestamp = dto.ReferenceTime;
+                                if (durationToThisLocation.HasValue) {
+                                    timestamp.Add(durationToThisLocation.Value);
+                                }
+
+                                dto.Track.Add(GetLocation(dto, transformationParts, timestamp));
                             }
                         }
                     }
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(firstTimeOffset) && !string.IsNullOrWhiteSpace(lastTimeOffset)) {
-                double.TryParse(firstTimeOffset.Replace("#", ""), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double firstTimeOffsetSeconds);
-                double.TryParse(lastTimeOffset.Replace("#", ""), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double lastTimeOffsetSeconds);
-                double durationSeconds = lastTimeOffsetSeconds - firstTimeOffsetSeconds;
-                if (durationSeconds > 0) {
-                    dto.Duration = TimeSpan.FromSeconds(durationSeconds);
-                }
+            TimeSpan? duration = GetDurationOrDefault(firstTimeOffset, lastTimeOffset);
+
+            if (duration.HasValue) {
+                dto.Duration = duration.Value;
             }
 
             return dto;
         }
 
-        private Location GetLocation(AcmiDto dto, string[] transformationParts) {
+        private TimeSpan? GetDurationOrDefault(string firstTimeOffset, string lastTimeOffset) {
+            if (!string.IsNullOrWhiteSpace(firstTimeOffset) && !string.IsNullOrWhiteSpace(lastTimeOffset)) {
+                double.TryParse(
+                    firstTimeOffset.Replace("#", ""),
+                    NumberStyles.AllowDecimalPoint,
+                    CultureInfo.InvariantCulture,
+                    out double firstTimeOffsetSeconds);
+                double.TryParse(
+                    lastTimeOffset.Replace("#", ""),
+                    NumberStyles.AllowDecimalPoint,
+                    CultureInfo.InvariantCulture,
+                    out double lastTimeOffsetSeconds);
+                double durationSeconds = lastTimeOffsetSeconds - firstTimeOffsetSeconds;
+                if (durationSeconds > 0) {
+                    return TimeSpan.FromSeconds(durationSeconds);
+                }
+            }
+
+            return null;
+        }
+
+        private LogbookLocation GetLocation(AcmiDto dto, string[] transformationParts, DateTime timestamp) {
             double.TryParse(transformationParts[0], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out double lonOffset);
             double longitude;
             if (lonOffset == 0 && dto.Track.Any()) {
@@ -81,7 +106,7 @@ namespace XPlaneLauncher.Services.Impl {
                 latitude = dto.ReferenceLatitude + latOffset;
             }
 
-            return new Location(latitude, longitude);
+            return new LogbookLocation(timestamp, latitude, longitude);
         }
 
         private bool HasLocation(string[] transformationParts) {

@@ -8,6 +8,7 @@ using MapControl;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using UnitsNet;
 using XPlaneLauncher.Model;
 using XPlaneLauncher.Model.Provider;
 using XPlaneLauncher.Services;
@@ -176,11 +177,12 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
                 if (obj.Track.Count == 2) {
                     Tracks.Add(obj.Track.First().CalculateGreatCircleLocations(obj.Track.Last()));
                 }else if (obj.Track.Count > 2) {
+                    IList<LogbookLocation> filteredTrack = GetFilteredTrack(obj.Track, Length.FromMeters(10));
                     int pageSize = 2000;
-                    int pages = (int)Math.Ceiling(obj.Track.Count / (double)pageSize);
+                    int pages = (int)Math.Ceiling(filteredTrack.Count / (double)pageSize);
                     for (int i = 0; i < pages * pageSize; i+=pageSize) {
                         LocationCollection locations = new LocationCollection();
-                        foreach (Location location in obj.Track.Skip(i).Take(pageSize)) {
+                        foreach (LogbookLocation location in filteredTrack.Skip(i).Take(pageSize)) {
                             locations.Add(location);
                         }
                         Tracks.Add(locations);
@@ -189,6 +191,22 @@ namespace XPlaneLauncher.Ui.Modules.Map.ViewModels.Runtime {
                 }
                 ZoomToTracksBounds();
             }
+        }
+
+        private IList<LogbookLocation> GetFilteredTrack(IList<LogbookLocation> rawTrack, Length minDistanceBetweenLocations) {
+            if (!rawTrack.Any()) {
+                return rawTrack;
+            }
+
+            IList<LogbookLocation> filteredTrack = new List<LogbookLocation>();
+            filteredTrack.Add(rawTrack.First());
+            foreach (LogbookLocation location in rawTrack) {
+                if (filteredTrack.Last().GreatCircleDistance(location) >= minDistanceBetweenLocations.Meters) {
+                    filteredTrack.Add(location);
+                }
+            }
+
+            return filteredTrack;
         }
 
         private void ZoomToTracksBounds() {

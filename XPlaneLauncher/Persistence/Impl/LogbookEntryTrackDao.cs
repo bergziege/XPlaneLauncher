@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using GeoJSON.Net.Feature;
-using GeoJSON.Net.Geometry;
-using MapControl;
-using Newtonsoft.Json;
+using CsvHelper;
+using XPlaneLauncher.Domain;
 
 namespace XPlaneLauncher.Persistence.Impl {
     public class LogbookEntryTrackDao : ILogbookEntryTrackDao {
@@ -14,28 +13,18 @@ namespace XPlaneLauncher.Persistence.Impl {
             }
         }
 
-        public IList<Location> GetTrack(FileInfo trackFile) {
-            string trackFileContent = File.ReadAllText(trackFile.FullName);
-            FeatureCollection points = JsonConvert.DeserializeObject<FeatureCollection>(trackFileContent);
-            IList<Location> track = new List<Location>();
-            foreach (Point point in points.Features.Select(x => x.Geometry as Point)) {
-                track.Add(new Location(point.Coordinates.Latitude, point.Coordinates.Longitude));
+        public IList<LogbookTrackItem> GetTrack(FileInfo trackFile) {
+            using (StreamReader reader = new StreamReader(trackFile.FullName))
+            using (CsvReader csv = new CsvReader(reader, CultureInfo.InvariantCulture)) {
+                return csv.GetRecords<LogbookTrackItem>().ToList();
             }
-
-            return track;
         }
 
-        public void Save(FileInfo trackFile, IList<Location> track) {
-            /* Using Feature and FeatureCollection to be able to ad additional information to each location like altitude, heading, airspeed, ... */
-            FeatureCollection features = new FeatureCollection();
-            foreach (Location location in track) {
-                Position position = new Position(location.Latitude, location.Longitude);
-                Point point = new Point(position);
-                features.Features.Add(new Feature(point));
+        public void Save(FileInfo trackFile, IList<LogbookTrackItem> track) {
+            using (var writer = new StreamWriter(trackFile.FullName))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
+                csv.WriteRecords(track);
             }
-
-            string geoJson = JsonConvert.SerializeObject(features);
-            File.WriteAllText(trackFile.FullName, geoJson);
         }
     }
 }
