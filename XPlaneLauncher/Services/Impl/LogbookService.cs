@@ -51,11 +51,11 @@ namespace XPlaneLauncher.Services.Impl {
 
         public void DeleteEntry(Guid aircraftId, LogbookEntry entry) {
             /* Delete log file */
-            FileInfo logFile = GetLogbookEntryFile(aircraftId, entry.StartDateTime, "log");
+            FileInfo logFile = GetLogbookEntryFile(aircraftId, entry.StartDateTime, "log", "json");
             _logbookEntryDao.Delete(logFile);
 
             /* Delete track file */
-            FileInfo trackFile = GetLogbookEntryFile(aircraftId, entry.StartDateTime, "track");
+            FileInfo trackFile = GetLogbookEntryFile(aircraftId, entry.StartDateTime, "track", "csv");
             _logbookEntryTrackDao.Delete(trackFile);
 
             if (entry.Type == LogbookEntryType.AcmiZip) {
@@ -72,7 +72,7 @@ namespace XPlaneLauncher.Services.Impl {
         }
 
         public LogbookEntry ExpandTrack(Guid aircraftId, LogbookEntry logbookEntry) {
-            IList<Location> track = _logbookEntryTrackDao.GetTrack(GetLogbookEntryFile(aircraftId, logbookEntry.StartDateTime, "track"));
+            IList<Location> track = _logbookEntryTrackDao.GetTrack(GetLogbookEntryFile(aircraftId, logbookEntry.StartDateTime, "track", "csv"));
             logbookEntry.Update(track);
             return logbookEntry;
         }
@@ -160,8 +160,8 @@ namespace XPlaneLauncher.Services.Impl {
             LogbookEntry newEntry = new LogbookEntry(entryType, startDateTime, endDateTime, duration, track, distanceNauticalMiles);
             newEntry.Update(notes);
 
-            FileInfo logbookEntryFile = GetLogbookEntryFile(aircraftId, startDateTime, "log");
-            FileInfo logbookEntryTrackFile = GetLogbookEntryFile(aircraftId, startDateTime, "track");
+            FileInfo logbookEntryFile = GetLogbookEntryFile(aircraftId, startDateTime, "log","json");
+            FileInfo logbookEntryTrackFile = GetLogbookEntryFile(aircraftId, startDateTime, "track","csv");
             /* Persist entry to json*/
             _logbookEntryDao.SaveWithoutTrack(logbookEntryFile, newEntry);
 
@@ -194,7 +194,7 @@ namespace XPlaneLauncher.Services.Impl {
             return GetLogbookDirectoryByLauncherInfoFile(launcherInfoFile);
         }
 
-        private FileInfo GetLogbookEntryFile(Guid aircraftId, DateTime startDateTime, string discriminator, string extension = "json") {
+        private FileInfo GetLogbookEntryFile(Guid aircraftId, DateTime startDateTime, string discriminator, string extension) {
             DirectoryInfo logbookDir = GetLogbookDirectoryByAircraftId(aircraftId);
             string fileName = $"{GetLogbookBaseFileName(startDateTime)}.{discriminator}.{extension}";
             return new FileInfo(Path.Combine(logbookDir.FullName, fileName));
