@@ -5,6 +5,7 @@ using MapControl;
 using Ookii.Dialogs.Wpf;
 using Prism.Commands;
 using XPlaneLauncher.Domain;
+using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
     public class LogListDesignViewModel : ILogListViewModel {
@@ -20,7 +21,7 @@ namespace XPlaneLauncher.Ui.Modules.Logbook.LogList.ViewModels.Design {
                 new DateTime(2020, 1, 1, 19, 45, 0),
                 new DateTime(2020, 1, 2, 15, 42, 0),
                 TimeSpan.FromHours(2.5),
-                new List<Location>(),
+                new List<LogbookLocation>(),
                 42.21);
             logbookEntry.Update(
                 $"Some multiline{Environment.NewLine}Notes with some more text in it to fill the line and see if its wraps automatically.");

@@ -9,11 +9,11 @@ namespace XPlaneLauncher.Domain {
             Timestamp = timestamp;
         }
 
-        public double? Alt { get; set; }
-        public double? Hdg { get; set; }
-        public double? Ias { get; set; }
-        public double? Lat { get; set; }
-        public double? Lon { get; set; }
+        public double Alt { get; set; }
+        public double Hdg { get; set; }
+        public double Ias { get; set; }
+        public double Lat { get; set; }
+        public double Lon { get; set; }
         public DateTime Timestamp { get; }
     }
 }

@@ -10,11 +10,13 @@ namespace XPlaneLauncher.Services {
     public interface ILogbookService {
         void CreateAcmiZipEntry(
             FileInfo importFile,
-            Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
+            Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<LogbookLocation> track,
+            double distanceNauticalMiles,
             string notes);
 
         void CreateManualEntry(
-            Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track, double distanceNauticalMiles,
+            Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<LogbookLocation> track,
+            double distanceNauticalMiles,
             string notes);
 
         void DeleteEntry(Guid aircraftId, LogbookEntry entry);
@@ -26,12 +28,12 @@ namespace XPlaneLauncher.Services {
         LogbookEntry GetEntryFromAcmiFile(FileInfo acmiFile);
 
         void UpdateAutoEntry(
-            LogbookEntry oldEntry, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
+            LogbookEntry oldEntry, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<LogbookLocation> track,
             double distanceNauticalMiles,
             string notes);
 
         void UpdateManualEntry(
-            LogbookEntry oldEntry, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
+            LogbookEntry oldEntry, Guid aircraftId, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<LogbookLocation> track,
             double distanceNauticalMiles,
             string notes);
     }

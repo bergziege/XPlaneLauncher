@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MapControl;
+using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Dtos {
     public class AcmiDto {
@@ -9,6 +10,6 @@ namespace XPlaneLauncher.Dtos {
         public double ReferenceLatitude { get; set; }
         public double ReferenceLongitude { get; set; }
         public DateTime ReferenceTime { get; set; }
-        public IList<Location> Track { get; set; } = new List<Location>();
+        public IList<LogbookLocation> Track { get; set; } = new List<LogbookLocation>();
     }
 }

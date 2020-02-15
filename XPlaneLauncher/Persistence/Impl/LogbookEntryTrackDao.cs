@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using CsvHelper;
 using MapControl;
+using XPlaneLauncher.Domain;
 
 namespace XPlaneLauncher.Persistence.Impl {
     public class LogbookEntryTrackDao : ILogbookEntryTrackDao {
@@ -10,12 +13,15 @@ namespace XPlaneLauncher.Persistence.Impl {
             }
         }
 
-        public IList<Location> GetTrack(FileInfo trackFile) {
-            return new List<Location>();
+        public IList<LogbookTrackItem> GetTrack(FileInfo trackFile) {
+            return new List<LogbookTrackItem>();
         }
 
-        public void Save(FileInfo trackFile, IList<Location> track) {
-            
+        public void Save(FileInfo trackFile, IList<LogbookTrackItem> track) {
+            using (var writer = new StreamWriter(trackFile.FullName))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture)) {
+                csv.WriteRecords(track);
+            }
         }
     }
 }

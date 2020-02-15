@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MapControl;
 using Newtonsoft.Json;
+using XPlaneLauncher.Model;
 
 namespace XPlaneLauncher.Domain {
     public class LogbookEntry {
@@ -12,7 +12,7 @@ namespace XPlaneLauncher.Domain {
         ///     Initialisiert eine neue Instanz der <see cref="T:System.Object" />-Klasse.
         /// </summary>
         public LogbookEntry(
-            LogbookEntryType type, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<Location> track,
+            LogbookEntryType type, DateTime startDateTime, DateTime endDateTime, TimeSpan duration, IList<LogbookLocation> track,
             double distanceNauticalMiles) {
             Duration = duration;
             DistanceNauticalMiles = distanceNauticalMiles;
@@ -37,7 +37,7 @@ namespace XPlaneLauncher.Domain {
         public DateTime StartDateTime { get; }
 
         [JsonIgnore]
-        public IList<Location> Track { get; private set; }
+        public IList<LogbookLocation> Track { get; private set; }
 
         public LogbookEntryType Type { get; }
 
@@ -45,7 +45,7 @@ namespace XPlaneLauncher.Domain {
             Notes = notes;
         }
 
-        public void Update(IList<Location> track) {
+        public void Update(IList<LogbookLocation> track) {
             Track = track;
         }
     }
