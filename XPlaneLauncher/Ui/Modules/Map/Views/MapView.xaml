@@ -168,8 +168,13 @@
             <mapControl:MapPolyline Locations="{Binding}">
                 <mapControl:MapPolyline.Style>
                     <Style TargetType="mapControl:MapPolyline">
-                        <Setter Property="Stroke" Value="Red" />
-                        <Setter Property="StrokeThickness" Value="4" />
+                        <Setter Property="Stroke" Value="#009DFF" />
+                        <Setter Property="StrokeThickness" Value="3" />
+                        <Setter Property="Effect">
+                            <Setter.Value>
+                                <DropShadowEffect Color="Black" Direction="0" ShadowDepth="0" BlurRadius="5" />
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </mapControl:MapPolyline.Style>
             </mapControl:MapPolyline>
