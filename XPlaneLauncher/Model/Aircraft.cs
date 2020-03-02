@@ -94,18 +94,20 @@ namespace XPlaneLauncher.Model {
             if (_launcherInfo != null) {
                 SummaryDistanceNauticalMiles = _launcherInfo.SummaryDistanceNauticalMiles;
                 SummaryHours = _launcherInfo.SummaryHours;
-                foreach (Location location in _launcherInfo.TargetLocation) {
-                    LocationInformation additionalInformation = null;
-                    if (_launcherInfo.LocationInformations != null && _launcherInfo.LocationInformations.ContainsKey(location)) {
-                        additionalInformation = _launcherInfo.LocationInformations[location];
-                    }
+                if (_launcherInfo.TargetLocation != null) {
+                    foreach (Location location in _launcherInfo.TargetLocation) {
+                        LocationInformation additionalInformation = null;
+                        if (_launcherInfo.LocationInformations != null && _launcherInfo.LocationInformations.ContainsKey(location)) {
+                            additionalInformation = _launcherInfo.LocationInformations[location];
+                        }
 
-                    RoutePoint routePoint = new RoutePoint(location, Id);
-                    if (additionalInformation != null) {
-                        routePoint.Update(additionalInformation.Name, additionalInformation.Comment);
-                    }
+                        RoutePoint routePoint = new RoutePoint(location, Id);
+                        if (additionalInformation != null) {
+                            routePoint.Update(additionalInformation.Name, additionalInformation.Comment);
+                        }
 
-                    Route.Add(routePoint);
+                        Route.Add(routePoint);
+                    } 
                 }
             }
         }
