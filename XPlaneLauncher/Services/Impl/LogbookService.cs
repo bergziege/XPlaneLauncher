@@ -80,8 +80,11 @@ namespace XPlaneLauncher.Services.Impl {
         }
 
         public async Task<IList<LogbookEntry>> GetEntriesWithoutTrackAsync(Aircraft aircraft) {
-            DirectoryInfo logbookDirectory = GetLogbookDirectoryByLauncherInfoFile(aircraft.LauncherInfoFile);
-            return await _logbookEntryDao.GetEntriesAsync(logbookDirectory);
+            if (aircraft.LauncherInfoFile != null) {
+                DirectoryInfo logbookDirectory = GetLogbookDirectoryByLauncherInfoFile(aircraft.LauncherInfoFile);
+                return await _logbookEntryDao.GetEntriesAsync(logbookDirectory); 
+            }
+            return new List<LogbookEntry>();
         }
 
         public LogbookEntry GetEntryFromAcmiFile(FileInfo acmiFile) {

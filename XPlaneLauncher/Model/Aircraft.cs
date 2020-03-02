@@ -87,10 +87,11 @@ namespace XPlaneLauncher.Model {
         }
 
         public void Init() {
+            Name = AircraftInformation.AircraftFile.Replace(".acf", "");
+            Livery = GetLastParthOfLiveryPath(AircraftInformation.Livery);
+            Location = new Location(AircraftInformation.Latitude, AircraftInformation.Longitude);
+
             if (_launcherInfo != null) {
-                Name = AircraftInformation.AircraftFile.Replace(".acf", "");
-                Livery = GetLastParthOfLiveryPath(AircraftInformation.Livery);
-                Location = new Location(AircraftInformation.Latitude, AircraftInformation.Longitude);
                 SummaryDistanceNauticalMiles = _launcherInfo.SummaryDistanceNauticalMiles;
                 SummaryHours = _launcherInfo.SummaryHours;
                 foreach (Location location in _launcherInfo.TargetLocation) {
@@ -121,6 +122,11 @@ namespace XPlaneLauncher.Model {
             RouteLength = routeLength;
         }
 
+        public void Update(double summaryDistanceNauticalMiles, double summaryDurationHours) {
+            SummaryDistanceNauticalMiles = summaryDistanceNauticalMiles;
+            SummaryHours = summaryDurationHours;
+        }
+
         private string GetLastParthOfLiveryPath(string livery) {
             if (livery.EndsWith("/")) {
                 livery = livery.Substring(0, livery.Length - 1);
@@ -132,11 +138,6 @@ namespace XPlaneLauncher.Model {
             }
 
             return string.Empty;
-        }
-
-        public void Update(double summaryDistanceNauticalMiles, double summaryDurationHours) {
-            SummaryDistanceNauticalMiles = summaryDistanceNauticalMiles;
-            SummaryHours = summaryDurationHours;
         }
     }
 }

@@ -40,7 +40,7 @@ namespace XPlaneLauncher.Services.Impl {
             _aircraftModelProvider.Aircrafts.Clear();
             IList<AircraftInformation> aircraftInformations = await _aircraftInformationDao.GetAllAsync();
             foreach (AircraftInformation aircraftInformation in aircraftInformations) {
-                AircraftLauncherInformation aircraftLauncherInformation = await _launcherInformationDao.FindForAircraftAsync(aircraftInformation);
+                AircraftLauncherInformation aircraftLauncherInformation = await _launcherInformationDao.FindOrCreateForAircraftAsync(aircraftInformation);
                 Aircraft aircraft = new Aircraft(aircraftInformation, aircraftLauncherInformation);
                 aircraft.Init();
                 aircraft.Update(_sitFileDao.FindSit(aircraftInformation));
@@ -56,7 +56,9 @@ namespace XPlaneLauncher.Services.Impl {
                 _logbookService.DeleteEntry(aircraft.Id, logbookEntry);
             }
             _sitFileDao.Delete(aircraft.Situation?.SitFile);
-            _launcherInformationDao.Delete(aircraft.LauncherInfoFile);
+            if (aircraft.LauncherInfoFile != null) {
+                _launcherInformationDao.Delete(aircraft.LauncherInfoFile); 
+            }
             _aircraftInformationDao.Delete(aircraft.AircraftInformation.File);
 
             _aircraftModelProvider.Aircrafts.Remove(aircraft);
