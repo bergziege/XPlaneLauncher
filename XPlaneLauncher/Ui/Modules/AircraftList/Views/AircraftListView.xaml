@@ -92,6 +92,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
                                     <RowDefinition />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
 
                                 <StackPanel HorizontalAlignment="Stretch" Margin="5">
@@ -119,18 +120,20 @@
                                 <Rectangle Grid.Row="0" Grid.Column="1" Width="200" Height="100" Fill="#F6F6F6"
                                            Visibility="{Binding Path=Thumbnail.HasThumbnail, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter={StaticResource True}}"
                                            HorizontalAlignment="Right" />
-                                <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0"
+                                <Separator Style="{StaticResource MaterialDesignDarkSeparator}" Grid.Row="1" Grid.ColumnSpan="2"
+                                           Grid.Column="0" Margin="0,-7,0,-7"></Separator>
+                                <UniformGrid Columns="4" Grid.Row="2" Grid.Column="0"
                                             VerticalAlignment="Bottom" Margin="5" Grid.ColumnSpan="2">
                                     <materialDesign:Chip Background="{StaticResource BrushLightRed}"
                                                          ToolTip="Missing situation file"
-                                                         Margin="0,0,5,0">
+                                                         Margin="0,0,5,0" HorizontalAlignment="Stretch">
                                         <materialDesign:Chip.Style>
                                             <Style TargetType="materialDesign:Chip">
                                                 <Setter Property="Visibility" Value="Visible" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Path=Situation.HasSit}"
                                                                  Value="true">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Setter Property="Visibility" Value="Hidden" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -141,14 +144,15 @@
 
                                     </materialDesign:Chip>
 
-                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Planned distance in nuatical miles">
+                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Planned distance in nautical miles"
+                                                         HorizontalAlignment="Stretch">
                                         <materialDesign:Chip.Style>
                                             <Style TargetType="materialDesign:Chip">
                                                 <Setter Property="Visibility" Value="Visible" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Path=RouteLength}"
                                                                  Value="0">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Setter Property="Visibility" Value="Hidden" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -165,14 +169,15 @@
                                             <TextBlock Text="nm" />
                                         </StackPanel>
                                     </materialDesign:Chip>
-                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Logged distance in nautical miles">
+                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Logged distance in nautical miles"
+                                                         HorizontalAlignment="Stretch">
                                         <materialDesign:Chip.Style>
                                             <Style TargetType="materialDesign:Chip">
                                                 <Setter Property="Visibility" Value="Visible" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Path=SummaryDistanceNauticalMiles}"
                                                                  Value="0">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Setter Property="Visibility" Value="Hidden" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -187,14 +192,15 @@
                                             <TextBlock Text="nm" />
                                         </StackPanel>
                                     </materialDesign:Chip>
-                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Logged hours">
+                                    <materialDesign:Chip Margin="0,0,5,0" ToolTip="Logged hours"
+                                                         HorizontalAlignment="Stretch">
                                         <materialDesign:Chip.Style>
                                             <Style TargetType="materialDesign:Chip">
                                                 <Setter Property="Visibility" Value="Visible" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Path=SummaryHours}"
                                                                  Value="0">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Setter Property="Visibility" Value="Hidden" />
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -207,7 +213,7 @@
                                             <TextBlock Text="h" />
                                         </StackPanel>
                                     </materialDesign:Chip>
-                                </StackPanel>
+                                </UniformGrid>
                             </Grid>
                         </materialDesign:Card>
                         <materialDesign:Card Background="White" Margin="0,4,0,0" Padding="8">
