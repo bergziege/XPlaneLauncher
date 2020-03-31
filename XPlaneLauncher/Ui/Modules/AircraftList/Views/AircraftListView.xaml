@@ -202,7 +202,7 @@
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                             <materialDesign:PackIcon Kind="ClockFast" VerticalAlignment="Center" />
                                             <Separator Width="3" Visibility="Hidden" />
-                                            <TextBlock Text="{Binding Path=SummaryHours, StringFormat=f0}"
+                                            <TextBlock Text="{Binding Path=SummaryHours, StringFormat=f1}"
                                                        VerticalAlignment="Center" />
                                             <TextBlock Text="h" />
                                         </StackPanel>
